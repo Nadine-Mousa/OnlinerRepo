@@ -247,7 +247,7 @@
 						<span class="fa fa-gears"></span><span class="link"> Services</span> <span class="fa fa-caret-down"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="{{route('departments.index', ['user' => $user->id])}}"><span class="fa fa-gear"/></span> Departments</a></li>
-						<li><a href="#"><span class="fa fa-gear"/></span> Service 2</a></li>
+						<li><a href="/dashboard"><span class="fa fa-gear"/></span> Dashboard</a></li>
 						<li><a href="#"><span class="fa fa-gear"/></span> Service 3</a></li>
 					</ul>
 				</li>

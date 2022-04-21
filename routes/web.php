@@ -8,7 +8,7 @@ Route::get('/login_page', 'App\Http\Controllers\UserController@showLoginForm')->
 
 Route::post('/login', 'App\Http\Controllers\UserController@login')->name('login');
 
-Route::get('/registeration', 'App\Http\Controllers\UserController@showRegisterForm')->name('showRegisterForm');
+Route::get('/register', 'App\Http\Controllers\UserController@showRegisterForm')->name('showRegisterForm');
 
 Route::post('/register', 'App\Http\Controllers\UserController@register')->name('register');
 
@@ -62,7 +62,7 @@ Route::get('/error', function(){
     return view('error');
 });
 
-Route::get('/test', function(){
+Route::get('/dashboard', function(){
     return view('admin.index');
 });
 

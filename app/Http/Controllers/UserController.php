@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Call;
 use App\Models\Level;
 use App\Models\Department;
+use App\Models\TempProfessor;
 use Session;
 
 
@@ -45,8 +46,11 @@ class UserController extends Controller
         else {
             //Session::put('user', $userfromDb);
             session()->put('user', $userfromDb);
-            
-                      return view('home', ['user' => $userfromDb]);
+            $currentRole = $userfromDb->role;
+            if($currentRole == 1) {
+            session()->put('current_role', "admin");
+            }
+            return view('home', ['user' => $userfromDb]);
         }
     }
     public function register(Request $request){
@@ -66,15 +70,24 @@ class UserController extends Controller
         $user->department_id = $request->department_id;
         $user->level_id = $request->level_id;
 
-        $user->save();
-
         if($request->has('professor') ){
-            $approvalRequest = new Call();
-            $approvalRequest->professor_id = $user->id;
-            $approvalRequest->save();
+
+            $temp_prof = new TempProfessor();
+            $temp_prof->first_name = $request->first_name;
+            $temp_prof->last_name = $request->last_name;
+            $temp_prof->password = $request->password;
+            $temp_prof->email = $request->email;
+            $temp_prof->department_id = $request->department_id;
+            $temp_prof->save();
+            
+            // save the user of this professor to professor sign up request
+
+        }
+        else {
+            $user->save();
         }
 
-        return view('home');
+        return 'your request has been submitted to the admin. Waiting for approval';
 
         // $namehashed =  Hash::make($name);
         // bycrypt
