@@ -112,7 +112,6 @@ class ExamController extends Controller
             $question = SingleChoiceQuestion::where('id', $test_paper_question->question_id)->first();
             array_push($questions, $question);
         }
-
         
         return view('exams.show', [
             'user' => $user,
