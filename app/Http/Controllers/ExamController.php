@@ -113,7 +113,6 @@ class ExamController extends Controller
             array_push($questions, $question);
         }
         
-        // dd('working');
         
         return view('exams.show', [
             'user' => $user,
