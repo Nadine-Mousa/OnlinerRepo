@@ -156,8 +156,6 @@ body {
 
 
 
-<<<<<<< HEAD
-=======
 
 new line at 159 from master
 {{-- this is added form master  --}}
@@ -168,4 +166,3 @@ this line from nadine
 this line from howaida
 
 
->>>>>>> refs/remotes/origin/master
