@@ -106,11 +106,14 @@ class ExamController extends Controller
         $test_paper_questions = TestPaper::where('exam_key', $exam_key)->get();
         
         $questions = [];
+        // dd($test_paper_questions);
 
         foreach($test_paper_questions as $test_paper_question){
             $question = SingleChoiceQuestion::where('id', $test_paper_question->question_id)->first();
             array_push($questions, $question);
         }
+        
+        // dd('working');
         
         return view('exams.show', [
             'user' => $user,
