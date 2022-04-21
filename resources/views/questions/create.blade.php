@@ -106,19 +106,19 @@ body {
 		  </div>
 		  <div class="inputbox">
 			<input type="text" required="required" name="option_three">
-			<span>OPtion three</span>
+			<span>Option three</span>
 		  </div>
 		  <div class="inputbox">
 			<input type="text" required="required" name="option_four">
-			<span>OPtion four</span>
+			<span>Option four</span>
 		  </div>
 		  <div class="inputbox">
 			<input type="text" required="required" name="answer">
-			<span>Answare</span>
+			<span>Answer</span>
 		  </div>
 		  <div class="inputbox">
 			<input type="text" required="required" name="difficulty">
-			<span>Difiiculty</span>
+			<span>Difficulty</span>
 		  </div>
 
 

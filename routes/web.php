@@ -65,3 +65,5 @@ Route::get('/error', function(){
 Route::get('/test', function(){
     return view('admin.index');
 });
+
+
