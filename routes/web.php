@@ -66,4 +66,6 @@ Route::get('/dashboard', function(){
     return view('admin.index');
 });
 
-
+Route::get('/welcome', function(){
+    return view('welcome');
+});

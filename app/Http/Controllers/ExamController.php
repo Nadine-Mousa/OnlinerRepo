@@ -9,7 +9,8 @@ use App\Models\Subject;
 use App\Models\TestPaper;
 use App\Models\SingleChoiceQuestion;
 use App\Models\ProfessorSubject;
-//use Session;
+use App\Models\ExamStructure;
+// use Session;
 //use Symfony\Component\HttpFoundation\Session\Session;
 
 class ExamController extends Controller
@@ -58,27 +59,60 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
-       // $subject = Session::get('subject');
         $subject = session()->get('subject');
-       // $exam_key = Session::get('exam')->exam_key;
-       $exam_key = session()->get('exam')->exam_key;
+        $exam_key = session()->get('exam')->exam_key;
+        $is_dynamic = session()->get('exam')->is_dynamic;
         $difficulty = $request->difficulty;
         $chapter_number = $request->chapter;
         $total_questions = $request->number_of_questions;
-        
-        $questions = SingleChoiceQuestion::where([
-            ['subject_id','=', $subject],
-            ['difficulty','=', $difficulty],
-            ['chapter_number','=', $chapter_number]
+        if($is_dynamic){
+            $structure = ExamStructure::where([
+                ['exam_key','=', $exam_key],
+                ['subject_id','=', $subject],
+                ['chapter_number','=', $chapter_number],
+                ['difficulty','=', $difficulty]
+            ])->first();
 
-        ])->inRandomOrder()->limit($total_questions)->get();
+            if($structure == null){
+                $structure = new ExamStructure();
+                $structure->exam_key = $exam_key;
+                $structure->subject_id = $subject;
+                $structure->chapter_number = $chapter_number;
+                $structure->difficulty = $difficulty;
+                $structure->number_of_questions = $total_questions;
+                $structure->save();
+            }
+            else {
+                $structure = ExamStructure::where([
+                    ['exam_key','=', $exam_key],
+                    ['subject_id','=', $subject],
+                    ['chapter_number','=', $chapter_number],
+                    ['difficulty','=', $difficulty]
+                ])->update(['number_of_questions' =>
+                    ($structure->number_of_questions + $total_questions)]);
+                
+                // $structure->update([
+                // 'number_of_questions' =>
+                //  ($structure->number_of_questions + $total_questions)]);
+            }
 
-        foreach($questions as $question){
-            $test_paper = new TestPaper();
-            $test_paper->exam_key = $exam_key;
-            $test_paper->question_id = $question->id;
-            $test_paper->save();
         }
+        else {
+            $questions = SingleChoiceQuestion::where([
+                ['subject_id','=', $subject],
+                ['difficulty','=', $difficulty],
+                ['chapter_number','=', $chapter_number]
+    
+            ])->inRandomOrder()->limit($total_questions)->get();
+    
+            foreach($questions as $question){
+                $test_paper = new TestPaper();
+                $test_paper->exam_key = $exam_key;
+                $test_paper->question_id = $question->id;
+                $test_paper->save();
+            }
+        }
+        
         return redirect()->route('exams.index');
     }
 
@@ -91,34 +125,39 @@ class ExamController extends Controller
     public function show($exam)
     {
        
-        // $user = Session::get('user');
          $user = session()->get('user');
-        //$user = Session::get('user');
-      //  $hasApprovalToSubject = Session::get('hasApprovalToSubject');
         $hasApprovalToSubject = session()->get('hasApprovalToSubject');
-       // $subject = Session::get('subject');
         $subject = session()->get('subject');
         $subjectFromDb = Subject::where('id', $subject)->first();
         $examFromDb = Exam::where('id', $exam)->first();
-       // Session::put('exam', $examFromDb);
         session()->put('exam', $examFromDb);
         $exam_key = $examFromDb->exam_key;
-        $test_paper_questions = TestPaper::where('exam_key', $exam_key)->get();
-        
+
+        $is_dynamic = $examFromDb -> is_dynamic;
+
         $questions = [];
+        $structures = [];
 
-
-        foreach($test_paper_questions as $test_paper_question){
-            $question = SingleChoiceQuestion::where('id', $test_paper_question->question_id)->first();
-            array_push($questions, $question);
+        if($is_dynamic){
+            $structures = ExamStructure::where('exam_key', $exam_key)->get();
         }
+        else {
+            $test_paper_questions = TestPaper::where('exam_key', $exam_key)->get();
+            foreach($test_paper_questions as $test_paper_question){
+                $question = SingleChoiceQuestion::where('id', $test_paper_question->question_id)->first();
+                array_push($questions, $question);
+            }
+        }
+        
         
         return view('exams.show', [
             'user' => $user,
             'hasApprovalToSubject' => $hasApprovalToSubject,
             'subject' => $subjectFromDb,
             'exam' => $examFromDb,
-            'questions' => $questions
+            'questions' => $questions,
+            'is_dynamic' => $is_dynamic, 
+            'structures' => $structures
         ]);
     }
 

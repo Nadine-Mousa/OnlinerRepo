@@ -573,30 +573,73 @@
         <input name = "number_of_questions" class="form-control" style="font-size:18px; height:30px;"  type="text" placeholder="enter a whole number..."/>
     </div>
 
-
-
     
         
     <button type="submit" class="button-33">Submit</button>
     </form>
     </div>
-    @foreach($questions as $question)
-    <div class="container mt-sm-5 my-1">
-        <div class="question ml-sm-5 pl-sm-5 pt-2">
-            <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
-            <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-                <label class="options">{{$question->option_one}} <input type="radio" {{($question->answer == $question->option_one) ? "checked" : "disabled"}} name="radio-{{$question->id}}"> <span class="checkmark"></span> </label>
-                <label class="options">{{$question->option_two}} <input type="radio" {{($question->answer == $question->option_two)? "checked" : "disabled"}}  name="radio-{{$question->id}}"> <span class="checkmark"></span> </label> 
-                <label class="options">{{$question->option_three}} <input type="radio" {{($question->answer == $question->option_three)? "checked" : "disabled"}}  name="radio-{{$question->id}}"> <span class="checkmark"></span> </label> 
-                <label class="options">{{$question->option_four}} <input type="radio" {{($question->answer == $question->option_four)? "checked" : "disabled"}}  name="radio-{{$question->id}}" > <span class="checkmark"></span> </label> 
+
+    <!-- Static Exam Questions -->
+
+    @if($is_dynamic == false)
+        @foreach($questions as $question)
+
+
+        <div class="container mt-sm-5 my-1">
+            <div class="question ml-sm-5 pl-sm-5 pt-2">
+                <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
+                <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+                    <label class="options">{{$question->option_one}} <input type="radio" {{($question->answer == $question->option_one) ? "checked" : "disabled"}} name="radio-{{$question->id}}"> <span class="checkmark"></span> </label>
+                    <label class="options">{{$question->option_two}} <input type="radio" {{($question->answer == $question->option_two)? "checked" : "disabled"}}  name="radio-{{$question->id}}"> <span class="checkmark"></span> </label> 
+                    <label class="options">{{$question->option_three}} <input type="radio" {{($question->answer == $question->option_three)? "checked" : "disabled"}}  name="radio-{{$question->id}}"> <span class="checkmark"></span> </label> 
+                    <label class="options">{{$question->option_four}} <input type="radio" {{($question->answer == $question->option_four)? "checked" : "disabled"}}  name="radio-{{$question->id}}" > <span class="checkmark"></span> </label> 
+                </div>
+                <div class="py-2 h5"><b>Answer: </b> {{$question->answer}}</div>
+                <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter_number}}</div>
+                <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
             </div>
-            <div class="py-2 h5"><b>Answer: </b> {{$question->answer}}</div>
-            <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter_number}}</div>
-            <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
         </div>
-    </div>
-    <br>
-    @endforeach
+        <br>
+
+        @endforeach
+    @endif
+
+    <!-- Dynamic Exam Structure -->
+    @if($is_dynamic)
+
+        Chapter : <br>         
+        No. of Questions: <br>           
+        Difficulty: <br>         
+        <br>
+
+
+    <table class="table container">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Chapter Number</th>
+            <th scope="col">Difficulty</th>
+            <th scope="col">Total number of questions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        @foreach($structures as $structure)
+            <tr>
+            <th scope="row">-</th>
+                <td>{{$structure->chapter_number}}</td>
+                <td>{{$structure->difficulty}}</td>
+                <td>{{$structure->number_of_questions}}</td>
+            </tr>
+        @endforeach
+
+        </tbody>
+    </table>
+
+    @endif
+
+    <div>
+
 
 
 
