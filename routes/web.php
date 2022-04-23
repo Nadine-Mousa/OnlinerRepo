@@ -52,6 +52,10 @@ Route::get('/exams', 'App\Http\Controllers\ExamController@index')->name('exams.i
 Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show');
 Route::post('/exams', 'App\Http\Controllers\ExamController@store')->name('exams.store');
 
+//Admin
+
+Route::get('/dashboard', 'App\Http\Controllers\AdminController@show_requests')->name('dashboard');
+
 // Test route
 
 Route::get('/hi', function(){
@@ -62,8 +66,8 @@ Route::get('/error', function(){
     return view('error');
 });
 
-Route::get('/dashboard', function(){
-    return view('admin.index');
-});
+//Route::get('/dashboard', function(){
+  //  return view('admin.index');
+//});
 
 
