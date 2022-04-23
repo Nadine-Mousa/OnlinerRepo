@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Subject;
 use App\Models\SingleChoiceQuestion;
 use App\Models\ProfessorSubject;
+use App\Models\QuestionType;
 
 class QuestionController extends Controller
 {
@@ -62,12 +63,13 @@ public function trashed($user, $subject)
         $user = session()->get('user');
        // $user=session()->get('user');
         $subject=session()->get('subject');
-
+        $question_types=QuestionType::all();
 
        // dd($user);
         return view('questions.create', [
             'user' => $user,
          'subject' =>$subject,
+         'question_types' => $question_types
         ]);
     }
 
@@ -84,15 +86,16 @@ public function trashed($user, $subject)
         //$subject = session()->get('subject');
         $level = session()->get('level');
         $department = session()->get('department');
+       
        // dd($department, $level);
        // $user = session()->get('user');
        $this->validate($request, [
            'title' => 'required',
-           'id' => 'required',
+           //'id' => 'required',
            'chapter_number' => 'required',
            'question_type' => 'required',
            'difficulty' => 'required',
-           'option_one' => 'required',
+           'option_one' => 'required', 
            'option_two' => 'required',
            'option_three' => 'required',
            'option_four' => 'required',
@@ -106,7 +109,7 @@ public function trashed($user, $subject)
            'subject_id' => $subject,
            'chapter_number' => $request->chapter_number,
            'title' => $request->title,
-           'id' => $request->id,
+           //'id' => $request->id,
            'question_type' => $request->question_type,
            'difficulty' => $request->difficulty,
            'option_one' => $request->option_one,
@@ -143,12 +146,15 @@ public function trashed($user, $subject)
         $user=session()->get('user');
         $subject=session()->get('subject');
         $questionFromDb = SingleChoiceQuestion::find($question);
+        $question_types=QuestionType::all();
+      /// $h= $questionFromDb->question_type->question_name;
 
         return view('questions.edit')->with([  
             'user' => $user,
          'subject' =>$subject,
-         'question' => $questionFromDb
-        ]);
+         'question' => $questionFromDb,
+         'question_types' => $question_types
+        ]); 
     
     }
 
@@ -170,7 +176,6 @@ public function trashed($user, $subject)
        
        $this->validate($request, [
            'title' => 'required',
-           'id' => 'required',
            'chapter_number' => 'required',
            'question_type' => 'required',
            'difficulty' => 'required',
@@ -188,7 +193,7 @@ public function trashed($user, $subject)
        $questionFromDb-> subject_id = $subject;
        $questionFromDb->  chapter_number = $request->chapter_number;
        $questionFromDb-> title = $request->title;
-       $questionFromDb-> id = $request->id;
+      // $questionFromDb-> id = $request->id;
        $questionFromDb-> question_type = $request->question_type;
        $questionFromDb-> difficulty = $request->difficulty;
        $questionFromDb-> option_one = $request->option_one;

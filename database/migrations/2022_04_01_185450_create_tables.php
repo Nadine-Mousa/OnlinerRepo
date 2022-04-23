@@ -61,7 +61,8 @@ return new class extends Migration
         });
 
         Schema::create('single_choice_questions', function (Blueprint $table) {
-            $table->id();
+           // $table->id();
+            $table->increments('id');
             $table->string('title');
             $table->integer('depart_id');
             $table->integer('level_id');
@@ -75,7 +76,7 @@ return new class extends Migration
             $table->string('option_four');
             $table->string('answer');
             $table->double('marks');
-            $table->softDeletes();
+            //$table->softDeletes();
             $table->timestamps();
         });
 

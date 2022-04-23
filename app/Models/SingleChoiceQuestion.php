@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SingleChoiceQuestion extends Model
 {
     use HasFactory;
@@ -13,7 +13,6 @@ class SingleChoiceQuestion extends Model
     protected $dates=['deleted_at'];
     protected $fillable = [
         'title',
-        'id',
         'depart_id',
         'level_id',
         'subject_id',
@@ -28,4 +27,10 @@ class SingleChoiceQuestion extends Model
         'marks'
 
     ];
+    
+    public function question_type(): BelongsTo
+    {
+        return $this->belongsTo(QuestionType::class);
+    }
+  
 }
