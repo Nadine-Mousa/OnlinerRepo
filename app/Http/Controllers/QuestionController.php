@@ -148,12 +148,16 @@ public function trashed($user, $subject)
         $questionFromDb = SingleChoiceQuestion::find($question);
         $question_types=QuestionType::all();
       /// $h= $questionFromDb->question_type->question_name;
+        $question_type = $questionFromDb->question_type;
+        $question_name = QuestionType::where('id', $question_type)->first();
 
         return view('questions.edit')->with([  
             'user' => $user,
          'subject' =>$subject,
          'question' => $questionFromDb,
-         'question_types' => $question_types
+         'question_types' => $question_types,
+         'question_type' => $question_type,
+         'question_name' => $question_name
         ]); 
     
     }

@@ -91,7 +91,7 @@
                                                 <td>
                                                     <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>11 MAY 12:56</h6>
                                                 </td>
-                                                <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td>
+                                                <td><a href="{{route('dashboard.reject_prof',['professor' => $professor->id ])}}" class="label theme-bg2 text-white f-12">Reject</a><a href="{{route('dashboard.approve_prof',['professor' => $professor->id ])}}" class="label theme-bg text-white f-12">Approve</a></td>
                                             </tr>
                                                    
                                                @endforeach
@@ -325,68 +325,30 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle m-r-10" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">The quick brown fox</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">3:28 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-green">Done</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                            </tr>
+                                            @foreach ($professor_subjects as $professor_subject)
+                                                
 
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user">Albert Andersen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">Jumps over the lazy</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">2:37 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-red">Missed</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
-                                            </tr>
+                                                <tr>
+                                                    <td>
+                                                        <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user">{{$professor_subject->professor->first_name}}</h6>
+                                                    </td>
+                                                    <td>
+                                                        <h6 class="m-0">{{$professor_subject->subject->subject_name}}</h6>
+                                                    </td>
+                                                    <td>
+                                                        <h6 class="m-0">2:37 PM</h6>
+                                                    </td>
+                                                    <td>
+                                                        <h6 class="m-0 text-c-red">Missed</h6>
+                                                    </td>
+                                                    <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
 
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-3.jpg" alt="activity-user">Silje Larsen</h6>
                                                 </td>
-                                                <td>
-                                                    <h6 class="m-0">Dog the quick brown</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">10:23 AM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-purple">Delayed</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">The quick brown fox</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0">4:28 PM</h6>
-                                                </td>
-                                                <td>
-                                                    <h6 class="m-0 text-c-green">Done</h6>
-                                                </td>
-                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
-                                            </tr>
+                                                <td><a href="{{route('dashboard.reject_prof_subject',['professor_subject' => $professor_subject->id ])}}" class="label theme-bg2 text-white f-12">Reject</a><a href="{{route('dashboard.approve_prof_subject',['professor_subject' => $professor_subject->id ])}}" class="label theme-bg text-white f-12">Approve</a></td>
+                                           
+                                                </tr>
+                                            @endforeach
+
                                         </tbody>
                                     </table>
 

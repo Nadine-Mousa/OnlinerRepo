@@ -66,7 +66,7 @@
 <br>
 <br>
 		<select class="form-select" aria-label="Default select example" name="question_type">
-			<option selected >{{$question->question_type}}</option>
+			<option selected >{{$question_name}}</option>
 			@foreach ($question_types as $question_type)
 			<option value="{{$question_type->id}}">{{$question_type->type_name}}</option>
 			@endforeach

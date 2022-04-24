@@ -175,6 +175,10 @@
                 @if($hasApprovalToSubject)
                 <a href="{{route('questions.index', ['user' => $user->id, 'subject' => $subject->id])}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Question Bank</a>
                 <a href="{{route('exams.index')}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Exams</a>
+                @endif
+                
+                @if($hasApprovalToSubject == false)
+                <a href="{{route('subjects.ask_for_approve', ['subject'=> $subject->id])}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Ask For Approve</a>
                 @endif    
                 </div>
             </article>

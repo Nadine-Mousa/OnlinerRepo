@@ -7,6 +7,7 @@ use App\Models\Subject;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\ProfessorSubject;
+use App\Models\TempProfessorSubject;
 use Session;
 
 class SubjectController extends Controller
@@ -111,12 +112,20 @@ class SubjectController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //ask for approve
+    public function ask_for_approve($subject)
+    {
+        $user = session()->get('user');
+        $professor_subject=new TempProfessorSubject();
+        $professor_subject->professor_id = $user->id;
+        $professor_subject->subject_id = $subject;
+
+        $professor_subject->save();
+        return redirect()->back();
+    }
+
+
+
     public function edit($id)
     {
         //
@@ -144,6 +153,7 @@ class SubjectController extends Controller
     {
         //
     }
+
 
     
 }
