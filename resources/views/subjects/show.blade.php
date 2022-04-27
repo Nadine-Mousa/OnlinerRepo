@@ -172,12 +172,15 @@
                     <a href="#" class="icon-link"><i class="fa fa-comments-o"></i> 150</a>
                 </p>
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque vero libero voluptatibus earum? Alias dignissimos quo cum, nulla esse facere atque, blanditiis doloribus at sunt quas, repellendus vel? Et, hic!</p>
-                @if($hasApprovalToSubject)
+                @if ($is_student )
+                <a href="{{route('student_exams')}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Examhhhs</a>
+                @endif
+                @if($hasApprovalToSubject && $is_prof ) 
                 <a href="{{route('questions.index', ['user' => $user->id, 'subject' => $subject->id])}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Question Bank</a>
                 <a href="{{route('exams.index')}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Exams</a>
                 @endif
                 
-                @if($hasApprovalToSubject == false)
+                @if($hasApprovalToSubject == false && $is_prof == true)
                 <a href="{{route('subjects.ask_for_approve', ['subject'=> $subject->id])}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Ask For Approve</a>
                 @endif    
                 </div>

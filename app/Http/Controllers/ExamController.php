@@ -10,6 +10,9 @@ use App\Models\TestPaper;
 use App\Models\SingleChoiceQuestion;
 use App\Models\ProfessorSubject;
 use App\Models\ExamStructure;
+use App\Models\StudentAnswer;
+use App\Models\TakenExam;
+
 // use Session;
 //use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -31,6 +34,8 @@ class ExamController extends Controller
       //  $hasApprovalToSubject = Session::get('hasApprovalToSubject');
          $hasApprovalToSubject = session()->get('hasApprovalToSubject');
         $exams = Exam::where('subject_id', $subject)->get();
+
+       
         
         
         return view('exams.index', [
@@ -41,11 +46,77 @@ class ExamController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    //Show students exams
+
+    public function show_student_exams()
+    {
+          $subject = session()->get('subject');
+          $user = session()->get('user');
+          $subjectFromDb = Subject::where('id', $subject)->first();
+          
+          $is_student=false;
+          $currentRole = $user->role;
+            if($currentRole == 3) {
+                 $is_student=true;
+            }
+
+          $student_exams=TakenExam::where('student_id', $user->id)->get();
+         //dd($student_exams->exams->exam_name) ;
+          return view('exams.show_student_exams')->with([
+            'student_exams'=> $student_exams,
+             'is_student'=> $is_student,
+             'subject' =>$subjectFromDb,
+             'user' => $user,
+
+          ]);
+    }
+
+    //show student exam
+    public function show_student_exam($exam)
+    {
+        $user = session()->get('user');
+       
+        $subject = session()->get('subject');
+        $subjectFromDb = Subject::where('id', $subject)->first();
+        $examFromDb = TakenExam::where('id', $exam)->first();
+
+        session()->put('exam', $examFromDb);
+        $exam_key = $examFromDb->exam->exam_key;
+
+        $is_dynamic = $examFromDb->exam->is_dynamic;
+
+        $questions = [];
+        $structures = [];
+        $answers = [];
+
+        if($is_dynamic){
+            $structures = ExamStructure::where('exam_key', $exam_key)->get();
+        }
+        else {
+            $test_paper_questions = TestPaper::where('exam_key', $exam_key)->get();
+            foreach($test_paper_questions as $test_paper_question){
+                $question = SingleChoiceQuestion::where('id', $test_paper_question->question_id)->first();
+                $answer = StudentAnswer::where('question_id', $test_paper_question->question_id)->first();
+
+                array_push($questions, $question);
+                array_push($answers, $answer);
+            }
+        }
+        
+        
+        return view('exams.show_student_exam', [
+            'user' => $user,
+            'answers' => $answers,
+            'subject' => $subjectFromDb,
+            'exam' => $examFromDb,
+            'questions' => $questions,
+            'is_dynamic' => $is_dynamic, 
+            'structures' => $structures
+        ]);
+    }
+
+   
     public function create()
     {
         //

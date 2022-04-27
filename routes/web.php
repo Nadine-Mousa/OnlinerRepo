@@ -52,6 +52,9 @@ Route::post('{user}/{subject}/questions/update/{question}', 'App\Http\Controller
 Route::get('/exams', 'App\Http\Controllers\ExamController@index')->name('exams.index');
 Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show');
 Route::post('/exams', 'App\Http\Controllers\ExamController@store')->name('exams.store');
+Route::get('/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('student_exams');
+Route::get('/student_exams/{exam}', 'App\Http\Controllers\ExamController@show_student_exam')->name('student_exam');
+
 
 //Admin
 
@@ -60,7 +63,15 @@ Route::get('/dashboard/reject_prof/{professor}', 'App\Http\Controllers\AdminCont
 Route::get('/dashboard/approve_prof/{professor}', 'App\Http\Controllers\AdminController@approve_professor')->name('dashboard.approve_prof');
 
 Route::get('/dashboard/reject_prof_subject/{professor_subject}', 'App\Http\Controllers\AdminController@reject_professor_subject')->name('dashboard.reject_prof_subject');
-Route::get('/dashboard/approve_prof_subject/{professor_subject}', 'App\Http\Controllers\AdminController@approve_professor_subject')->name('dashboard.approve_prof_subject');
+Route::get('/dashboard/approve_prof_subject/{professor_subject}', 'App\Http\Controllers\AdminController@approve_professor_subject')->name('dashboard.approve_prof_subject' );
+
+Route::get('/dashboard/departments', 'App\Http\Controllers\AdminController@show_departments')->name('dashboard.departments' );
+
+//create departments
+Route::post('/dashboard/departments/store', 'App\Http\Controllers\AdminController@departments_store')->name('dashboard.departments.store');
+Route::get('/dashboard/departments/create', 'App\Http\Controllers\AdminController@departments_create')->name('dashboard.departments.create');
+
+
 
 // Test route
 
