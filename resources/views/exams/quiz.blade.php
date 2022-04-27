@@ -12,6 +12,8 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
+
+
     <style>
         /* CSS button */
         .button-33 {
@@ -38,7 +40,6 @@
         transform: scale(1.05) rotate(-1deg);
         }
     </style>
-
     <style>
         h1 {
         position: relative;
@@ -521,124 +522,49 @@
     @section('content')
 
     
-    
-    <br>
-    <div class="six">
-        <h1>{{$exam->exam_name}} Exam - Key: {{$exam->exam_key}}
-            <span>Exam questions</span>
-            <span>Duration: {{$exam->duration}}</span>
-        </h1>
 
-        @if($hasApprovalToSubject == true)
-        <button class="button-33" role="button" onclick="showForm();">Add Questions</button>
-        @endif
 
-    </div>
 
     <div class="container" style="background-color: white; color:green;">
     <h2 style="display: none;" id="formTitle"> Questions Area </h2>
-    <form style="display: none;" method="POST" action="{{route('exams.store')}}" id="formElement"  >
+
+    </div>
+
+    <!-- Questions -->
+        <form method="POST" action="{{ route('exams.storeAnswers') }}">
         @csrf
-    <div class="form-group mb-3">
-            <label>Chapter</label>
-            <select class="form-control" name="chapter">
-                @for($chapter = 1; $chapter <= $subject->chapter_count; $chapter ++)    
-                    <option class="dropdown-item" value="{{$chapter}}" > Chapter {{$chapter}}</option>
-                @endfor
-            </select>
-    </div>
 
-    <div class="form-group mb-3">
-            <label>Difficulty</label>
-            <select class="form-control" name="difficulty">
-                    <option class="dropdown-item" value="A" >Level A</option>
-                    <option class="dropdown-item" value="B" >Level B</option>
-                    <option class="dropdown-item" value="C" >Level C</option>
-                    <option class="dropdown-item" value="D" >Level D</option>
-            </select>
-    </div>
-
-    <!-- <div class="form-group mb-3">
-        <label>Question Type</label>
-        <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-            <select name="questoin_type">
-            <label class="options" value="mcq">Multiple Choice <input type="radio"  name="radio"> <span class="checkmark"></span> </label>
-            <label class="options" value="tf">True & False<input type="radio"  name="radio" > <span class="checkmark"></span> </label> 
-            </select>
-        </div>
-    </div> -->
-
-    <div class="form-group mb-3">
-        <label>Number of questions</label>
-        <input name = "number_of_questions" class="form-control" style="font-size:18px; height:30px;"  type="text" placeholder="enter a whole number..."/>
-    </div>
-
-    
-        
-    <button type="submit" class="button-33">Submit</button>
-    </form>
-    </div>
-
-    <!-- Static Exam Questions -->
-
-    @if($is_dynamic == false)
         @foreach($questions as $question)
+        <input type="hidden" name="questions[{{ $question->id }}]" value="">
 
 
         <div class="container mt-sm-5 my-1">
             <div class="question ml-sm-5 pl-sm-5 pt-2">
-                <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
-                <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-                    <label class="options">{{$question->option_one}} <input type="radio" {{($question->answer == $question->option_one) ? "checked" : "disabled"}} name="radio-{{$question->id}}"> <span class="checkmark"></span> </label>
-                    <label class="options">{{$question->option_two}} <input type="radio" {{($question->answer == $question->option_two)? "checked" : "disabled"}}  name="radio-{{$question->id}}"> <span class="checkmark"></span> </label> 
-                    <label class="options">{{$question->option_three}} <input type="radio" {{($question->answer == $question->option_three)? "checked" : "disabled"}}  name="radio-{{$question->id}}"> <span class="checkmark"></span> </label> 
-                    <label class="options">{{$question->option_four}} <input type="radio" {{($question->answer == $question->option_four)? "checked" : "disabled"}}  name="radio-{{$question->id}}" > <span class="checkmark"></span> </label> 
+                <div class="py-2 h5"><b>Q. {{$question->title}}</b>
                 </div>
-                <div class="py-2 h5"><b>Answer: </b> {{$question->answer}}</div>
-                <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter_number}}</div>
-                <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
+                <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+                    @foreach($question->options as $option)
+                    <label  class="options" >{{$option->body}} <input  type="radio"  name="questions[{{ $question->id }}]"  value="{{ $option->id }}"> <span class="checkmark"></span> </label>
+                    @endforeach
+
+                </div>
+                
             </div>
         </div>
         <br>
-
+        
+        
         @endforeach
-    @endif
-
-    <!-- Dynamic Exam Structure -->
-    @if($is_dynamic)
-
-        Chapter : <br>         
-        No. of Questions: <br>           
-        Difficulty: <br>         
-        <br>
+        
+        <button type="submit" class="button-33">Finish Exam</button>
+       
+    </form>
 
 
-    <table class="table container">
-        <thead>
-            <tr>
-            <th scope="col">#</th>
-            <th scope="col">Chapter Number</th>
-            <th scope="col">Difficulty</th>
-            <th scope="col">Total number of questions</th>
-            </tr>
-        </thead>
-        <tbody>
+    
 
-        @foreach($structures as $structure)
-            <tr>
-            <th scope="row">-</th>
-                <td>{{$structure->chapter_number}}</td>
-                <td>{{$structure->difficulty}}</td>
-                <td>{{$structure->number_of_questions}}</td>
-            </tr>
-        @endforeach
 
-        </tbody>
-    </table>
 
-    @endif
-
-    <div>
 
 
 
