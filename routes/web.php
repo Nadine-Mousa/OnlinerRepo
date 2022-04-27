@@ -50,10 +50,12 @@ Route::post('{user}/{subject}/questions/update/{question}', 'App\Http\Controller
 
 // Exams Routes
 Route::get('/exams', 'App\Http\Controllers\ExamController@index')->name('exams.index');
-Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show');
+Route::post('/exams/storeAnswers', 'App\Http\Controllers\ExamController@storeAnswers')->name('exams.storeAnswers');
 Route::post('/exams', 'App\Http\Controllers\ExamController@store')->name('exams.store');
 Route::get('/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('student_exams');
 Route::get('/student_exams/{exam}', 'App\Http\Controllers\ExamController@show_student_exam')->name('student_exam');
+Route::get('/exams/quiz', 'App\Http\Controllers\ExamController@takeExam')->name('exams.quiz');
+Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show');
 
 
 //Admin

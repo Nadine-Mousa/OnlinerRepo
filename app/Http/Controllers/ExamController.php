@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Exam;
 use App\Models\User;
+use App\Models\Option;
 use App\Models\Subject;
 use App\Models\TestPaper;
 use App\Models\SingleChoiceQuestion;
 use App\Models\ProfessorSubject;
 use App\Models\ExamStructure;
+
 use App\Models\StudentAnswer;
 use App\Models\TakenExam;
+
 
 // use Session;
 //use Symfony\Component\HttpFoundation\Session\Session;
@@ -264,5 +267,86 @@ class ExamController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function takeExam(Request $request){
+        $exam_key = $request->exam_key;
+
+        // check if the user has taken this exam before.
+        $taken_exam = TakenExam::where('exam_key', $exam_key)->first();
+        if($taken_exam != null){
+            return 'Answers can be submitted only once';
+        }
+        
+        $exam = Exam::where('exam_key', $exam_key)->first();
+        session()->put('exam', $exam);
+
+        $questions = [];
+        if($exam->is_dynamic == true){
+            // get stucture
+            $structures = ExamStructure::where('exam_key', $exam_key)->get();
+            // get questions
+            foreach($structures as $structure){
+                $questions_of_structure = SingleChoiceQuestion::with('options')->where([
+                    ['subject_id', '=', $structure->subject_id],
+                    ['chapter_number', '=', $structure->chapter_number],
+                    ['difficulty', '=', $structure->difficulty]
+                ])->inRandomOrder()->limit($structure->number_of_questions)->get()->toArray();
+                $questions_of_structure = $questions_of_structure->shuffle();
+                foreach($questions_of_structure as $question){
+                    array_push($questions, $question);
+                }
+            }
+        }
+        else {
+            // else static -> get questions
+            $test_paper_questions = TestPaper::where('exam_key', $exam_key)->inRandomOrder()->get();
+            // $test_paper_questions = $test_paper_questions->shuffle();
+            foreach($test_paper_questions as $question_in_test_paper){
+                $question = SingleChoiceQuestion::with('options')->where('id', $question_in_test_paper->question_id)->first();
+                array_push($questions, $question);
+            }
+        }
+
+        $user = session()->get('user');
+        foreach($questions as $question){
+
+            $question->options = $question->options->shuffle();
+        }
+
+        return view('exams.quiz',
+         ['questions' => $questions,
+         'exam' => $exam,
+         'user' => $user]
+        );
+    }
+
+    public function storeAnswers(Request $request){
+        // options chosen
+        $options = Option::find(array_values($request->input('questions')));
+        // total score of the student
+        $scored_points = $options->sum('points');
+
+        // store in taken exam
+        $taken_exam = new TakenExam();
+        $taken_exam->exam_key = session()->get('exam')->exam_key;
+        $taken_exam->student_id = session()->get('user')->id;
+        $taken_exam->total_score = $scored_points;
+        $taken_exam->save();        
+
+        // store student chosen options of the exam in student aswers table
+        foreach($options as $option){
+            $answer = new StudentAnswer();
+            $answer->option_id = $option->id;
+            $answer->student_id = session()->get('user')->id;
+            $answer->exam_key = session()->get('exam')->exam_key;
+            $answer->save();
+        }
+
+
+        // redirect me to the exams I've taken with the link show results on each of them
+        
+
+        return 'redirected to the exams I have taken before';
+        // dd($total_points);
     }
 }

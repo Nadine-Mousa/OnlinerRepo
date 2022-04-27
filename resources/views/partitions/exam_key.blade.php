@@ -7,12 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        /* exam key  */
             .container {
             position: absolute;
-            top: 0;
+            /* top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100%; */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -24,6 +25,10 @@
             box-shadow: 2px 4px 10px rgba(0, 0, 0, .2);
             border-radius: 60px;
             overflow: hidden;
+            position: fixed;
+            bottom: 0,
+            right: 0;
+
             }
 
             .subscription {
@@ -34,8 +39,8 @@
 
             .subscription .add-email{
             position: absolute;
-            top: 0;
-            left: 0;
+            bottom: 0;
+            right: 0;
             width: 100%;
             height: 100%;
             border: none;
@@ -102,7 +107,7 @@
     <div class="container">
         <div class="content">
             <form class="subscription">
-            <input class="add-email" type="email" placeholder="subscribe@me.now">
+            <input class="add-email" type="email" placeholder="Enter an exam key ....">
             <button class="submit-email" type="button">
                 <span class="before-submit">Take exam</span>
                 <span class="after-submit">Go kill it!</span>

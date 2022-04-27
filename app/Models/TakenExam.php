@@ -9,11 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TakenExam extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'exam_id',
-        'student_id',
-      
-    ];
+
 
 
    
@@ -27,4 +23,8 @@ class TakenExam extends Model
     {
         return $this->belongsTo(User::class, 'student_id' );
     }
+
+
+
+
 }

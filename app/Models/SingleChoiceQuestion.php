@@ -34,5 +34,9 @@ class SingleChoiceQuestion extends Model
     {
         return $this->hasOne(QuestionType::class);
     }
+
+    public function options(){
+        return $this->hasMany(Option::Class);
+    }
   
 }
