@@ -100,6 +100,18 @@ class SubjectController extends Controller
         if($role == "admin"){
             $hasApprovalToSubject = true;
         }
+        $is_student=false;
+        $is_prof=false;
+        $currentRole = $user->role;
+       // dd($currentRole);
+          if($currentRole == 3) {
+               $is_student=true;
+          }
+         // dd($is_student);
+         if($currentRole == 2)
+         {
+             $is_prof = true;
+         }
 
         //Session::put('hasApprovalToSubject', $hasApprovalToSubject);
         session()->put('hasApprovalToSubject', $hasApprovalToSubject);
@@ -108,7 +120,9 @@ class SubjectController extends Controller
         'department' =>$department,
          'level' => $level,
          'subject' => $subjectFromDb,
-         'hasApprovalToSubject' => $hasApprovalToSubject
+         'hasApprovalToSubject' => $hasApprovalToSubject,
+         'is_student' => $is_student,
+         'is_prof' => $is_prof
         ]);
     }
 
@@ -126,10 +140,11 @@ class SubjectController extends Controller
 
 
 
-    public function edit($id)
-    {
-        //
+    public function edit($id){
+
     }
+        //
+  
 
     /**
      * Update the specified resource in storage.

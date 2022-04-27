@@ -7,6 +7,7 @@ use App\Models\TempProfessor;
 use App\Models\TempProfessorSubject;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Department;
 
 class AdminController extends Controller
 {
@@ -89,20 +90,42 @@ class AdminController extends Controller
    
 
    }
-    public function create()
+
+   //show departments
+   public function show_departments()
+   {
+    $user = session()->get('user');
+    $departments = Department::all();
+    return view('admin.departments.index',
+     ['departments' => $departments,
+      'user' => $user]);
+   }
+
+   //departments create
+    public function departments_create()
     {
-        //
+        return view('admin.departments.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    //departments store
+
+    public function departments_store(Request $request)
     {
-        //
+        $this->validate($request, [
+            
+            'dep_name' => 'required',
+            'dep_description' => 'required',
+        ]);
+
+        $department = Department::create([
+            'dep_name' => $request->dep_name,
+            'dep_description' => $request->dep_description,
+        ]);
+ 
+        $department->save();
+        return redirect()->route('dashboard.departments');
+   
+ 
     }
 
     /**

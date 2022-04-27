@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('student_answers', function (Blueprint $table) {
             $table->id();
             $table->string('exam_key'); 
+            $table->integer('exam_id');
             $table->integer('student_id'); 
             $table->integer('question_id'); 
             $table->string('student_answer'); 
