@@ -72,6 +72,12 @@ Route::get('/dashboard/departments', 'App\Http\Controllers\AdminController@show_
 //create departments
 Route::post('/dashboard/departments/store', 'App\Http\Controllers\AdminController@departments_store')->name('dashboard.departments.store');
 Route::get('/dashboard/departments/create', 'App\Http\Controllers\AdminController@departments_create')->name('dashboard.departments.create');
+//edit departments
+Route::get('/dashboard/departments/edit/{department}', 'App\Http\Controllers\AdminController@departments_edit')->name('dashboard.departments.edit');
+Route::post('/dashboard/departments/update/{department}', 'App\Http\Controllers\AdminController@departments_update')->name('dashboard.departments.update');
+//delete departments
+Route::get('/dashboard/departments/delete/{department}', 'App\Http\Controllers\AdminController@departments_delete')->name('dashboard.departments.delete');
+
 
 
 

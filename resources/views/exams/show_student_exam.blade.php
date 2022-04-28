@@ -225,7 +225,7 @@
     
     </div>
     @if($is_dynamic == false)
-    @foreach($questions as $question && $answers as $answer)
+    @foreach($questions as $question)
     <div class="container mt-sm-5 my-1">
         <div class="question ml-s m-5 pl-sm-5 pt-2">
             <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
@@ -235,9 +235,7 @@
                 <label class="options">{{$question->option_three}} <input type="radio" {{($question->answer == $question->option_three)? "checked" : "disabled"}}  name="radio-{{$question->id}}"> <span class="checkmark"></span> </label> 
                 <label class="options">{{$question->option_four}} <input type="radio" {{($question->answer == $question->option_four)? "checked" : "disabled"}}  name="radio-{{$question->id}}" > <span class="checkmark"></span> </label> 
             </div>
-            <div class="py-2 h5"><b>Correct Answer: </b> {{$question->answer}}</div>
-            <div class="py-2 h5"><b>Your Answer: </b> {{$answer->student_answer}}</div>
-            <div class="py-2 h5"><b>Mark: </b> {{$answer->score}}</div>
+          
            
             <div class="py-2 h5">
  

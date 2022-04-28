@@ -100,17 +100,17 @@ class ExamController extends Controller
             $test_paper_questions = TestPaper::where('exam_key', $exam_key)->get();
             foreach($test_paper_questions as $test_paper_question){
                 $question = SingleChoiceQuestion::where('id', $test_paper_question->question_id)->first();
-                $answer = StudentAnswer::where('question_id', $test_paper_question->question_id)->first();
+              //  $answer = StudentAnswer::where('question_id', $test_paper_question->question_id)->first();
 
                 array_push($questions, $question);
-                array_push($answers, $answer);
+               // array_push($answers, $answer);
             }
         }
         
         
         return view('exams.show_student_exam', [
             'user' => $user,
-            'answers' => $answers,
+           // 'answers' => $answers,
             'subject' => $subjectFromDb,
             'exam' => $examFromDb,
             'questions' => $questions,

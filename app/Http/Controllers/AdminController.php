@@ -128,38 +128,37 @@ class AdminController extends Controller
  
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    //departments edit
+    public function departments_edit($department)
     {
-        //
+        $departmentFromDb = Department::find($department);
+        return view('admin.departments.edit')->with('department', $departmentFromDb);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    //departments update
+    
+    public function departments_update(Request $request, $department)
     {
-        //
+        $departmentFromDb = Department::find($department);
+        $this->validate($request, [
+            
+            'dep_name' => 'required',
+            'dep_description' => 'required',
+        ]);
+        $departmentFromDb-> dep_name = $request->dep_name;
+        $departmentFromDb-> dep_description = $request->dep_description;
+
+        $departmentFromDb->save();
+        return redirect()->route('dashboard.departments');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+   //departments delete
+    public function departments_delete($department)
     {
-        //
+        
+        $departmentFromDb = Department::find($department);
+        $departmentFromDb->delete();
+        return redirect()->back();
     }
 
     /**
@@ -170,6 +169,6 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

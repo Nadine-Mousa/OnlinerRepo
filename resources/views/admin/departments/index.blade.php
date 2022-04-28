@@ -20,6 +20,13 @@
                                     <div class="col-9">
                                         <h6 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{{$department->dep_description}}</h6>
                                     </div>
+                                    
+                                    <div class="col-9">
+                                        <a href="{{route('dashboard.departments.edit',['department' => $department->id])}}">Edit</a> &nbsp; &nbsp; &nbsp; 
+                                         <a href="{{route('dashboard.departments.delete',['department' => $department->id])}}">Remove</a>
+                                    </div>
+
+                                    
 
                                     <div class="col-3 text-right">
                                         <p class="m-b-0"></p>
