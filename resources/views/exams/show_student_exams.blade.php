@@ -442,6 +442,7 @@
                     <h4>{{$student_exam->exam->exam_key}}</h4>
                     <h3>{{$student_exam->exam->exam_name}} Exam</h3>
                     <a href="{{route('student_exam', ['exam' => $student_exam->exam->id])}}">Show Results </a>
+
                 </div>
             </div>
         </div>

@@ -30,16 +30,16 @@
                                         <div class="row">
                                             <div class="col-md-6">
 
-                                                <form  method="POST" action= "{{route('dashboard.departments.store')}}" >
+                                                <form  method="POST" action= "{{route('dashboard.departments.update',['department' => $department->id])}}" >
                                                     @csrf
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">Department Name</label>
-                                                        <input type="text" name="dep_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
-                                  
+                                                        <input type="text" name="dep_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$department->dep_name}}">
+                                                        
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="exampleInputPassword1">Department Description</label>
-                                                        <input type="text"  name="dep_description" class="form-control" id="exampleInputPassword1">
+                                                        <input type="text"  name="dep_description" class="form-control" id="exampleInputPassword1" value="{{$department->dep_description}}">
                                                     </div>
                                                    
                                                     <button type="submit" class="btn btn-primary">Submit</button>

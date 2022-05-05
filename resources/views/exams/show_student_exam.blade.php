@@ -532,6 +532,7 @@
 
     </div>
 
+
     <!-- Questions -->
 
         @foreach($student_answers as $student_answer)
@@ -551,6 +552,7 @@
                 </div>
                 
             </div>
+
         </div>
         <br>
         
