@@ -11,7 +11,11 @@ class StudentAnswer extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected function option(){
+    public function option(){
         return $this->belongsTo(Option::class);
     }
+    public function question(){
+        return $this->belongsTo(SingleChoiceQuestion::class);
+    }
+
 }

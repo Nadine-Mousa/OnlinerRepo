@@ -54,6 +54,7 @@ class ExamController extends Controller
 
     public function show_student_exams()
     {
+        // dd('here are the exams the student have taken before');
           $subject = session()->get('subject');
           $user = session()->get('user');
           $subjectFromDb = Subject::where('id', $subject)->first();
@@ -66,6 +67,8 @@ class ExamController extends Controller
 
           $student_exams=TakenExam::where('student_id', $user->id)->get();
          //dd($student_exams->exams->exam_name) ;
+
+        //  dd($student_exams);
           return view('exams.show_student_exams')->with([
             'student_exams'=> $student_exams,
              'is_student'=> $is_student,
@@ -78,47 +81,25 @@ class ExamController extends Controller
     //show student exam
     public function show_student_exam($exam)
     {
+
         $user = session()->get('user');
-       
-        $subject = session()->get('subject');
-        $subjectFromDb = Subject::where('id', $subject)->first();
-        $examFromDb = TakenExam::where('id', $exam)->first();
-
-        session()->put('exam', $examFromDb);
-        $exam_key = $examFromDb->exam->exam_key;
-
-        $is_dynamic = $examFromDb->exam->is_dynamic;
-
-        $questions = [];
-        $structures = [];
-        $answers = [];
-
-        if($is_dynamic){
-            $structures = ExamStructure::where('exam_key', $exam_key)->get();
-        }
-        else {
-            $test_paper_questions = TestPaper::where('exam_key', $exam_key)->get();
-            foreach($test_paper_questions as $test_paper_question){
-                $question = SingleChoiceQuestion::where('id', $test_paper_question->question_id)->first();
-                $answer = StudentAnswer::where('question_id', $test_paper_question->question_id)->first();
-
-                array_push($questions, $question);
-                array_push($answers, $answer);
-            }
-        }
+        $examFromDb = Exam::where('id', $exam)->first();
+        $taken_exam = TakenExam::where('exam_id', $exam)->first();
         
-        
+        $student_answers = StudentAnswer::with('option')->where([
+            ['exam_key', '=', $taken_exam->exam_key],
+            ['student_id', '=', $user->id],
+        ])->get();
+
+        // dd($student_answers);
+
         return view('exams.show_student_exam', [
-            'user' => $user,
-            'answers' => $answers,
-            'subject' => $subjectFromDb,
-            'exam' => $examFromDb,
-            'questions' => $questions,
-            'is_dynamic' => $is_dynamic, 
-            'structures' => $structures
+            'student_answers' => $student_answers,
+            'taken_exam' => $taken_exam,
+            'exam' => $examFromDb
+
         ]);
     }
-
    
     public function create()
     {
@@ -270,9 +251,13 @@ class ExamController extends Controller
     }
     public function takeExam(Request $request){
         $exam_key = $request->exam_key;
+        $user = session()->get('user');
 
         // check if the user has taken this exam before.
-        $taken_exam = TakenExam::where('exam_key', $exam_key)->first();
+        $taken_exam = TakenExam::where([
+            ['exam_key', '=', $exam_key],
+            ['student_id', '=', $user->id],
+        ])->first();
         if($taken_exam != null){
             return 'Answers can be submitted only once';
         }
@@ -290,12 +275,15 @@ class ExamController extends Controller
                     ['subject_id', '=', $structure->subject_id],
                     ['chapter_number', '=', $structure->chapter_number],
                     ['difficulty', '=', $structure->difficulty]
-                ])->inRandomOrder()->limit($structure->number_of_questions)->get()->toArray();
-                $questions_of_structure = $questions_of_structure->shuffle();
+                ])->inRandomOrder()->limit($structure->number_of_questions)->get();
+                // $questions_of_structure = $questions_of_structure->shuffle();
                 foreach($questions_of_structure as $question){
                     array_push($questions, $question);
                 }
             }
+
+            shuffle($questions);
+            // dd($questions);
         }
         else {
             // else static -> get questions
@@ -308,10 +296,13 @@ class ExamController extends Controller
         }
 
         $user = session()->get('user');
+        
         foreach($questions as $question){
-
+            // dd($question->options);
             $question->options = $question->options->shuffle();
         }
+        
+        
 
         return view('exams.quiz',
          ['questions' => $questions,
@@ -330,6 +321,7 @@ class ExamController extends Controller
         $taken_exam = new TakenExam();
         $taken_exam->exam_key = session()->get('exam')->exam_key;
         $taken_exam->student_id = session()->get('user')->id;
+        $taken_exam->exam_id = session()->get('exam')->id;
         $taken_exam->total_score = $scored_points;
         $taken_exam->save();        
 
@@ -343,10 +335,7 @@ class ExamController extends Controller
         }
 
 
-        // redirect me to the exams I've taken with the link show results on each of them
-        
-
-        return 'redirected to the exams I have taken before';
-        // dd($total_points);
+        return redirect()->route('exams.student_exams');
     }
+    
 }

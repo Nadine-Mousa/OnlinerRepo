@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('taken_exams', function (Blueprint $table) {
-            // $table->id();
-            // $table->integer('exam_id');
-            // $table->integer('student_id');
-            // $table->double('total_score');
-            // $table->timestamps();
+        Schema::table('student_answers', function (Blueprint $table) {
+            $table->integer('question_id');
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taken_exams');
+        Schema::table('student_answers', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -12,4 +12,10 @@ class Option extends Model
     public function question(){
         return $this->belongsTo(SingleChoiceQuestion::class);
     }
+
+    public function q(){
+        return $this->hasOne(SingleChoiceQuestion::class);
+    }
+
+
 }
