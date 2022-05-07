@@ -30,31 +30,9 @@
 
 		
 			
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option one</label>
-				<input class="form-control" type="text" required="required"  name="option_one" value="{{$question->option_one}}">
-			</div>
+			
 
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option two</label>
-				<input class="form-control" type="text" required="required" name="option_two" value="{{$question->option_two}}">
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option three</label>
-				<input class="form-control" type="text" required="required" name="option_three" value="{{$question->option_three}}">
-				<span>OPtion three</span>>
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option four</label>
-				<input class="form-control" type="text" required="required" name="option_four" value="{{$question->option_four}}">
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1"> Answer </label>
-				<input class="form-control" type="text" required="required" name="answer" value="{{$question->answer}}">
-			</div>
+			
 <br>
 			<select class="form-select" aria-label="Default select example" name="difficulty">
 				<option selected > {{$question->difficulty}}</option>
@@ -73,15 +51,17 @@
 			
 		</select>
 <br>
-			<div class="form-group">
-				<label for="exampleFormControlInput1"> Chapter Number </label>
-				<input class="form-control" type="text" required="required" name="chapter_number" value="{{$question->chapter_number}}">
-			</div>
 
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Marks</label>
-				<input class="form-control" type="text" required="required" name="marks" value="{{$question->marks}}" >
-			</div>
+		<select class="form-select" aria-label="Default select example" name="chapeter_number">
+			<option selected ></option>
+			@foreach ($chapters as $chapter)
+			<option value="{{$chapter->id}}">{{$chapter->chapter_name}}</option>
+			@endforeach
+			
+		</select>
+
+<br>
+			
 
 
 			

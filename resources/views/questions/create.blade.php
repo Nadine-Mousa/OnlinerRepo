@@ -30,30 +30,9 @@
 
 		
 			
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option one</label>
-				<input class="form-control" type="text" required="required"  name="option_one" >
-			</div>
+			
 
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option two</label>
-				<input class="form-control" type="text" required="required" name="option_two">
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option three</label>
-				<input class="form-control" type="text" required="required" name="option_three">
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option four</label>
-				<input class="form-control" type="text" required="required" name="option_four">
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1"> Answer </label>
-				<input class="form-control" type="text" required="required" name="answer">
-			</div>
+		
 <br>
 			<select class="form-select" aria-label="Default select example" name="difficulty">
 				<option selected >Difiiculty</option>
@@ -72,15 +51,17 @@
 			
 		</select>
 <br>
-			<div class="form-group">
-				<label for="exampleFormControlInput1"> Chapter Number </label>
-				<input class="form-control" type="text" required="required" name="chapter_number">
-			</div>
 
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Marks</label>
-				<input class="form-control" type="text" required="required" name="marks">
-			</div>
+		<select class="form-select" aria-label="Default select example" name="chapeter_number">
+			<option selected >Chapter Number</option>
+			@foreach ($chapters as $chapter)
+			<option value="{{$chapter->id}}">{{$chapter->chapter_name}}</option>
+			@endforeach
+			
+		</select>
+			
+
+			
 
 
 			

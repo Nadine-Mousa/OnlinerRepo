@@ -34,6 +34,7 @@ Route::get('/subjects/{subject}/ask_for_approve', 'App\Http\Controllers\SubjectC
 
 // Questions Routes
 Route::get('{user}/{subject}/questions', 'App\Http\Controllers\QuestionController@index')->name('questions.index');
+Route::get('{user}/{subject}/questions/show/{question}', 'App\Http\Controllers\QuestionController@show')->name('questions.show');
 //create
 Route::post('{user}/{subject}/questions/store', 'App\Http\Controllers\QuestionController@store')->name('questions.store');
 Route::get('{user}/{subject}/questions/create', 'App\Http\Controllers\QuestionController@create')->name('questions.create');
@@ -45,6 +46,13 @@ Route::get('{user}/{subject}/questions/restore/{question}', 'App\Http\Controller
 //edit
 Route::get('{user}/{subject}/questions/edit/{question}', 'App\Http\Controllers\QuestionController@edit')->name('questions.edit');
 Route::post('{user}/{subject}/questions/update/{question}', 'App\Http\Controllers\QuestionController@update')->name('questions.update');
+
+
+// Option Routes
+//create
+Route::post('{user}/{subject}/{question}/options/store', 'App\Http\Controllers\OptionController@store')->name('options.store');
+Route::get('{user}/{subject}/{question}/options/create', 'App\Http\Controllers\OptionController@create')->name('options.create');
+
 
 
 

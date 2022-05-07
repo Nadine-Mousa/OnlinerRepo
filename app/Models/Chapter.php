@@ -6,19 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Option extends Model
+class Chapter extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'question_id',
-        'body',
-        'is_correct',
-        'points',
+        'chapter_num',
+        'chapter_name',
+        'chapter_desc',
+        'subject_id',
+       
+
     ];
+    
 
    
-    public function question(): BelongsTo
+    public function subject(): BelongsTo
     {
-        return $this->belongsTo(Question::class, 'question_id');
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
+     
+    
 }
