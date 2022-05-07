@@ -120,9 +120,66 @@ class ExamController extends Controller
     }
 
    
-    public function create()
+    public function create_exam()
     {
-        //
+        $subject = session()->get('subject');
+        // $user = Session::get('user');
+       $user = session()->get('user'); 
+       $department = session()->get('department');
+       $level = session()->get('level');
+        return view('exams.create', [
+            'user' => $user,
+            'subject' =>  $subject,
+            'department' => $department,
+            'level' => $level,
+        ]);
+    }
+
+    public function store_exam(Request $request)
+    {
+        $subject = session()->get('subject');
+        // $user = Session::get('user');
+       $user = session()->get('user'); 
+       $department = session()->get('department');
+       $level = session()->get('level');
+
+
+       $this->validate($request, [
+           'exam_key' => 'required',
+            'exam_name' => 'required',
+            'duration' => 'required',
+            
+            'start_time'=>'required',
+            'end_time'=>'required',
+            'total_questions'=>'required',
+            'is_dynamic'=>'required',
+            
+ 
+ 
+ 
+ 
+        ]);
+ 
+        $exam =Exam::create([
+            'exam_key' => $request->exam_key,
+            'exam_name' => $request->exam_name,
+            'duration' => $request->duration,
+           
+            'total_questions'=>$request->total_questions,    
+            'start_time'=>$request->start_time,    
+            'end_time'=>$request->end_time,  
+            'is_dynamic'=>$request->is_dynamic,       
+            'professor_id'=>$user,
+            'subject_id'=>   $subject ,      
+            'department_id'=> $department,       
+            'level_id'=>$level       
+ 
+ 
+ 
+        ]);
+
+      $exam->save();
+      return redirect()->route('exams.index');
     }
 
     /**
