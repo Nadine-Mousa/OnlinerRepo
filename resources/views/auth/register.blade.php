@@ -113,6 +113,14 @@
 <body>
 @section('content')
 
+<!-- @if (!$errors->any())
+    <div class="alert alert-success">
+        <ul>
+            <li>You have registered successfully!</li>
+        </ul>
+    </div>
+@endif -->
+
 <div class="container register">
                 <div class="row">
                     <!-- login form -->
@@ -143,16 +151,28 @@
                                     <div class="row register-form">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="first_name" type="text" class="form-control" placeholder="First Name"  />
+                                                <input name="first_name"  type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="First Name"  />
+                                                @error('first_name')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="last_name" type="text" class="form-control" placeholder="Last Name"  />
+                                                <input name="last_name" type="text" value="{{ old('last_name') }}"  class="form-control @error('last_name') is-invalid @enderror" placeholder="Last Name"  />
+                                                @error('last_name')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="password" type="password" class="form-control" placeholder="Password *" />
+                                                <input name="password" value="{{ old('password') }}"  class="form-control @error('password') is-invalid @enderror" type="password"  placeholder="Password *" />
+                                                @error('password')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="confirm_password" type="password" class="form-control"  placeholder="Confirm Password *"  />
+                                                <input name="confirm_password" value="{{ old('confirm_password') }}"  class="form-control @error('confirm_password') is-invalid @enderror" type="password"  placeholder="Confirm Password *"  />
+                                                @error('confirm_password')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
                                                 <div class="maxl">
@@ -169,26 +189,36 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="email" type="email" class="form-control" placeholder="Your Email *"  />
+                                                <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" placeholder="Your Email *"/>
+                                                @error('email')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="phone" type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Your Phone *" value="" />
+                                                <input name="phone" type="text" name="phone" class="form-control" placeholder="Your Phone" value="{{ old('phone') }}" />
                                             </div>
                                             <div class="form-group">
-                                                <select class="form-control">
+                                                <select class="form-control @error('department') is-invalid @enderror" name = "department">
                                                     <option class="hidden" name="department_id" selected disabled>Department</option>
                                                     @foreach($departments as $department)
-                                                    <option value="{{$department->id}}">{{$department->dep_name}}</option>
+                                                    <option value="{{$department->id}}"  {{ (Request::old('department') == $department->id ? "selected":"" ) }} > {{$department->dep_name}}</option>
                                                     @endforeach 
+                                                    
                                                 </select>
+                                                @error('department')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <select class="form-control">
+                                                <select class="form-control @error('level') is-invalid @enderror" name = "level">
                                                     <option class="hidden" name="level_id" selected disabled>Level</option>
                                                     @foreach($levels as $level)
-                                                    <option value="{{$level->id}}">Level {{$level->level_number}}</option>
+                                                    <option value="{{$level->id}}"  {{ (Request::old("level") == $level->id ? "selected":"" ) }}>Level {{$level->level_number}}</option>
                                                     @endforeach
                                                 </select>
+                                                @error('level')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             
                                             <button type="submit" class="btnRegister"  >Register</button>
@@ -204,34 +234,55 @@
                                     <div class="row register-form">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="first_name" type="text" class="form-control" placeholder="First Name" value="" />
+                                                <input name="first_name" type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="First Name" />
+                                                @error('first_name')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="last_name" type="text" class="form-control" placeholder="Last Name" value="" />
+                                                <input name="last_name" type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="Last Name" />
+                                                @error('last_name')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="email" type="email" class="form-control" placeholder="Email *" value="" />
+                                                <input name="email" type="email"  class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" placeholder="Email *" />
+                                                @error('email')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="phone" type="text" maxlength="10" minlength="10" class="form-control" placeholder="Phone *" value="" />
+                                                <input name="phone" type="text"  class="form-control" placeholder="Phone" value="" />
+                                                @error('phone')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
 
 
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="password" type="password" class="form-control" placeholder="Password *" value="" />
+                                                <input name="password" type="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror" placeholder="Password *" />
+                                                @error('password')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="confirm_password" type="password" class="form-control" placeholder="Confirm Password *" value="" />
+                                                <input name="confirm_password" type="password" value="{{ old('confirm_password') }}" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Confirm Password *"  />
+                                                @error('confirm_password')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <select class="form-control">
+                                                <select class="form-control" name="department">
                                                     <option class="hidden"  selected disabled>Department</option>
                                                     @foreach($departments as $department)
-                                                    <option value="{{$department->id}}">{{$department->dep_name}}</option>
+                                                    <option value="{{$department->id}}"  {{ (Request::old('department') == $department->id ? "selected":"" ) }} >{{$department->dep_name}}</option>
                                                     @endforeach
                                                 </select>
+                                                @error('department')
+                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             
                                             <button type="submit" class="btnRegister"  value="Register">Register</button>

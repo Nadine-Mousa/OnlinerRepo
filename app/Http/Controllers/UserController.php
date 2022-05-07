@@ -8,6 +8,7 @@ use App\Models\Call;
 use App\Models\Level;
 use App\Models\Department;
 use App\Models\TempProfessor;
+
 use Session;
 
 
@@ -26,7 +27,13 @@ class UserController extends Controller
           'levels' => $levels]);
         
     }
+    // use \Illuminate\Foundation\Auth\AuthenticatesUsers;
+
     public function login(Request $request){
+        $validated = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
 
         $email = $request->email;
 
@@ -41,7 +48,9 @@ class UserController extends Controller
         ])->first();
 
         if($userfromDb == null){
-            return redirect()->route('showLoginForm');
+            return redirect()->back()
+            ->withErrors(['login_failed'=>'Invalid Email or Password']);
+            // return redirect()->route('showLoginForm');
         }
         else {
             //Session::put('user', $userfromDb);
@@ -56,8 +65,18 @@ class UserController extends Controller
     public function register(Request $request){
         
         // validate model
-        $user = new User();
+        $validated = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'unique:users,email|unique:temp_professors,email|required|min:10',
+            'password' => 'required_with:confirm_password|same:confirm_password|min:8',
+            'confirm_password' => 'min:8',
+            'department' => 'required',
+            'phone' => 'nullable'
+        ]);
 
+        $user = new User();
+        
         $existingUser = User::where('email', $request->email)->first();
         if(!$existingUser == null){
             return 'invalid email';
@@ -84,6 +103,9 @@ class UserController extends Controller
 
         }
         else {
+            $validated = $request->validate([
+                'level' => 'required'
+            ]);
             $user->save();
         }
 

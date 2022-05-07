@@ -30,6 +30,12 @@
 
 @section('content')
 
+@if ($error = $errors->first('login_failed'))
+  <div class="alert alert-danger">
+    {{ $error }}
+  </div>
+@endif
+
 <section class="vh-100">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -62,15 +68,23 @@
 
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <input name="email" type="email" class="form-control form-control-lg"
+            <input name="email" type="email"
+              value="{{ old('email') }}" class="form-control form-control-lg @error('email') is-invalid @enderror"
               placeholder="Enter a valid email address" />
+              @error('email')
+              <div class="alert alert-danger">{{$message}}</div>
+              @enderror
             <label class="form-label" >Email address</label>
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-3">
-            <input name="password" type="password" class="form-control form-control-lg"
+            <input name="password" type="password" 
+              value="{{ old('password') }}" class="form-control form-control-lg @error('password') is-invalid @enderror"
               placeholder="Enter password" />
+              @error('password')
+              <div class="alert alert-danger">{{$message}}</div>
+              @enderror
             <label class="form-label" >Password</label>
           </div>
 
