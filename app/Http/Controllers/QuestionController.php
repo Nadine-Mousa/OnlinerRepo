@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Subject;
 use App\Models\SingleChoiceQuestion;
 use App\Models\ProfessorSubject;
+use App\Models\Question;
 use App\Models\QuestionType;
+use App\Models\Option;
 
 class QuestionController extends Controller
 {
@@ -20,6 +23,7 @@ class QuestionController extends Controller
     {
         $userFromDb = User::findOrFail($user)->first();
         $subjectFromDb = Subject::findOrFail($subject)->first();
+        $question_types=QuestionType::all();
         $professor_subject = 
         ProfessorSubject::where([
             ['professor_id', '=', $user],
@@ -29,12 +33,18 @@ class QuestionController extends Controller
         if($professor_subject != null){
             $hasApprovalToSubject = true;
         }
-        $questions = SingleChoiceQuestion::where('subject_id', $subject)->get();
+        $questions = Question::where('subject_id', $subject)->get();
+        $options = Option::all();
+        
+
+        
         return view('questions.index', [
          'questions' => $questions,
          'user' => $userFromDb,
          'subject' =>$subjectFromDb,
-         'hasApprovalToSubject' => $hasApprovalToSubject
+         'hasApprovalToSubject' => $hasApprovalToSubject,
+         'question_types' => $question_types,
+         'options' => $options,
         ]);
     }
 //trashed questions
@@ -43,12 +53,18 @@ public function trashed($user, $subject)
     {
         $user = session()->get('user');
         $subject=session()->get('subject');
-        $trashed_questions=SingleChoiceQuestion::onlyTrashed()->where('subject_id', $subject)->get();
-
+        $trashed_questions=Question::onlyTrashed()->where('subject_id', $subject)->get();
+        $options = [];
+        foreach($trashed_questions as $trashed_question){
+            $option = Option::where('question_id', $trashed_question->id)->first();
+            array_push($options, $option);
+           
+        }
         return view('questions.trashed', [
             'trashed_questions' => $trashed_questions,
             'user' => $user,
             'subject' =>$subject,
+            'options' => $options,
            ]);
 
     }
@@ -64,12 +80,14 @@ public function trashed($user, $subject)
        // $user=session()->get('user');
         $subject=session()->get('subject');
         $question_types=QuestionType::all();
+        $chapters=Chapter::where('subject_id', $subject)->get();
 
        // dd($user);
         return view('questions.create', [
             'user' => $user,
          'subject' =>$subject,
-         'question_types' => $question_types
+         'question_types' => $question_types,
+         'chapters' => $chapters
         ]);
     }
 
@@ -83,44 +101,66 @@ public function trashed($user, $subject)
     {
         $user=session()->get('user');
         $subject=session()->get('subject');
+       // dd($subject);
         //$subject = session()->get('subject');
         $level = session()->get('level');
         $department = session()->get('department');
-       
-       // dd($department, $level);
-       // $user = session()->get('user');
-       $this->validate($request, [
-           'title' => 'required',
-           //'id' => 'required',
-           'chapter_number' => 'required',
-           'question_type' => 'required',
-           'difficulty' => 'required',
-           'option_one' => 'required', 
-           'option_two' => 'required',
-           'option_three' => 'required',
-           'option_four' => 'required',
-           'answer' => 'required',
-           'marks' => 'required',
-       ]);
+        $user = session()->get('user');
 
-       $question = SingleChoiceQuestion::create([
-           'depart_id' => $department,
-           'level_id' => $level,
-           'subject_id' => $subject,
-           'chapter_number' => $request->chapter_number,
-           'title' => $request->title,
-           //'id' => $request->id,
-           'question_type' => $request->question_type,
-           'difficulty' => $request->difficulty,
-           'option_one' => $request->option_one,
-           'option_two' => $request->option_two,
-           'option_three' => $request->option_three,
-           'option_four' => $request->option_four,
-           'answer' => $request->answer,
-           'marks' => $request->marks,
-       ]);
+       
+    //    dd($department, $level);
+       
+    //     $this->validate($request, [
+    //         'title' => 'required',
+    //         //'id' => 'required',
+    //         'chapter_number' => 'required',
+    //         'question_type' => 'required',
+    //         'difficulty' => 'required',
+    //         'option_one' => 'required', 
+    //         'option_two' => 'required',
+    //         'option_three' => 'required',
+    //         'option_four' => 'required',
+    //         'answer' => 'required',
+    //         'marks' => 'required',
+    //     ]);
+
+    //    $question = SingleChoiceQuestion::create([
+    //        'depart_id' => $department,
+    //        'level_id' => $level,
+    //        'subject_id' => $subject,
+    //        'chapter_number' => $request->chapter_number,
+    //        'title' => $request->title,
+    //        //'id' => $request->id,
+    //        'question_type' => $request->question_type,
+    //        'difficulty' => $request->difficulty,
+    //        'option_one' => $request->option_one,
+    //        'option_two' => $request->option_two,
+    //        'option_three' => $request->option_three,
+    //        'option_four' => $request->option_four,
+    //        'answer' => $request->answer,
+    //        'marks' => $request->marks,
+    //    ]);
+
+    $this->validate($request, [
+        //'subject_id' =>'required',
+        'question_type' => 'required',
+        'title' => 'required',
+        'chapeter_number' => 'required',
+        //'marks' => 'required',
+        'difficulty' => 'required',
+    ]);
+
+    $question = Question::create([
+        'subject_id' => $subject,
+        'title' => $request->title,
+        'question_type' => $request->question_type,
+        'chapeter_number' =>  $request->chapeter_number,
+       // 'marks' =>  $request->marks,
+        'difficulty' =>  $request->difficulty,
+    ]);
 
        $question->save();
+
        return redirect()->route('questions.index', ['user' => $user, 'subject' => $subject]);
     }
 
@@ -130,9 +170,20 @@ public function trashed($user, $subject)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user, $subject, $question)
     {
-        //
+        
+        $user=session()->get('user');
+        $subject=session()->get('subject');
+        $questionFromDb=Question::where('id', $question)->first();
+        $options=Option::where('question_id', $questionFromDb->id)->get();
+        session()->put('question', $question);
+       return view('questions.show')->with([
+           'question'=> $questionFromDb,
+            'options' =>$options,
+            'user' => $user,
+            'subject' => $subject
+        ]);
     }
 
     /**
@@ -145,11 +196,13 @@ public function trashed($user, $subject)
     {
         $user=session()->get('user');
         $subject=session()->get('subject');
-        $questionFromDb = SingleChoiceQuestion::find($question);
+        $questionFromDb = Question::find($question);
         $question_types=QuestionType::all();
       /// $h= $questionFromDb->question_type->question_name;
         $question_type = $questionFromDb->question_type;
         $question_name = QuestionType::where('id', $question_type)->first();
+        $chapters=Chapter::where('subject_id', $subject)->get();
+
 
         return view('questions.edit')->with([  
             'user' => $user,
@@ -157,7 +210,8 @@ public function trashed($user, $subject)
          'question' => $questionFromDb,
          'question_types' => $question_types,
          'question_type' => $question_type,
-         'question_name' => $question_name
+         'question_name' => $question_name,
+         'chapters' => $chapters,
         ]); 
     
     }
@@ -171,44 +225,53 @@ public function trashed($user, $subject)
      */
     public function update(Request $request, $user, $subject, $question)
     {
-        $questionFromDb = SingleChoiceQuestion::find($question);
+        $questionFromDb = Question::find($question);
+       // dd($questionFromDb->title);
         $user=session()->get('user');
         $subject=session()->get('subject');
        
         $level = session()->get('level');
         $department = session()->get('department');
        
-       $this->validate($request, [
-           'title' => 'required',
-           'chapter_number' => 'required',
-           'question_type' => 'required',
-           'difficulty' => 'required',
-           'option_one' => 'required',
-           'option_two' => 'required',
-           'option_three' => 'required',
-           'option_four' => 'required',
-           'answer' => 'required',
-           'marks' => 'required',
-       ]);
+    //   $this->validate($request, [
+    //        'title' => 'required',
+    //        'chapter_number' => 'required',
+    //        'question_type' => 'required',
+    //        'difficulty' => 'required',
+    //        'option_one' => 'required',
+    //        'option_two' => 'required',
+    //        'option_three' => 'required',
+    //        'option_four' => 'required',
+    //        'answer' => 'required',
+    //        'marks' => 'required',
+    //    ]);
+
+        $this->validate($request, [
+            'question_type' => 'required',
+            'title' => 'required',
+            'chapeter_number' => 'required',
+            'difficulty' => 'required',
+        ]);
+
 
        
-       $questionFromDb-> depart_id = $department;
-       $questionFromDb-> level_id = $level;
-       $questionFromDb-> subject_id = $subject;
-       $questionFromDb->  chapter_number = $request->chapter_number;
-       $questionFromDb-> title = $request->title;
-      // $questionFromDb-> id = $request->id;
-       $questionFromDb-> question_type = $request->question_type;
-       $questionFromDb-> difficulty = $request->difficulty;
-       $questionFromDb-> option_one = $request->option_one;
-       $questionFromDb-> option_two = $request->option_two;
-       $questionFromDb-> option_three = $request->option_three;
-       $questionFromDb-> option_four = $request->option_four;
-       $questionFromDb-> answer = $request->answer;
-       $questionFromDb-> marks = $request->marks;
+       //  $questionFromDb-> depart_id = $department;
+        // $questionFromDb-> level_id = $level;
+         $questionFromDb-> subject_id = $subject;
+         $questionFromDb->  chapeter_number = $request->chapeter_number;
+         $questionFromDb-> title = $request->title;
+      
+         $questionFromDb-> question_type = $request->question_type;
+        $questionFromDb-> difficulty = $request->difficulty;
+    //    $questionFromDb-> option_one = $request->option_one;
+    //    $questionFromDb-> option_two = $request->option_two;
+    //    $questionFromDb-> option_three = $request->option_three;
+    //    $questionFromDb-> option_four = $request->option_four;
+    //    $questionFromDb-> answer = $request->answer;
+    //    $questionFromDb-> marks = $request->marks;
        
 
-       $questionFromDb->save();
+        $questionFromDb->save();
        return redirect()->route('questions.index', ['user' => $user, 'subject' => $subject, 'question' => $questionFromDb]);
     }
 
@@ -224,7 +287,7 @@ public function trashed($user, $subject)
     {
         $user=session()->get('user');
         $subject=session()->get('subject');
-        $questionFromDb = SingleChoiceQuestion::find($question);
+        $questionFromDb = Question::find($question);
         $questionFromDb->delete();
         return redirect()->back();
     }
@@ -233,7 +296,7 @@ public function trashed($user, $subject)
 
     public function hdelete($user, $subject, $question)
     {
-        $question=SingleChoiceQuestion::withTrashed('question', $question)->first();
+        $question=Question::withTrashed('question', $question)->first();
         $question->forceDelete();
        
         return redirect()->back();
@@ -244,7 +307,7 @@ public function trashed($user, $subject)
 
      public function restore($user, $subject, $question)
      {
-         $question=SingleChoiceQuestion::withTrashed('question', $question)->first();
+         $question=Question::withTrashed('question', $question)->first();
        
          $question->restore();
          return redirect()->back();

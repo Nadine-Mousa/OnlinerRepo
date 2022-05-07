@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('options', function (Blueprint $table)
-        {
-                $table->dropColumn('question_id');
-                $table->integer('single_choice_question_id');
+        Schema::create('options', function (Blueprint $table) {
+            $table->id();
+            $table->integer('question_id');
+            $table->string('body');
+            $table->boolean('is_correct');
+            $table->double('points')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('options');
     }
 };

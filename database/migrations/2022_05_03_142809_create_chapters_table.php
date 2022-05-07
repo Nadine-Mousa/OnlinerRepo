@@ -13,19 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('chapters', function (Blueprint $table) {
             $table->id();
+            $table->integer('chapter_num');
+            $table->string('chapter_name');
+            $table->string('chapter_desc');  
             $table->integer('subject_id');
-            $table->string('title');
-            $table->integer('chapeter_number');
             $table->timestamps();
-        });
-        Schema::create('answers', function (Blueprint $table) {
-            $table->id();
-            $table->integer('question_id');
-            $table->string('body');
-            $table->boolean('is_correct')->default(false);
-            $table->timestamps();
+            
         });
     }
 
@@ -36,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('chapters');
     }
 };

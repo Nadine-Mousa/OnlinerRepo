@@ -212,20 +212,12 @@
     @section('content')
     <br>
     <div class="six">
-        <h1>{{$subject->subject_name}}
+        
             <span>Example Tagline Text</span>
         </h1>
-        @if($hasApprovalToSubject == true)
-        <form method="GET" action="{{route('questions.create', ['user' => $user->id, 'subject' => $subject])}}"> 
-        <button  type="submit" class="button-33" role="button" >Add Question</button>
-        </form>
-        @endif
+       
 
-        @if($hasApprovalToSubject == true)
-        <form method="GET" action="{{route('questions.trashed', ['user' => $user->id, 'subject' => $subject])}}"> 
-        <button  type="submit" class="button-33" role="button" >Trashed Question</button>
-        </form>
-        @endif
+       
 
     </div>
 
@@ -234,32 +226,28 @@
     
     </div>
     
-    @foreach($questions as $question)
+   
     <div class="container mt-sm-5 my-1">
         <div class="question ml-s m-5 pl-sm-5 pt-2">
             <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
             <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
                 @foreach ($options as $option)
                 @if ($option->question_id == $question->id)
-                     @php
-                       $question->marks += $option->points;
-                     @endphp
                     <label class="options">{{$option->body}} <input type="radio" {{($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
                 @endif
                 @endforeach
             </div>
-            <div class="py-2 h5"><b>points: {{$question->marks}} </b> </div>
+            <div class="py-2 h5"><b>Answer: </b> </div>
             <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter_number}}</div>
             <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
             <div class="py-2 h5">
-                <a class="btn btn-danger" href="{{route('questions.show',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> show </a> &nbsp; &nbsp; &nbsp; &nbsp;
-                <a class="btn btn-danger" href="{{route('questions.destroy',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Delete </a> &nbsp; &nbsp; &nbsp; &nbsp;
-                <a class="btn btn-danger" href="{{route('questions.edit',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Edit </a>
+                <a class="btn btn-danger" href="{{route('options.create',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Add Options </a> &nbsp; &nbsp; &nbsp; &nbsp;
+                <a class="btn btn-danger" href="#"><i class="fas fa-trash-alt"></i> Back </a>
             </div> 
         </div>
     </div>
     <br>
-    @endforeach
+  
 
 
 
