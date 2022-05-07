@@ -418,7 +418,11 @@
             <span>Subject Exams</span>
         </h1>
         @if($hasApprovalToSubject == true)
-        <button class="button-33" role="button">Add Exam</button>
+        <form method="GET" action="{{route('exams.create_exam')}}"> 
+            <button  type="submit" class="button-33" role="button" >Add Exam</button>
+            </form>
+            <button href="{{ route('exams.create_exam') }}"  class="button-33" role="button" >Create Exam</button>
+        
        
         @endif
 

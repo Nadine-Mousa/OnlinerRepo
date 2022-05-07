@@ -62,6 +62,9 @@ Route::post('/exams/storeAnswers', 'App\Http\Controllers\ExamController@storeAns
 Route::post('/exams', 'App\Http\Controllers\ExamController@store')->name('exams.store');
 Route::get('/exams/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('exams.student_exams');
 Route::get('/exams/quiz', 'App\Http\Controllers\ExamController@takeExam')->name('exams.quiz');
+
+Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create_exam');
+Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->name('exams.store_exam'); 
 Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show');
 Route::get('/student_exams/{exam}', 'App\Http\Controllers\ExamController@show_student_exam')->name('student_exam');
 
