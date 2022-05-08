@@ -22,13 +22,17 @@ class Question extends Model
     ];
 
 
-    public function question_type(): BelongsTo
+    public function type(): BelongsTo
     {
-        return $this->belongsTo(QuestionType::class, 'question_type');
+        return $this->belongsTo(QuestionType::class, 'question_type');  // foreing key in Question table
     }
 
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    public function options(){
+        return $this->hasMany(Option::Class);
     }
 }

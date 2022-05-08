@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::table('questions', function (Blueprint $table) {
             $table->softDeletes();
+            $table->double('marks')->default(0);
+            $table->integer('chapter_number');
+            $table->integer('type');
+            $table->dropColumn('chapeter_number');
+
         });
     }
 

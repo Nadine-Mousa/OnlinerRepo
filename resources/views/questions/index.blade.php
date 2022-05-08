@@ -239,17 +239,13 @@
         <div class="question ml-s m-5 pl-sm-5 pt-2">
             <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
             <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-                @foreach ($options as $option)
-                @if ($option->question_id == $question->id)
-                     @php
-                       $question->marks += $option->points;
-                     @endphp
-                    <label class="options">{{$option->body}} <input type="radio" {{($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
-                @endif
+                @foreach ($question->options as $option)
+                    <label class="options">{{$option->body}} @if($option->is_correct) <span style="color:lightblue;">   [  {{  $option->points  }} point  ] </span>  @endif <input type="radio" {{ ($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
                 @endforeach
             </div>
-            <div class="py-2 h5"><b>points: {{$question->marks}} </b> </div>
-            <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter_number}}</div>
+            <br>
+            <div class="py-2 h5"><b>Question points : </b> {{$question->marks}}</div>
+            <div class="py-2 h5"><b>Chapter: </b> {{$question->chapeter_number}}</div>
             <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
             <div class="py-2 h5">
                 <a class="btn btn-danger" href="{{route('questions.show',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> show </a> &nbsp; &nbsp; &nbsp; &nbsp;

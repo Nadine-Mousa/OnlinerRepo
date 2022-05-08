@@ -233,16 +233,20 @@
             <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
                 @foreach ($options as $option)
                 @if ($option->question_id == $question->id)
-                    <label class="options">{{$option->body}} <input type="radio" {{($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
+                    <label class="options">{{$option->body}} <input type="radio" {{($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> @if($option->is_correct) <span style="color:lightblue;"> [ {{$option->points}} point ] </span>  @endif<span class="checkmark"></span> </label>
                 @endif
                 @endforeach
             </div>
-            <div class="py-2 h5"><b>Answer: </b> </div>
-            <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter_number}}</div>
+            <br>
+
+            
+            <div class="py-2 h5"><b>Question type : </b> {{  $question->type->type_name }}</div>
+            <div class="py-2 h5"><b>Question points : </b> {{$question->marks}}</div>
+            <div class="py-2 h5"><b>Chapter: </b> {{$question->chapeter_number}}</div>
             <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
             <div class="py-2 h5">
-                <a class="btn btn-danger" href="{{route('options.create',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Add Options </a> &nbsp; &nbsp; &nbsp; &nbsp;
-                <a class="btn btn-danger" href="#"><i class="fas fa-trash-alt"></i> Back </a>
+                <a class="btn btn-danger" href="{{route('options.create',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Add Option </a> &nbsp; &nbsp; &nbsp; &nbsp;
+                <a class="btn btn-danger" href="{{route('questions.index', ['user' => $user->id, 'subject' => $subject] )}}"><i class="fas fa-trash-alt"></i> Back </a>
             </div> 
         </div>
     </div>

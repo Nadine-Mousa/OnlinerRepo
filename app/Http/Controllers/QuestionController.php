@@ -33,8 +33,8 @@ class QuestionController extends Controller
         if($professor_subject != null){
             $hasApprovalToSubject = true;
         }
-        $questions = Question::where('subject_id', $subject)->get();
-        $options = Option::all();
+        $questions = Question::with('options')->where('subject_id', $subject)->get();
+        // $options = Option::all();
         
 
         
@@ -44,7 +44,7 @@ class QuestionController extends Controller
          'subject' =>$subjectFromDb,
          'hasApprovalToSubject' => $hasApprovalToSubject,
          'question_types' => $question_types,
-         'options' => $options,
+        //  'options' => $options,
         ]);
     }
 //trashed questions
@@ -161,7 +161,11 @@ public function trashed($user, $subject)
 
        $question->save();
 
-       return redirect()->route('questions.index', ['user' => $user, 'subject' => $subject]);
+       return redirect()->route('questions.show',
+        ['user' => $user,
+         'subject' => $subject,
+         'question' => $question->id
+        ]);
     }
 
     /**
@@ -178,6 +182,9 @@ public function trashed($user, $subject)
         $questionFromDb=Question::where('id', $question)->first();
         $options=Option::where('question_id', $questionFromDb->id)->get();
         session()->put('question', $question);
+    //    dd($questionFromDb);
+
+
        return view('questions.show')->with([
            'question'=> $questionFromDb,
             'options' =>$options,
@@ -196,16 +203,18 @@ public function trashed($user, $subject)
     {
         $user=session()->get('user');
         $subject=session()->get('subject');
-        $questionFromDb = Question::find($question);
+        // $questionFromDb = Question::find($question);
+        $questionFromDb = Question::where('id', $question)->first();
+
         $question_types=QuestionType::all();
       /// $h= $questionFromDb->question_type->question_name;
         $question_type = $questionFromDb->question_type;
-        $question_name = QuestionType::where('id', $question_type)->first();
+        $question_name = QuestionType::where('id', $question_type)->first()->type_name;
         $chapters=Chapter::where('subject_id', $subject)->get();
 
 
         return view('questions.edit')->with([  
-            'user' => $user,
+         'user' => $user,
          'subject' =>$subject,
          'question' => $questionFromDb,
          'question_types' => $question_types,

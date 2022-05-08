@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
-            $table->id();
-            $table->integer('subject_id');
-            $table->string('title');
-            $table->integer('chapeter_number');
-            $table->double('marks')->default(0);
-            $table->char('difficulty');
-            $table->integer('question_type');;
+        Schema::table('questions', function (Blueprint $table) {
+            
         });
     }
 

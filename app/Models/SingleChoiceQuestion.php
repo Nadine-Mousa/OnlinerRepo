@@ -30,7 +30,7 @@ class SingleChoiceQuestion extends Model
     ];
     
     
-    public function question_type(): HasOne
+    public function question_type()
     {
         return $this->hasOne(QuestionType::class);
     }

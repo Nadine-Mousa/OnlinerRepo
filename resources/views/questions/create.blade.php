@@ -29,13 +29,9 @@
 			</div>
 
 		
-			
-			
-
-		
 <br>
 			<select class="form-select" aria-label="Default select example" name="difficulty">
-				<option selected >Difiiculty</option>
+				<option selected >Difficulty</option>
 				<option value="A">A</option>
 				<option value="B">B</option>
 				<option value="C">C</option>
@@ -53,9 +49,9 @@
 <br>
 
 		<select class="form-select" aria-label="Default select example" name="chapeter_number">
-			<option selected >Chapter Number</option>
+			<option selected >Chapter</option>
 			@foreach ($chapters as $chapter)
-			<option value="{{$chapter->id}}">{{$chapter->chapter_name}}</option>
+			<option value="{{$chapter->id}}">Ch. {{$chapter->chapter_num}} {{$chapter->chapter_name}}</option>
 			@endforeach
 			
 		</select>
