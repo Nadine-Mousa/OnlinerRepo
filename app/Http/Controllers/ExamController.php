@@ -394,5 +394,24 @@ class ExamController extends Controller
 
         return redirect()->route('exams.student_exams');
     }
-    
+
+    public function show_results($exam)
+    {
+        $user = session()->get('user');
+        $hasApprovalToSubject = session()->get('hasApprovalToSubject');
+        $subject = session()->get('subject');
+        $subjectFromDb = Subject::where('id', $subject)->first();
+       // $examFromDb = Exam::where('id', $exam)->first();
+       
+       // $exam_key = $examFromDb->exam_key;
+       // $exam = session()->get('exam');
+        $results=TakenExam::where('exam_id', $exam)->get();
+       // session()->put('exam', $results);
+        
+        return view('exams.show_results')->with([
+            'user' => $user,
+            'results'=> $results,
+            'hasApprovalToSubject' =>  $hasApprovalToSubject,
+        ]);
+    }
 }
