@@ -528,6 +528,7 @@
             <span>Exam questions</span>
             <span>Duration: {{$exam->duration}}</span>
         </h1>
+        <a href="{{route('exams.show_results')}}">Show Results</a>
 
         @if($hasApprovalToSubject == true)
         <button class="button-33" role="button" onclick="showForm();">Add Questions</button>
@@ -597,6 +598,7 @@
                 <div class="py-2 h5"><b>Answer: </b> {{$question->answer}}</div>
                 <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter_number}}</div>
                 <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
+                
             </div>
         </div>
         <br>

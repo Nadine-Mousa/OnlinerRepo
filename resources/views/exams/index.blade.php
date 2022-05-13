@@ -449,6 +449,7 @@
                     <h4>{{$exam->exam_key}}</h4>
                     <h3>{{$exam->exam_name}} Exam</h3>
                     <a href="{{route('exams.show', ['exam' => $exam->id])}}">Show Exam</a>
+                    <a href="{{route('exams.show_results', ['exam' => $exam->id])}}">Show Results</a>
                 </div>
             </div>
         </div>

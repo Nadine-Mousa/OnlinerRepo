@@ -180,6 +180,7 @@ public function trashed($user, $subject)
         $user=session()->get('user');
         $subject=session()->get('subject');
         $questionFromDb=Question::where('id', $question)->first();
+       dd($questionFromDb->type->type_name) ;
         $options=Option::where('question_id', $questionFromDb->id)->get();
         session()->put('question', $question);
     //    dd($questionFromDb);

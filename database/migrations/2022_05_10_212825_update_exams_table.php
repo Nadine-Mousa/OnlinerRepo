@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('taken_exams', function (Blueprint $table) {
-            $table->id();
-            $table->integer('exam_id');
-            $table->integer('student_id');
-            $table->double('total_score');
-            $table->timestamps();
+        Schema::table('exams', function (Blueprint $table) {
+            $table->double('marks')->default(0);
+            
         });
     }
 
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taken_exams');
+        //
     }
 };
