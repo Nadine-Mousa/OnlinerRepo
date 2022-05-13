@@ -1,3 +1,4 @@
+@extends('layouts.nav')
 <!DOCTYPE html>
 <html style="font-size: 16px;">
   <head>
@@ -6,7 +7,7 @@
     <meta name="keywords" content="Our Mission, The Future is Here, ​Architectural Design &amp;amp; Research, Architectural Agency, About Company, Our Team, ​Building Expertise">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>Home</title>
+    <title>Onliner | Home</title>
     <link rel="stylesheet" href="{{asset('assets/css/welcome/nicepage.css')}}" media="screen">
     <link rel="stylesheet" href="{{asset('assets/css/welcome/Home.css')}}" media="screen">
     <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
@@ -27,13 +28,24 @@
     <meta name="theme-color" content="#323a56">
     <meta property="og:title" content="Home">
     <meta property="og:type" content="website">
+
+
   </head>
-  <body class="u-body u-xl-mode"><header class="u-clearfix u-header u-header" id="sec-664a"><div class="u-clearfix u-sheet u-sheet-1">
+  @section('content')
+  <body class="u-body u-xl-mode">
+    <!-- <header class="u-clearfix u-header u-header" id="sec-664a">
+      <div class="u-clearfix u-sheet u-sheet-1">
+         image
         <a href="https://nicepage.com" class="u-image u-logo u-image-1">
           <img style="height: 100px; width: 200px;"  src="assets/images/welcome/logo.jpg" class="u-logo-image u-logo-image-1">
         </a>
-        @include('partitions.exam_key')
-      </div></header> 
+        
+      </div>
+    </header>-->
+
+    <!-- Exam Key Input -->
+
+    
     <section class="u-clearfix u-image u-section-1" id="sec-cd44" data-image-width="1127" data-image-height="750">
       <div class="u-clearfix u-sheet u-sheet-1">
         <div class="u-clearfix u-layout-wrap u-layout-wrap-1">
@@ -383,5 +395,8 @@
         <span>Best Free Website Builder</span>
       </a>. 
     </section>
+
+    @endsection('content')
+  
   </body>
 </html>

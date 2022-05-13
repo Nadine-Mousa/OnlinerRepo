@@ -59,6 +59,7 @@ class UserController extends Controller
             if($currentRole == 1) {
             session()->put('current_role', "admin");
             }
+            return redirect()->route('home');
             return view('home', ['user' => $userfromDb]);
         }
     }
@@ -109,7 +110,14 @@ class UserController extends Controller
             $user->save();
         }
 
-        return 'your request has been submitted to the admin. Waiting for approval';
+        if($request->has('professor')){
+            return 'your request has been submitted to the admin. Waiting for approval';
+        }
+        else {
+            session()->put('user', $user);
+            return redirect()->route('home'); 
+        }
+
 
         // $namehashed =  Hash::make($name);
         // bycrypt
@@ -121,6 +129,13 @@ class UserController extends Controller
 
     }
     public function home(){
-        return 'this is the home page';
+        return view('welcome');
     }
+    public function about(){
+        return view('about');
+    }
+    public function contact(){
+        return view('contact');
+    }
+    
 }

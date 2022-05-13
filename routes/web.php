@@ -109,3 +109,8 @@ Route::get('/error', function(){
 Route::get('/welcome', function(){
     return view('welcome');
 });
+
+
+Route::get('home', 'App\Http\Controllers\UserController@home')->name('home');
+Route::get('about', 'App\Http\Controllers\UserController@about')->name('about');
+Route::get('contact', 'App\Http\Controllers\UserController@contact')->name('contact');

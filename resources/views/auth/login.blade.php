@@ -7,6 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onliner | Login</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    
     <style>
 
         .divider:after,
@@ -47,10 +51,11 @@
           <!-- form -->
         <form method="POST" action="{{route('login')}}">
             @csrf
+            <i class="fa-brands fa-github-square"></i>
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <p class="lead fw-normal mb-0 me-3">Sign in with</p>
             <button type="button" class="btn btn-primary btn-floating mx-1">
-              <i class="fab fa-facebook-f"></i>
+              <i class="fa-brands fa-facebook"></i>
             </button>
             
             <button type="button" class="btn btn-primary btn-floating mx-1">
@@ -103,11 +108,7 @@
             <button type="submit" class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
             <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account?
-              <form method="GET" action=""> 
-                    <button type="submit" 
-                      class="bnt bnt-danger">Register
-                    </button>
-              </form>
+            <a href="{{ route('showRegisterForm') }}" class="link-danger">Register</a></p>
               </p>
           </div>
 
@@ -119,7 +120,7 @@
     class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
     <!-- Copyright -->
     <div class="text-white mb-3 mb-md-0">
-      Copyright © 2022. All rights reserved.
+      Copyright © 2022 | Onlier. All rights reserved.
     </div>
     <!-- Copyright -->
 

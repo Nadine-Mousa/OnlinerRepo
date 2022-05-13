@@ -1,4 +1,4 @@
-@extends('home')
+@extends('layouts.home')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,7 +155,7 @@
             <article class="blog-card">
                 <div class="blog-card__background">
                 <div class="card__background--wrapper">
-                    <div class="card__background--main" style="background-image: url('http://demo.yolotheme.com/html/motor/images/demo/demo_131.jpg');">
+                    <div class="card__background--main" style="background-image: url('/assets/images/subjects/subject.jpg');">
                     <div class="card__background--layer"></div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                 </p>
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque vero libero voluptatibus earum? Alias dignissimos quo cum, nulla esse facere atque, blanditiis doloribus at sunt quas, repellendus vel? Et, hic!</p>
                 @if ($is_student )
-                <a href="{{ route('exams.student_exams') }}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Examhhhs</a>
+                <a href="{{ route('exams.student_exams') }}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Exams</a>
                 @endif
                 @if($hasApprovalToSubject && $is_prof ) 
                 <a href="{{route('questions.index', ['user' => $user->id, 'subject' => $subject->id])}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Question Bank</a>

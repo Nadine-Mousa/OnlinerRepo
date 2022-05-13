@@ -129,7 +129,7 @@
                             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
                             <h3>Welcome</h3>
                             <p>You are 30 seconds away from earning your own money!</p>
-                            <button type="submit" class="btn btn-light btn-rounded">Login</button>
+                            <a href="{{ route('showLoginForm') }}" style="font:black" class="btn btn-light btn-rounded">Login</a>
                         </form>
                     </div>
                     
