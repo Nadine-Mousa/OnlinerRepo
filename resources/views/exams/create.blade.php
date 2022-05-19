@@ -24,19 +24,19 @@
 		<form  method="POST" action= "{{route('exams.store_exam')}}" >
 			@csrf
 			<div class="form-group">
-			<label for="exampleFormControlInput1">Exam Key</label>
+			<label for="exampleFormControlInput1">{{ __(Exam Key)}}</label>
 			<input class="form-control" type="text" required="required" name="exam_key">
 			</div>
 
 		
 			
 			<div class="form-group">
-				<label for="exampleFormControlInput1">Exam Name</label>
+				<label for="exampleFormControlInput1">{{ __(Exam Name)}}</label>
 				<input class="form-control" type="text" required="required"  name="exam_name" >
 			</div>
 
 			<div class="form-group">
-				<label for="exampleFormControlInput1">Duration</label>
+				<label for="exampleFormControlInput1">{{ __(Duration)}}</label>
 				<input class="form-control" type="text" required="required" name="duration">
 			</div>
 

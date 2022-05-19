@@ -79,7 +79,7 @@
               @error('email')
               <div class="alert alert-danger">{{$message}}</div>
               @enderror
-            <label class="form-label" >Email address</label>
+            <label class="form-label" >{{ __(Email address)}}</label>
           </div>
 
           <!-- Password input -->
@@ -90,7 +90,7 @@
               @error('password')
               <div class="alert alert-danger">{{$message}}</div>
               @enderror
-            <label class="form-label" >Password</label>
+            <label class="form-label" >{{ __(Password)}}</label>
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
@@ -101,14 +101,14 @@
                 Remember me
               </label>
             </div>
-            <a href="#" class="text-body">Forgot password?</a>
+            <a href="#" class="text-body">{{ __(Forgot password?)}}</a>
           </div>
             <!-- button  -->
           <div class="text-center text-lg-start mt-4 pt-2">
             <button type="submit" class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account?
-            <a href="{{ route('showRegisterForm') }}" class="link-danger">Register</a></p>
+              style="padding-left: 2.5rem; padding-right: 2.5rem;">{{ __(Login)}}</button>
+            <p class="small fw-bold mt-2 pt-1 mb-0">{{ __(Do not have an account?)}}
+            <a href="{{ route('showRegisterForm') }}" class="link-danger">{{ __(Register)}}</a></p>
               </p>
           </div>
 
@@ -120,7 +120,7 @@
     class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
     <!-- Copyright -->
     <div class="text-white mb-3 mb-md-0">
-      Copyright © 2022 | Onlier. All rights reserved.
+      {{ __(Copyright © 2022 | Onlier. All rights reserved.)}}
     </div>
     <!-- Copyright -->
 
