@@ -30,7 +30,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background: #ccd1e5; font-family: sans-serif;">
 
 @section('content')
 
@@ -44,7 +44,7 @@
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+        <img src="assets/images/login/laptop5.jpg" width="800" height="700"
           class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
@@ -54,15 +54,15 @@
             <i class="fa-brands fa-github-square"></i>
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-            <button type="button" class="btn btn-primary btn-floating mx-1">
+            <button style="background: #323a56;" type="button" class="btn  btn-floating mx-1">
               <i class="fa-brands fa-facebook"></i>
             </button>
             
-            <button type="button" class="btn btn-primary btn-floating mx-1">
+            <button style="background: #323a56;" type="button" class="btn  btn-floating mx-1">
               <i class="fab fa-twitter"></i>
             </button>
 
-            <button type="button" class="btn btn-primary btn-floating mx-1">
+            <button style="background: #323a56;" type="button" class="btn  btn-floating mx-1">
               <i class="fab fa-linkedin-in"></i>
             </button>
           </div>
@@ -105,8 +105,8 @@
           </div>
             <!-- button  -->
           <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="submit" class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+            <button type="submit" class="btn btn-lg text-white"
+              style="padding-left: 2.5rem; padding-right: 2.5rem; background: #323a56;">Login</button>
             <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account?
             <a href="{{ route('showRegisterForm') }}" class="link-danger">Register</a></p>
               </p>
@@ -117,17 +117,18 @@
     </div>
   </div>
   <div
-    class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+     style="background: #323a56;" class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 ">
+    
     <!-- Copyright -->
     <div class="text-white mb-3 mb-md-0">
-      Copyright © 2022 | Onlier. All rights reserved.
+      Copyright © 2022 Onliner | All rights reserved.
     </div>
     <!-- Copyright -->
 
     <!-- Right -->
     <div>
       <a href="#!" class="text-white me-4">
-        <i class="fab fa-facebook-f"></i>
+        <i class="fa fa-facebook"></i>
       </a>
       <a href="#!" class="text-white me-4">
         <i class="fab fa-twitter"></i>

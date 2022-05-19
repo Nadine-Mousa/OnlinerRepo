@@ -27,7 +27,7 @@
 	<style>
         /* nav bar style */
                @import url('https://fonts.googleapis.com/css?family=Roboto');
-                body {
+                .bodyNav {
                   margin: 0%;
                   color: white;
                   background: white;
@@ -86,7 +86,8 @@
                 .navbar {
                   border: 0;
                   border-radius: 0;
-                  background: linear-gradient(to right, #80ffaa, #f857a6);
+                  /* background: linear-gradient(to right, #80ffaa, #f857a6); */
+                  background: #a9b2d2;
                 }
                 .navbar .nav li > a, .navbar .navbar-brand {
                   max-height: 50px;
@@ -156,7 +157,8 @@
                   transition: 0.4s ease;
                 }
                 .navbar .dropdown.open {
-                  background-color: rgba(255, 255, 255, 0.2);
+                  background-color: #a9b2d2;
+                  /* background-color: rgba(255, 255, 255, 0.2); */
                   font-size: 14px;
                 }
                 .navbar .dropdown.open .link {
@@ -174,7 +176,10 @@
                 .navbar .dropdown .dropdown-menu {
                   min-width: 0px !important;
                   width: 100%;
-                  background:  #80ffaa;
+                  /* background:  #80ffaa; */
+                  /* background:  #a9b2d2; */
+                  background-color: #a9b2d2;
+
                   text-align: center;
                   border-radius: 0;
                 }
@@ -232,14 +237,14 @@
 	</style>
 
 </head>
-<body>
+<body class="bodyNav">
 	<!-- nav bar  -->
 		<nav class="navbar" style="margin:0;">
 			<div class="containerNav-fluid">
 				<!-- Nav Header -->
 				<div class="navbar-header">
 					<!-- Profile Image -->
-				<img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+				<img src="assets/images/girl.png"
 				width="40" height="40" style="border-radius: 50%;" class="rounded-circle float-left">
 				
 				 <!-- https://i.imgur.com/sjLMNDM.png a girl with two p -->
@@ -264,7 +269,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 								<span class="fa fa-user"></span><span class="link"> {{$user->first_name}} {{$user->last_name}}</span> <span class="fa fa-caret-down"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="#"><span class="fa fa-sign-out"></span> Logout</a></li>
+								<li><a href="{{ route($loginNavbar->route) }}"><span class="fa fa-sign-out"></span> Logout</a></li>
 								<li><a href="#"><span class="fa fa-tag"></span> Catalogue 2</a></li>
 							</ul>
 						</li>
@@ -279,9 +284,9 @@
 							</ul>
 						</li>
 						<!-- About -->
-						<li><a href="#"><span class="fa fa-info-circle"></span><span class="link"> About</span></a></li>
+						<li><a href="{{ route($aboutNavbar->route) }}"><span class="fa fa-info-circle"></span><span class="link"> About</span></a></li>
 						<!-- Contact -->
-						<li><a href="#"><span class="fa fa-phone"></span><span class="link"> Contact</span></a></li>
+						<li><a href="{{ route($contactNavbar->route) }}"><span class="fa fa-phone"></span><span class="link"> Contact</span></a></li>
 					</ul>
 					<!-- Nav Right -->
 					<form class="navbar-form navbar-right">

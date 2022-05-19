@@ -27,6 +27,11 @@ class Question extends Model
         return $this->belongsTo(QuestionType::class, 'question_type');  // foreing key in Question table
     }
 
+    public function question_difficulty(): BelongsTo
+    {
+        return $this->belongsTo(Difficulty::class, 'difficulty');
+    }
+
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class, 'subject_id');

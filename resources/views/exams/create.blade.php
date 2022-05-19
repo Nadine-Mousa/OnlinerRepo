@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.nav')
 <!DOCTYPE html>
 <html lang="en">
 <head>

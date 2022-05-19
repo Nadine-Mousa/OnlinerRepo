@@ -9,215 +9,22 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="{{asset('assets/css/questions/card.css')}}" media="screen">
+    <link rel="stylesheet" href="{{asset('assets/css/partitions/buttons.css')}}" media="screen">
+    <link rel="stylesheet" href="{{asset('assets/css/partitions/title.css')}}" media="screen">
+    
 
-    <style>
-        /* CSS */
-        .button-33 {
-        background-color: #c2fbd7;
-        border-radius: 100px;
-        box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-        color: green;
-        cursor: pointer;
-        display: inline-block;
-        font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
-        padding: 7px 20px;
-        text-align: center;
-        text-decoration: none;
-        transition: all 250ms;
-        border: 0;
-        font-size: 16px;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        }
-
-        .button-33:hover {
-        box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
-        transform: scale(1.05) rotate(-1deg);
-        }
-    </style>
-    <style>
-                @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
-
-        body {
-            background-color: #333
-        }
-
-        .container {
-            background-color: #555;
-            color: #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            font-family: 'Montserrat', sans-serif;
-            max-width: 700px
-        }
-
-        .container>p {
-            font-size: 32px
-        }
-
-        .question {
-            width: 75%
-        }
-
-        .options {
-            position: relative;
-            padding-left: 40px
-        }
-
-        #options label {
-            display: block;
-            margin-bottom: 15px;
-            font-size: 14px;
-            cursor: pointer
-        }
-
-        .options input {
-            opacity: 0
-        }
-
-        .checkmark {
-            position: absolute;
-            top: -1px;
-            left: 0;
-            height: 25px;
-            width: 25px;
-            background-color: #555;
-            border: 1px solid #ddd;
-            border-radius: 50%
-        }
-
-        .options input:checked~.checkmark:after {
-            display: block
-        }
-
-        .options .checkmark:after {
-            content: "";
-            width: 10px;
-            height: 10px;
-            display: block;
-            background: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            transition: 300ms ease-in-out 0s
-        }
-
-        .options input[type="radio"]:checked~.checkmark {
-            background: #21bf73;
-            transition: 300ms ease-in-out 0s
-        }
-
-        .options input[type="radio"]:checked~.checkmark:after {
-            transform: translate(-50%, -50%) scale(1)
-        }
-
-        .btn-primary {
-            background-color: #555;
-            color: #ddd;
-            border: 1px solid #ddd
-        }
-
-        .btn-primary:hover {
-            background-color: #21bf73;
-            border: 1px solid #21bf73
-        }
-
-        .btn-success {
-            padding: 5px 25px;
-            background-color: #21bf73
-        }
-
-        @media(max-width:576px) {
-            .question {
-                width: 100%;
-                word-spacing: 2px
-            }
-        }
-    </style>
-    <style>
-        h1 {
-        position: relative;
-        padding: 0;
-        margin: 0;
-        font-family: "Raleway", sans-serif;
-        font-weight: 300;
-        font-size: 40px;
-        color: #080808;
-        -webkit-transition: all 0.4s ease 0s;
-        -o-transition: all 0.4s ease 0s;
-        transition: all 0.4s ease 0s;
-        }
-
-        h1 span {
-        display: block;
-        font-size: 0.5em;
-        line-height: 1.3;
-        }
-        h1 em {
-        font-style: normal;
-        font-weight: 600;
-        }
-                .eleven h1 {
-        font-size:30px;text-align:center; line-height:1.5em; padding-bottom:45px; font-family:"Playfair Display", serif; text-transform:uppercase;letter-spacing: 2px; color:#111;
-        }
-        /* STYLE 6
-        ----------------------------- */
-        .six h1 {
-        text-align: center;
-        color:#222; font-size:30px; font-weight:400;
-        text-transform: uppercase;
-        word-spacing: 1px; letter-spacing:2px; color:#c50000;
-        }
-        .six h1 span {
-        line-height:2em; padding-bottom:15px;
-        text-transform: none;
-        font-size:.7em;
-        font-weight: normal;
-        font-style: italic; font-family: "Playfair Display","Bookman",serif;
-        color:#999; letter-spacing:-0.005em; word-spacing:1px;
-        letter-spacing:none;
-        }
-        .six h1:after, .six h1:before {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 45px;
-        height: 4px;
-        content: "";
-        right: 45px; 
-        margin:auto;
-        background-color: #ccc;
-        }
-        .six h1:before { 
-        background-color:#d78b8b;
-        left:45px; width:90px;
-        }
-
-
-
-
-    </style>
 </head>
-<body>
+<body style="background: #ccd1e5;">
 
     @section('content')
     <br>
     <div class="six">
         
-            <span>Example Tagline Text</span>
+        <h1>
+            {{$subject->subject_name}} 
+        <span> Question Details</span>
         </h1>
-       
-
-       
 
     </div>
 
@@ -233,20 +40,19 @@
             <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
                 @foreach ($options as $option)
                 @if ($option->question_id == $question->id)
-                    <label class="options">{{$option->body}} <input type="radio" {{($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> @if($option->is_correct) <span style="color:lightblue;"> [ {{$option->points}} point ] </span>  @endif<span class="checkmark"></span> </label>
+                    <label class="options">{{$option->body}} <input type="radio" {{($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> @if($option->is_correct) <span style="color: #323a56;"> [ {{$option->points}} point ] </span>  @endif<span class="checkmark"></span> </label>
                 @endif
                 @endforeach
             </div>
             <br>
-
             
             <div class="py-2 h5"><b>Question type : </b> {{  $question->type->type_name }}</div>
             <div class="py-2 h5"><b>Question points : </b> {{$question->marks}}</div>
             <div class="py-2 h5"><b>Chapter: </b> {{$question->chapeter_number}}</div>
-            <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
+            <div class="py-2 h5"><b>Difficulty: </b> {{$question->question_difficulty->name}}</div>
             <div class="py-2 h5">
-                <a class="btn btn-danger" href="{{route('options.create',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Add Option </a> &nbsp; &nbsp; &nbsp; &nbsp;
-                <a class="btn btn-danger" href="{{route('questions.index', ['user' => $user->id, 'subject' => $subject] )}}"><i class="fas fa-trash-alt"></i> Back </a>
+                <a style="background: #323a56; color: white;" class="btn " href="{{route('options.create',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Add Option </a> &nbsp; &nbsp; &nbsp; &nbsp;
+                <a style="background: #323a56; color: white;" class="btn " href="{{route('questions.index', ['user' => $user->id, 'subject' => $subject] )}}"><i class="fas fa-trash-alt"></i> Back </a>
             </div> 
         </div>
     </div>

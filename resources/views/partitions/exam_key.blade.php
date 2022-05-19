@@ -3,12 +3,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" contentKey="IE=edge">
+    <meta name="viewport" contentKey="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
         /* exam key css */
-            .container {
+            .containerKey {
             position: absolute;
             /* top: 0;
             left: 0;
@@ -16,10 +16,10 @@
             height: 100%; */
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-contentKey: center;
             }
 
-            .content {
+            .contentKey {
             width: 360px;
             height: 40px;
             box-shadow: 2px 4px 10px rgba(0, 0, 0, .2);
@@ -104,8 +104,8 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
+    <div class="containerKey">
+        <div class="contentKey">
             <form class="subscription">
             <input class="add-email" type="email" placeholder="Enter an exam key ....">
             <button class="submit-email" type="button">

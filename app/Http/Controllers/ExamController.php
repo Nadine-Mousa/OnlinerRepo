@@ -309,18 +309,23 @@ class ExamController extends Controller
     public function takeExam(Request $request){
         $exam_key = $request->exam_key;
         $user = session()->get('user');
+        $exam = Exam::where('exam_key', $exam_key)->first();
+        if($exam == null){
+            return redirect()->route('home');
+        }
+        session()->put('exam', $exam);
 
-        // check if the user has taken this exam before.
+
+        // check if the student has taken this exam before.
         $taken_exam = TakenExam::where([
             ['exam_key', '=', $exam_key],
             ['student_id', '=', $user->id],
         ])->first();
+
         if($taken_exam != null){
-            return 'Answers can be submitted only once';
+            return redirect()->route('student_exam', ['exam' => $exam->id]);
         }
         
-        $exam = Exam::where('exam_key', $exam_key)->first();
-        session()->put('exam', $exam);
 
         $questions = [];
         if($exam->is_dynamic == true){
@@ -351,13 +356,16 @@ class ExamController extends Controller
                 array_push($questions, $question);
             }
         }
+        $total_exam_marks = 0.0;
 
         $user = session()->get('user');
         
         foreach($questions as $question){
             // dd($question->options);
             $question->options = $question->options->shuffle();
+            $total_exam_marks += $question->options->sum('points');
         }
+        session()->put('total_exam_marks', $total_exam_marks );
         
         
 
@@ -380,6 +388,8 @@ class ExamController extends Controller
         $taken_exam->student_id = session()->get('user')->id;
         $taken_exam->exam_id = session()->get('exam')->id;
         $taken_exam->total_score = $scored_points;
+        $total_exam_marks = session()->get('total_exam_marks' );
+        $taken_exam->marks = $total_exam_marks;
         $taken_exam->save();        
 
         // store student chosen options of the exam in student aswers table

@@ -8,15 +8,16 @@
   <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
 
   <style>
-        * {
+        /* * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-      }
+      } */
 
       bodySubject {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-          Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        background: #ccd1e5;
+        font-family: sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       }
 
       .main-container {
@@ -120,7 +121,9 @@
       /* CARD BACKGROUNDS */
 
       .card-1 {
-        background: radial-gradient(#1fe4f5, #3fbafe);
+        background-color: #b8c6db;
+        /* background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%); */
+        /* background: radial-gradient(#1fe4f5, #3fbafe); */
       }
 
       .card-2 {

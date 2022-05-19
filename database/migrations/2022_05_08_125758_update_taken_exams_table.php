@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('taken_exams', function (Blueprint $table) {
-            $table->string('exam_key');
-        });
+        // Schema::table('taken_exams', function (Blueprint $table) {
+        //     $table->string('exam_key');
+        // });
     }
 
     /**
