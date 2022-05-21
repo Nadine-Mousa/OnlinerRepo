@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('options', function (Blueprint $table) {
-            $table->integer('question_id');
-        });
+        // Schema::table('options', function (Blueprint $table) {
+        //    // $table->integer('question_id');
+        // });
     }
 
     /**

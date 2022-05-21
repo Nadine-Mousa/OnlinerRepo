@@ -49,7 +49,7 @@
 		</select>
 <br>
 		<h4><span style="color: #323a56;"> Chapter </span> </h4>
-		<select style="width: 40%; font-size: 16px; height: 10%;" class="form-select" aria-label="Default select example" name="chapeter_number">
+		<select style="width: 40%; font-size: 16px; height: 10%;" class="form-select" aria-label="Default select example" name="chapter_number">
 			<option  disabled selected >  Chapter  </option>
 			@foreach ($chapters as $chapter)
 			<option style="color: #323a56" value="{{$chapter->id}}">Ch. {{$chapter->chapter_num}} {{$chapter->chapter_name}}</option>

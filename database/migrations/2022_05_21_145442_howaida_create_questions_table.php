@@ -13,11 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('taken_exams', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->integer('exam_id');
-            $table->integer('student_id');
-            $table->double('total_score');
+            $table->softDeletes();
+            $table->integer('subject_id');
+            $table->string('title');
+            $table->integer('difficulty');
+            $table->integer('question_type');
+            $table->double('marks')->default(0);
+            $table->integer('chapter_number');
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taken_exams');
+        //
     }
 };
