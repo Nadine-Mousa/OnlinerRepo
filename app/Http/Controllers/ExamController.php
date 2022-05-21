@@ -10,6 +10,7 @@ use App\Models\Subject;
 use App\Models\TestPaper;
 use App\Models\Difficulty;
 use App\Models\SingleChoiceQuestion;
+use App\Models\Question;
 use App\Models\ProfessorSubject;
 use App\Models\ExamStructure;
 use Carbon\Carbon;
@@ -94,12 +95,16 @@ class ExamController extends Controller
             ['student_id', '=', $user->id],
         ])->get();
 
-        // dd($student_answers);
+        // calculate the score of the student according to the actual exam marks
+        $student_socre = 
+        ($taken_exam->total_score * $examFromDb->marks ) / $taken_exam->marks;
+
 
         return view('exams.show_student_exam', [
             'student_answers' => $student_answers,
             'taken_exam' => $taken_exam,
-            'exam' => $examFromDb
+            'exam' => $examFromDb,
+            'student_socre' => $student_socre
 
         ]);
     }
@@ -329,11 +334,12 @@ class ExamController extends Controller
             return redirect()->back()
             ->with('noSuchExamKey','There is no such exam key. Please, make sure all letters are captical.');
         }
-        
+
         session()->put('exam', $exam);
 
 
-        // Check if the student has taken this exam before
+        // If the student has taken this exam before, redirect him to 
+        // his results page
 
         $taken_exam = TakenExam::where([
             ['exam_key', '=', $exam_key],
@@ -343,43 +349,43 @@ class ExamController extends Controller
         if($taken_exam != null){
             return redirect()->route('student_exam', ['exam' => $exam->id]);
         }
-        
+
 
         $questions = [];
         if($exam->is_dynamic == true){
-            // get stucture
+            // get stuctures
             $structures = ExamStructure::where('exam_key', $exam_key)->get();
-            // get questions
+
+            // get questions of these structures
             foreach($structures as $structure){
-                $questions_of_structure = SingleChoiceQuestion::with('options')->where([
+                $questions_of_structure = Question::with('options')->where([
                     ['subject_id', '=', $structure->subject_id],
-                    ['chapter_number', '=', $structure->chapter_number],
+                    ['chapeter_number', '=', $structure->chapter_number],
                     ['difficulty', '=', $structure->difficulty]
                 ])->inRandomOrder()->limit($structure->number_of_questions)->get();
-                // $questions_of_structure = $questions_of_structure->shuffle();
+
                 foreach($questions_of_structure as $question){
                     array_push($questions, $question);
                 }
             }
 
             shuffle($questions);
-            // dd($questions);
         }
         else {
             // else static -> get questions
             $test_paper_questions = TestPaper::where('exam_key', $exam_key)->inRandomOrder()->get();
-            // $test_paper_questions = $test_paper_questions->shuffle();
+
             foreach($test_paper_questions as $question_in_test_paper){
-                $question = SingleChoiceQuestion::with('options')->where('id', $question_in_test_paper->question_id)->first();
+                $question = Question::with('options')->where('id', $question_in_test_paper->question_id)->first();
                 array_push($questions, $question);
             }
         }
         $total_exam_marks = 0.0;
 
         $user = session()->get('user');
+        // dd($questions);
         
         foreach($questions as $question){
-            // dd($question->options);
             $question->options = $question->options->shuffle();
             $total_exam_marks += $question->options->sum('points');
         }
@@ -397,6 +403,7 @@ class ExamController extends Controller
     public function storeAnswers(Request $request){
         // options chosen
         $options = Option::find(array_values($request->input('questions')));
+        
         // total score of the student
         $scored_points = $options->sum('points');
 
