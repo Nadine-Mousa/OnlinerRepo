@@ -46,7 +46,23 @@ class AppServiceProvider extends ServiceProvider
             
             $view->with('departmentsIndexNavbar', $departmentsIndexNavbar);
             $user = session()->get('user');
+
+            if(session()->has('user'))
+            {
+
+            if($user->role == 1){
+                $role = 'admin';
+            }
+            else if($user->role == 2){
+                $role = 'professor';
+            }
+            else {
+                $role = 'student';
+            }
+
             $view->with('user', $user);
+            $view->with('role', $role);
+        }
         });
     }
 }

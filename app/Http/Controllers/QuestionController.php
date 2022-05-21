@@ -175,8 +175,9 @@ public function trashed($user, $subject)
       /// $h= $questionFromDb->question_type->question_name;
         $question_type = $questionFromDb->question_type;
         $question_name = QuestionType::where('id', $question_type)->first()->type_name;
-        $chapters=Chapter::where('subject_id', $subject)->get();
+        $chapters = Chapter::where('subject_id', $subject)->get();
 
+        $difficulties = Difficulty::all();
 
         return view('questions.edit')->with([  
          'user' => $user,
@@ -186,6 +187,7 @@ public function trashed($user, $subject)
          'question_type' => $question_type,
          'question_name' => $question_name,
          'chapters' => $chapters,
+         'difficulties' => $difficulties
         ]); 
     
     }
@@ -207,18 +209,6 @@ public function trashed($user, $subject)
         $level = session()->get('level');
         $department = session()->get('department');
        
-    //   $this->validate($request, [
-    //        'title' => 'required',
-    //        'chapter_number' => 'required',
-    //        'question_type' => 'required',
-    //        'difficulty' => 'required',
-    //        'option_one' => 'required',
-    //        'option_two' => 'required',
-    //        'option_three' => 'required',
-    //        'option_four' => 'required',
-    //        'answer' => 'required',
-    //        'marks' => 'required',
-    //    ]);
 
         $this->validate($request, [
             'question_type' => 'required',
@@ -237,12 +227,6 @@ public function trashed($user, $subject)
       
          $questionFromDb-> question_type = $request->question_type;
         $questionFromDb-> difficulty = $request->difficulty;
-    //    $questionFromDb-> option_one = $request->option_one;
-    //    $questionFromDb-> option_two = $request->option_two;
-    //    $questionFromDb-> option_three = $request->option_three;
-    //    $questionFromDb-> option_four = $request->option_four;
-    //    $questionFromDb-> answer = $request->answer;
-    //    $questionFromDb-> marks = $request->marks;
        
 
         $questionFromDb->save();

@@ -31,6 +31,10 @@ class Question extends Model
     {
         return $this->belongsTo(Difficulty::class, 'difficulty');
     }
+    public function chapter(): BelongsTo
+    {
+        return $this->belongsTo(Chapter::class, 'chapeter_number');
+    }
 
     public function subject(): BelongsTo
     {

@@ -73,7 +73,7 @@
 
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <input name="email" type="email"
+            <input style="font-size: 15px;" name="email" type="email"
               value="{{ old('email') }}" class="form-control form-control-lg @error('email') is-invalid @enderror"
               placeholder="Enter a valid email address" />
               @error('email')
@@ -84,7 +84,7 @@
 
           <!-- Password input -->
           <div class="form-outline mb-3">
-            <input name="password" type="password" 
+            <input style="font-size: 15px;" name="password" type="password" 
               value="{{ old('password') }}" class="form-control form-control-lg @error('password') is-invalid @enderror"
               placeholder="Enter password" />
               @error('password')

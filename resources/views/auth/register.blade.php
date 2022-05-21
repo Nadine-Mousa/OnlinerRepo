@@ -121,6 +121,8 @@
     </div>
 @endif -->
 
+
+
 <div class="container register">
                 <div class="row">
                     <!-- login form -->
@@ -293,8 +295,15 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
+    <script>
+    var msg = '{{Session::get('requestSent')}}';
+    var exist = '{{Session::has('requestSent')}}';
+    if(exist){
+      alert(msg);
+    }
+  </script>
 @endsection('content')
 </body>
 </html>

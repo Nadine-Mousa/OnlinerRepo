@@ -269,8 +269,8 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 								<span class="fa fa-user"></span><span class="link"> {{$user->first_name}} {{$user->last_name}}</span> <span class="fa fa-caret-down"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="{{ route($loginNavbar->route) }}"><span class="fa fa-sign-out"></span> Logout</a></li>
-								<li><a href="#"><span class="fa fa-tag"></span> Catalogue 2</a></li>
+              <li><a href="#"><span class="fa fa-user"></span> Profile</a></li>
+              <li><a href="{{ route($loginNavbar->route) }}"><span class="fa fa-sign-out"></span> Logout</a></li>
 							</ul>
 						</li>
 						<!-- Services -->
@@ -279,8 +279,10 @@
 								<span class="fa fa-gears"></span><span class="link"> Services</span> <span class="fa fa-caret-down"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="{{route($departmentsIndexNavbar->route)}}"><span class="fa fa-gear"/></span> Departments</a></li>
+                @if($role== 'admin')
 								<li><a href="/dashboard"><span class="fa fa-gear"/></span> Dashboard</a></li>
-								<li><a href="#"><span class="fa fa-gear"/></span> Service 3</a></li>
+								@endif 
+                <li><a href="#"><span class="fa fa-gear"/></span> Service 3</a></li>
 							</ul>
 						</li>
 						<!-- About -->

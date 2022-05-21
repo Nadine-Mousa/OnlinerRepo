@@ -32,27 +32,27 @@
 			
 <br>
 			<select class="form-select" aria-label="Default select example" name="difficulty">
-				<option selected > {{$question->difficulty}}</option>
-				<option value="A">A</option>
-				<option value="B">B</option>
-				<option value="C">C</option>
-				<option value="D">D</option>
+				<option value="{{$question->question_difficulty->id}}" selected > {{$question->question_difficulty->name}}</option>
+				@foreach($difficulties as $difficulty)
+					@if($difficulty->id != $question->difficulty)<option value="{{$difficulty->id}}"> {{$difficulty->name}}</option> @endif
+				@endforeach
+				
 			  </select>
 <br>
 <br>
 		<select class="form-select" aria-label="Default select example" name="question_type">
-			<option selected disabled >{{$question_name}}</option>
+			<option selected>{{$question->type->type_name}}</option>
 			@foreach ($question_types as $question_type)
-			<option value="{{$question_type->id}}">{{$question_type->type_name}}</option>
+			@if($question_type->id != $question->question_type)<option value="{{$question_type->id}}">{{$question_type->type_name}}</option>@endif
 			@endforeach
 			
 		</select>
 <br>
 
 		<select class="form-select" aria-label="Default select example" name="chapeter_number">
-			<option selected disabled> Chapter </option>
+			<option selected > {{$question->chapter->chapter_name}} </option>
 			@foreach ($chapters as $chapter)
-			<option value="{{$chapter->id}}">{{$chapter->chapter_name}}</option>
+				@if($chapter->id != $question->chapter->id)<option value="{{$chapter->id}}">{{$chapter->chapter_name}}</option> @endif
 			@endforeach
 			
 		</select>

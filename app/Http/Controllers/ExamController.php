@@ -8,10 +8,13 @@ use App\Models\User;
 use App\Models\Option;
 use App\Models\Subject;
 use App\Models\TestPaper;
+use App\Models\Difficulty;
 use App\Models\SingleChoiceQuestion;
 use App\Models\ProfessorSubject;
 use App\Models\ExamStructure;
-
+use Carbon\Carbon;
+use DateTime;
+use Str;
 use App\Models\StudentAnswer;
 use App\Models\TakenExam;
 
@@ -106,6 +109,7 @@ class ExamController extends Controller
         $subject = session()->get('subject');
         // $user = Session::get('user');
        $user = session()->get('user'); 
+       $subject = Subject::find($subject);
        $department = session()->get('department');
        $level = session()->get('level');
         return view('exams.create', [
@@ -118,45 +122,54 @@ class ExamController extends Controller
 
     public function store_exam(Request $request)
     {
-        $subject = session()->get('subject');
-        // $user = Session::get('user');
-       $user = session()->get('user'); 
-       $department = session()->get('department');
-       $level = session()->get('level');
-
-
-       $this->validate($request, [
-           'exam_key' => 'required',
+        // validate the model
+        $validated = $request->validate([
+            'exam_key' => 'required|unique:exams,exam_key',
             'exam_name' => 'required',
             'duration' => 'required',
-            
-            'start_time'=>'required',
-            'end_time'=>'required',
-            'total_questions'=>'required',
-            'is_dynamic'=>'required',
-            
- 
- 
- 
- 
+            'exam_access' => 'required',
+            'start_from' => 'required',
+            'marks' => 'required',
+            'is_dynamic' => 'required'
         ]);
- 
+
+        // dd('here to store the values');
+        // $end_time = Carbon::parse($request->end_time)->format('Y-m-d\ H:i:s');
+        // $end_time = new DateTime($end_time);
+        // $interval = $start_time->diff($end_time);
+        // dd($interval->h);
+        
+        $start_from = Carbon::parse($request->start_from)->format('Y-m-d\ H:i:s'); // string
+        // $start_from = strtotime( $start_from );
+        // $start_from->getTimestamp();
+        // dd($start_from);
+        $subject = session()->get('subject');
+        $user = session()->get('user'); 
+        $department = session()->get('department');
+        $level = session()->get('level');
+
+        if( $request->is_dynamic == "true" ) $is_dynamic = true;
+        else $is_dynamic = false;
+
+        if($request->exam_access == "anytime") $is_accessed_anytime = true;
+        else $is_accessed_anytime = false;
+
+
+        $exam_key =  Str::upper($request->exam_key);
+        // dd($department);
         $exam =Exam::create([
-            'exam_key' => $request->exam_key,
+            'exam_key' => $exam_key,
             'exam_name' => $request->exam_name,
             'duration' => $request->duration,
-           
-            'total_questions'=>$request->total_questions,    
-            'start_time'=>$request->start_time,    
-            'end_time'=>$request->end_time,  
-            'is_dynamic'=>$request->is_dynamic,       
-            'professor_id'=>$user,
-            'subject_id'=>   $subject ,      
-            'department_id'=> $department,       
-            'level_id'=>$level       
- 
- 
- 
+            'start_from'=>$start_from,    
+            'is_dynamic'=>$is_dynamic,       
+            'professor_id'=>$user->id,
+            'subject_id'=> $subject ,      
+            'department_id'=> $department,
+            'total_questions' => 0,       
+            'level_id'=>$level,
+            'is_accessed_anytime' => $is_accessed_anytime,
+            'is_accepting_responses' => false
         ]);
 
       $exam->save();
@@ -173,15 +186,16 @@ class ExamController extends Controller
     {
         $subject = session()->get('subject');
         $exam_key = session()->get('exam')->exam_key;
+        $exam_id = session()->get('exam')->id;
         $is_dynamic = session()->get('exam')->is_dynamic;
         $difficulty = $request->difficulty;
-        $chapter_number = $request->chapter;
+        $chapter_id = $request->chapter;
         $total_questions = $request->number_of_questions;
         if($is_dynamic){
             $structure = ExamStructure::where([
                 ['exam_key','=', $exam_key],
                 ['subject_id','=', $subject],
-                ['chapter_number','=', $chapter_number],
+                ['chapter_number','=', $chapter_id],
                 ['difficulty','=', $difficulty]
             ])->first();
 
@@ -203,14 +217,11 @@ class ExamController extends Controller
                 ])->update(['number_of_questions' =>
                     ($structure->number_of_questions + $total_questions)]);
                 
-                // $structure->update([
-                // 'number_of_questions' =>
-                //  ($structure->number_of_questions + $total_questions)]);
             }
 
         }
         else {
-            $questions = SingleChoiceQuestion::where([
+            $questions = Question::where([
                 ['subject_id','=', $subject],
                 ['difficulty','=', $difficulty],
                 ['chapter_number','=', $chapter_number]
@@ -225,7 +236,7 @@ class ExamController extends Controller
             }
         }
         
-        return redirect()->route('exams.index');
+        return redirect()->route('exams.show_exam', ['exam' => $exam_id]);
     }
 
     /**
@@ -236,8 +247,7 @@ class ExamController extends Controller
      */
     public function show($exam)
     {
-       
-         $user = session()->get('user');
+        $user = session()->get('user');
         $hasApprovalToSubject = session()->get('hasApprovalToSubject');
         $subject = session()->get('subject');
         $subjectFromDb = Subject::where('id', $subject)->first();
@@ -256,10 +266,12 @@ class ExamController extends Controller
         else {
             $test_paper_questions = TestPaper::where('exam_key', $exam_key)->get();
             foreach($test_paper_questions as $test_paper_question){
-                $question = SingleChoiceQuestion::where('id', $test_paper_question->question_id)->first();
+                $question = Question::with('options')->where('id', $test_paper_question->question_id)->first();
                 array_push($questions, $question);
             }
         }
+
+        $difficulties = Difficulty::all();
         
         
         return view('exams.show', [
@@ -269,7 +281,8 @@ class ExamController extends Controller
             'exam' => $examFromDb,
             'questions' => $questions,
             'is_dynamic' => $is_dynamic, 
-            'structures' => $structures
+            'structures' => $structures,
+            'difficulties' => $difficulties
         ]);
     }
 
