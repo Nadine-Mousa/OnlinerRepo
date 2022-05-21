@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        // Schema::create('options', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->integer('question_id');
-        //     $table->string('body');
-        //     $table->boolean('is_correct');
-        //     $table->double('points')->default(0);
-        //     $table->timestamps();
-        // });
+        Schema::create('options', function (Blueprint $table) {
+            $table->id();
+            $table->integer('question_id');
+            $table->string('body');
+            $table->boolean('is_correct');
+            $table->double('points')->default(0);
+            $table->timestamps();
+        });
     }
 
     /**

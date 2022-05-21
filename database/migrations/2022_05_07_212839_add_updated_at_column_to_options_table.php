@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('options', function (Blueprint $table) {
-            $table->timestamp('updated_at')->default(null);
-        });
+        // Schema::table('options', function (Blueprint $table) {
+        //     $table->timestamp('updated_at')->default(null);
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('options', function (Blueprint $table) {
-            //
-        });
+        // Schema::table('options', function (Blueprint $table) {
+        //     //
+        // });
     }
 };

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->dropColumn('is_single_choice');
+           // $table->dropColumn('is_single_choice');
         });
     }
 

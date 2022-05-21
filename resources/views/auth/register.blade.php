@@ -121,57 +121,76 @@
     </div>
 @endif -->
 
-
-
 <div class="container register">
                 <div class="row">
                     <!-- login form -->
                     <div class="col-md-3 register-left">
                         <form mehthod="GET" action="{{route('showLoginForm')}}">
+
+                            <div style="margin-left: 10PX ">
+                                    
+                                
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ Config::get('languages')[App::getLocale()] }}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @foreach (Config::get('languages') as $lang => $language)
+                                        @if ($lang != App::getLocale())
+                                                <a  class="dropdown-item" href="{{ route('lang.switch', $lang) }}"> {{$language}}</a>
+                                        @endif
+                                    @endforeach
+                                    </div>
+                                 
+
+                                </div>
+
                             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
-                            <h3>Welcome</h3>
-                            <p>You are 30 seconds away from earning your own money!</p>
-                            <a href="{{ route('showLoginForm') }}" style="font:black" class="btn btn-light btn-rounded">Login</a>
+                            <h3>{{ __('Welcome')}}</h3>
+                            <p>{{ __('You are 30 seconds away from earning your own money!')}}</p>
+                            <a href="{{ route('showLoginForm') }}" style="font:black" class="btn btn-light btn-rounded">{{ __('Login')}}</a>
                         </form>
                     </div>
                     
                     <div class="col-md-9 register-right">
                         <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Student</a>
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{ __('Student')}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Professor</a>
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{ __('Professor')}}</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <h3 class="register-heading">Apply as a Student</h3>
+                                <h3 class="register-heading">{{ __('Apply as a Student')}}</h3>
                                 <form method="POST" action="{{route('register')}}">
-                                    @csrf  
+                                    @csrf 
+                                      
+
+
                                     <input type="hidden" name="student"/>
                                     <div class="row register-form">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="first_name"  type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="First Name"  />
+                                                <input name="first_name"  type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="{{ __('First Name')}}"  />
                                                 @error('first_name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="last_name" type="text" value="{{ old('last_name') }}"  class="form-control @error('last_name') is-invalid @enderror" placeholder="Last Name"  />
+                                                <input name="last_name" type="text" value="{{ old('last_name') }}"  class="form-control @error('last_name') is-invalid @enderror" placeholder="{{ __('Last Name')}}"  />
                                                 @error('last_name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="password" value="{{ old('password') }}"  class="form-control @error('password') is-invalid @enderror" type="password"  placeholder="Password *" />
+                                                <input name="password" value="{{ old('password') }}"  class="form-control @error('password') is-invalid @enderror" type="password"  placeholder="{{ __('Password')}} *" />
                                                 @error('password')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="confirm_password" value="{{ old('confirm_password') }}"  class="form-control @error('confirm_password') is-invalid @enderror" type="password"  placeholder="Confirm Password *"  />
+                                                <input name="confirm_password" value="{{ old('confirm_password') }}"  class="form-control @error('confirm_password') is-invalid @enderror" type="password"  placeholder="{{ __('Confirm Password')}}*"  />
                                                 @error('confirm_password')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
@@ -180,28 +199,28 @@
                                                 <div class="maxl">
                                                     <label class="radio inline"> 
                                                         <input type="radio" name="gender" value="male" checked>
-                                                        <span> Male </span> 
+                                                        <span> {{ __('Male')}} </span> 
                                                     </label>
                                                     <label class="radio inline"> 
                                                         <input type="radio" name="gender" value="female">
-                                                        <span>Female </span> 
+                                                        <span>{{ __('Female')}} </span> 
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" placeholder="Your Email *"/>
+                                                <input name="email" type="email" class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" placeholder="{{ __('Your Email')}} *"/>
                                                 @error('email')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="phone" type="text" name="phone" class="form-control" placeholder="Your Phone" value="{{ old('phone') }}" />
+                                                <input name="phone" type="text" name="phone" class="form-control" placeholder="{{ __('Your Phone')}}" value="{{ old('phone') }}" />
                                             </div>
                                             <div class="form-group">
                                                 <select class="form-control @error('department') is-invalid @enderror" name = "department">
-                                                    <option class="hidden" name="department_id" selected disabled>Department</option>
+                                                    <option class="hidden" name="department_id" selected disabled>{{ __('Department')}}</option>
                                                     @foreach($departments as $department)
                                                     <option value="{{$department->id}}"  {{ (Request::old('department') == $department->id ? "selected":"" ) }} > {{$department->dep_name}}</option>
                                                     @endforeach 
@@ -213,9 +232,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <select class="form-control @error('level') is-invalid @enderror" name = "level">
-                                                    <option class="hidden" name="level_id" selected disabled>Level</option>
+                                                    <option class="hidden" name="level_id" selected disabled>{{ __('Level')}}</option>
                                                     @foreach($levels as $level)
-                                                    <option value="{{$level->id}}"  {{ (Request::old("level") == $level->id ? "selected":"" ) }}>Level {{$level->level_number}}</option>
+                                                    <option value="{{$level->id}}"  {{ (Request::old("level") == $level->id ? "selected":"" ) }}>{{ __('Level')}} {{$level->level_number}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('level')
@@ -223,38 +242,38 @@
                                                 @enderror
                                             </div>
                                             
-                                            <button type="submit" class="btnRegister"  >Register</button>
+                                            <button type="submit" class="btnRegister"  >{{ __('Register')}}</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <h3  class="register-heading">Apply as a Professor</h3>
+                                <h3  class="register-heading">{{ __('Apply as a Professor')}}</h3>
                                 <form method="POST" action="{{route('register')}}">
                                     @csrf
                                 <input type="hidden" name="professor"/>
                                     <div class="row register-form">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="first_name" type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="First Name" />
+                                                <input name="first_name" type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="{{ __('First Name')}}" />
                                                 @error('first_name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="last_name" type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="Last Name" />
+                                                <input name="last_name" type="text" value="{{ old('first_name') }}" class="form-control @error('first_name') is-invalid @enderror" placeholder="{{ __('Last Name')}}" />
                                                 @error('last_name')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="email" type="email"  class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" placeholder="Email *" />
+                                                <input name="email" type="email"  class="form-control @error('email') is-invalid @enderror"  value="{{ old('email') }}" placeholder="{{  __('Email')}} *" />
                                                 @error('email')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="phone" type="text"  class="form-control" placeholder="Phone" value="" />
+                                                <input name="phone" type="text"  class="form-control" placeholder="{{ __('Phone')}}" value="" />
                                                 @error('phone')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
@@ -264,20 +283,20 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="password" type="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror" placeholder="Password *" />
+                                                <input name="password" type="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password')}} *" />
                                                 @error('password')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <input name="confirm_password" type="password" value="{{ old('confirm_password') }}" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Confirm Password *"  />
+                                                <input name="confirm_password" type="password" value="{{ old('confirm_password') }}" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="{{ __('Confirm Password')}} *"  />
                                                 @error('confirm_password')
                                                     <div class="alert alert-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
                                                 <select class="form-control" name="department">
-                                                    <option class="hidden"  selected disabled>Department</option>
+                                                    <option class="hidden"  selected disabled>{{ __('Department')}}</option>
                                                     @foreach($departments as $department)
                                                     <option value="{{$department->id}}"  {{ (Request::old('department') == $department->id ? "selected":"" ) }} >{{$department->dep_name}}</option>
                                                     @endforeach
@@ -287,7 +306,7 @@
                                                 @enderror
                                             </div>
                                             
-                                            <button type="submit" class="btnRegister"  value="Register">Register</button>
+                                            <button type="submit" class="btnRegister"  value="Register">{{ __('Register')}}</button>
                                         </div>
                                     </div>
                                 </form>
@@ -295,15 +314,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-    <script>
-    var msg = '{{Session::get('requestSent')}}';
-    var exist = '{{Session::has('requestSent')}}';
-    if(exist){
-      alert(msg);
-    }
-  </script>
+            </div>
 @endsection('content')
 </body>
 </html>
