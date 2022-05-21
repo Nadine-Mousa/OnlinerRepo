@@ -320,16 +320,21 @@ class ExamController extends Controller
         //
     }
     public function takeExam(Request $request){
+        // Check if this exam exists
         $exam_key = $request->exam_key;
         $user = session()->get('user');
         $exam = Exam::where('exam_key', $exam_key)->first();
+
         if($exam == null){
-            return redirect()->route('home');
+            return redirect()->back()
+            ->with('noSuchExamKey','There is no such exam key. Please, make sure all letters are captical.');
         }
+        
         session()->put('exam', $exam);
 
 
-        // check if the student has taken this exam before.
+        // Check if the student has taken this exam before
+
         $taken_exam = TakenExam::where([
             ['exam_key', '=', $exam_key],
             ['student_id', '=', $user->id],
