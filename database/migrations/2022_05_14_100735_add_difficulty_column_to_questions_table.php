@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('questions', function (Blueprint $table) {
-            $table->integer('difficulty');
+        // Schema::table('questions', function (Blueprint $table) {
+        //     $table->integer('difficulty');
             
-        });
+        // });
     }
 
     /**

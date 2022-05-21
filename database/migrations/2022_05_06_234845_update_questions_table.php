@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('questions', function (Blueprint $table) {
-            $table->softDeletes();
-            $table->double('marks')->default(0);
-            $table->integer('chapter_number');
-            $table->integer('type');
-            $table->dropColumn('chapeter_number');
+        // Schema::table('questions', function (Blueprint $table) {
+        //     $table->softDeletes();
+        //     $table->double('marks')->default(0);
+        //     $table->integer('chapter_number');
+        //     $table->integer('type');
+        //    // $table->dropColumn('chapeter_number');
 
-        });
+        // });
     }
 
     /**

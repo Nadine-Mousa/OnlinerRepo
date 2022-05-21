@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('questions', function (Blueprint $table) {
-            
-        });
+        // Schema::create('questions', function (Blueprint $table) {
+        //     $table->id();
+        // });
     }
 
     /**

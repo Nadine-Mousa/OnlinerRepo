@@ -53,6 +53,8 @@ class QuestionController extends Controller
 
 public function trashed($user, $subject)
     {
+        $userFromDb = User::findOrFail($user)->first();
+        $subjectFromDb = Subject::findOrFail($subject)->first();
         $user = session()->get('user');
         $subject=session()->get('subject');
         $trashed_questions=Question::onlyTrashed()->where('subject_id', $subject)->get();
@@ -64,8 +66,8 @@ public function trashed($user, $subject)
         }
         return view('questions.trashed', [
             'trashed_questions' => $trashed_questions,
-            'user' => $user,
-            'subject' =>$subject,
+            'user' => $userFromDb,
+            'subject' =>$subjectFromDb,
             'options' => $options,
            ]);
 
@@ -112,7 +114,7 @@ public function trashed($user, $subject)
     $this->validate($request, [
         'question_type' => 'required',
         'title' => 'required',
-        'chapeter_number' => 'required',
+        'chapter_number' => 'required',
         'difficulty' => 'required',
     ]);
 
@@ -120,7 +122,7 @@ public function trashed($user, $subject)
         'subject_id' => $subject,
         'title' => $request->title,
         'question_type' => $request->question_type,
-        'chapeter_number' =>  $request->chapeter_number,
+        'chapter_number' =>  $request->chapter_number,
         'difficulty' =>  $request->difficulty,
     ]);
 
@@ -175,9 +177,8 @@ public function trashed($user, $subject)
       /// $h= $questionFromDb->question_type->question_name;
         $question_type = $questionFromDb->question_type;
         $question_name = QuestionType::where('id', $question_type)->first()->type_name;
-        $chapters = Chapter::where('subject_id', $subject)->get();
+        $chapters=Chapter::where('subject_id', $subject)->get();
 
-        $difficulties = Difficulty::all();
 
         return view('questions.edit')->with([  
          'user' => $user,
@@ -187,7 +188,6 @@ public function trashed($user, $subject)
          'question_type' => $question_type,
          'question_name' => $question_name,
          'chapters' => $chapters,
-         'difficulties' => $difficulties
         ]); 
     
     }
@@ -209,6 +209,18 @@ public function trashed($user, $subject)
         $level = session()->get('level');
         $department = session()->get('department');
        
+    //   $this->validate($request, [
+    //        'title' => 'required',
+    //        'chapter_number' => 'required',
+    //        'question_type' => 'required',
+    //        'difficulty' => 'required',
+    //        'option_one' => 'required',
+    //        'option_two' => 'required',
+    //        'option_three' => 'required',
+    //        'option_four' => 'required',
+    //        'answer' => 'required',
+    //        'marks' => 'required',
+    //    ]);
 
         $this->validate($request, [
             'question_type' => 'required',
@@ -227,6 +239,12 @@ public function trashed($user, $subject)
       
          $questionFromDb-> question_type = $request->question_type;
         $questionFromDb-> difficulty = $request->difficulty;
+    //    $questionFromDb-> option_one = $request->option_one;
+    //    $questionFromDb-> option_two = $request->option_two;
+    //    $questionFromDb-> option_three = $request->option_three;
+    //    $questionFromDb-> option_four = $request->option_four;
+    //    $questionFromDb-> answer = $request->answer;
+    //    $questionFromDb-> marks = $request->marks;
        
 
         $questionFromDb->save();
@@ -247,6 +265,11 @@ public function trashed($user, $subject)
         $subject=session()->get('subject');
         $questionFromDb = Question::find($question);
         $questionFromDb->delete();
+
+        $options = Option::where('question_id', $question)->get();
+        foreach($options as $option){
+            $option->delete();
+        }
         return redirect()->back();
     }
 
@@ -257,6 +280,11 @@ public function trashed($user, $subject)
         $question=Question::withTrashed('question', $question)->first();
         $question->forceDelete();
        
+        $options = Option::where('question_id', $question)->get();
+        foreach($options as $option){
+            $option->forceDelete();
+        }
+
         return redirect()->back();
 
     }
@@ -266,7 +294,11 @@ public function trashed($user, $subject)
      public function restore($user, $subject, $question)
      {
          $question=Question::withTrashed('question', $question)->first();
-       
+        //  $options = Option::withTrashed('question_id', $question)->get();
+        //  foreach($options as $option){
+        //     $option->restore();
+        //  }
+        
          $question->restore();
          return redirect()->back();
      }

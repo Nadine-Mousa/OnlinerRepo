@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('questions', function (Blueprint $table) {
-            // $table->timestamp('deleted_at')->default(null);
-        });
+        // Schema::table('questions', function (Blueprint $table) {
+        //     // $table->timestamp('deleted_at')->default(null);
+        // });
     }
 
     /**

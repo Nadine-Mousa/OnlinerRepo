@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 // User Routes
 
+Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
+
 Route::get('/login_page', 'App\Http\Controllers\UserController@showLoginForm')->name('showLoginForm');
 
 Route::post('/login', 'App\Http\Controllers\UserController@login')->name('login');
