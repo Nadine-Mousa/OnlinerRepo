@@ -1,0 +1,13 @@
+.mybg{
+    background: #ccd1e5;
+
+}
+
+.mybg input{
+    width: 50%;
+}
+
+.mybg label{
+    font-size: 20px;
+    color: #323a56;
+}

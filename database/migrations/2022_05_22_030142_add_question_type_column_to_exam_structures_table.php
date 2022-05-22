@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        // Schema::table('questions', function (Blueprint $table) {
-        //     $table->softDeletes();
-        //     $table->double('marks')->default(0);
-        //     $table->integer('chapter_number');
-        //     $table->integer('type');
-        //    // $table->dropColumn('chapter_id');
-
-        // });
+        Schema::table('exam_structures', function (Blueprint $table) {
+            $table->integer('question_type');
+        });
     }
 
     /**
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('exam_structures', function (Blueprint $table) {
+            //
+        });
     }
 };

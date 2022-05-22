@@ -15,10 +15,15 @@
     <link rel="stylesheet" href="{{asset('assets/css/partitions/buttons.css')}}" media="screen">
     <link rel="stylesheet" href="{{asset('assets/css/partitions/title.css')}}" media="screen">
 
+    <style>
+        .mybg{
+            background: #ccd1e5;
+        }
+    </style>
 
 </head>
-<body>
-    <div style="background: #ccd1e5">
+<body class="mybg">
+
     
 
     @section('content')
@@ -26,9 +31,9 @@
     
     <br>
     <div class="six">
-        <h1>{{$exam->exam_name}} Exam - Key: {{$exam->exam_key}}
-            <span>Exam questions</span>
-            <span>Duration: {{$exam->duration}}</span>
+        <h1>{{$exam->exam_name}} Exam | Exam Key: {{$exam->exam_key}}
+            <span>Duration: {{$exam->duration}} minutes </span>
+            <span>Exam marks: {{$exam->marks}}</span>
         </h1>
 
         @if($hasApprovalToSubject == true)
@@ -37,19 +42,31 @@
 
     </div>
 
-    <div class="container" style="background-color: white; color:green;">
-    <h2 style="display: none;" id="formTitle"> Questions Area </h2>
+    <div style="display: none;" id="formTitle" class="container" >
+    <h2  id="formTitle"> Questions Area </h2>
     <form style="display: none;" method="POST" action="{{route('exams.store')}}" id="formElement"  >
         @csrf
     <div class="form-group mb-3">
             <label>Chapter</label>
             <select style="color: #323a56" class="form-control" required name="chapter">
             <option class="dropdown-item" disabled selected ></option>
-                @for($chapter = 1; $chapter <= $subject->chapter_count; $chapter ++)    
-                    <option class="dropdown-item" value="{{$chapter}}" > Chapter {{$chapter}}</option>
-                @endfor
+                @foreach($chapters as $chapter)    
+                    <option class="dropdown-item" value="{{$chapter->id}}" > Chapter {{$chapter->chapter_name}}</option>
+                @endforeach
             </select>
     </div>
+
+    <div class="form-group mb-3">
+            <label>Question type</label>
+            <select style="color: #323a56" required class="form-control" name="question_type">
+            <option class="dropdown-item" disabled selected ></option>
+                    @foreach($question_types as $question_type)
+                    <option class="dropdown-item" value="{{$question_type->id}}" >{{$question_type->type_name}}</option>
+                    @endforeach
+            </select>
+    </div>
+
+    
 
     <div class="form-group mb-3">
             <label>Difficulty</label>
@@ -61,15 +78,9 @@
             </select>
     </div>
 
-    <!-- <div class="form-group mb-3">
-        <label>Question Type</label>
-        <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-            <select name="questoin_type">
-            <label class="options" value="mcq">Multiple Choice <input type="radio"  name="radio"> <span class="checkmark"></span> </label>
-            <label class="options" value="tf">True & False<input type="radio"  name="radio" > <span class="checkmark"></span> </label> 
-            </select>
-        </div>
-    </div> -->
+
+
+
 
     <div class="form-group mb-3">
         <label>Number of questions</label>
@@ -81,6 +92,8 @@
     <button type="submit" class="button-33">Submit</button>
     </form>
     </div>
+    <br><br>
+
 
     <!-- Static Exam Questions -->
 
@@ -96,9 +109,9 @@
                             <label class="options">{{$option->body}} @if($option->is_correct) <span style="color: #323a56;">   [  {{  $option->points  }} point  ] </span>  @endif <input type="radio" {{ ($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
                         @endforeach
                 </div>
-                <div class="py-2 h5"><b>Answer: </b> {{$question->answer}}</div>
-                <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter_number}}</div>
-                <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
+                <div class="py-2 h5"><b>Question type: </b> {{$question->type->type_name}}</div>
+                <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter->chapter_name}}</div>
+                <div class="py-2 h5"><b>Difficulty: </b> {{$question->question_difficulty->name}}</div>
                 
             </div>
         </div>
@@ -110,10 +123,6 @@
     <!-- Dynamic Exam Structure -->
     @if($is_dynamic)
 
-        Chapter : <br>         
-        No. of Questions: <br>           
-        Difficulty: <br>         
-        <br>
 
 
     <table class="table container">
@@ -121,6 +130,7 @@
             <tr>
             <th scope="col">#</th>
             <th scope="col">Chapter Number</th>
+            <th scope="col">Question Type</th>
             <th scope="col">Difficulty</th>
             <th scope="col">Total number of questions</th>
             </tr>
@@ -131,7 +141,8 @@
             <tr>
             <th scope="row">-</th>
                 <td>{{$structure->chapter_number}}</td>
-                <td>{{$structure->difficulty}}</td>
+                <td>{{$structure->type_of_question->type_name}}</td>
+                <td>{{$structure->structure_difficulty->name}}</td>
                 <td>{{$structure->number_of_questions}}</td>
             </tr>
         @endforeach
@@ -150,7 +161,7 @@
     
     @endsection('content')
 
-    </div>
+
     
     <script type="text/javascript">
         function showForm() {

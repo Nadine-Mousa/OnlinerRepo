@@ -22,9 +22,9 @@ class Option extends Model
         return $this->belongsTo(Question::class, 'question_id');
     }
 
-    public function q(){
-        return $this->hasOne(SingleChoiceQuestion::class);
-    }
+    // public function q(){
+    //     return $this->hasOne(SingleChoiceQuestion::class);
+    // }
 
 
 }

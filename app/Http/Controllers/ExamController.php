@@ -8,9 +8,11 @@ use App\Models\User;
 use App\Models\Option;
 use App\Models\Subject;
 use App\Models\TestPaper;
+use App\Models\Chapter;
 use App\Models\Difficulty;
-use App\Models\SingleChoiceQuestion;
+// use App\Models\SingleChoiceQuestion;
 use App\Models\Question;
+use App\Models\QuestionType;
 use App\Models\ProfessorSubject;
 use App\Models\ExamStructure;
 use Carbon\Carbon;
@@ -86,6 +88,7 @@ class ExamController extends Controller
     public function show_student_exam($exam)
     {
 
+        // dd('here are the results');
         $user = session()->get('user');
         $examFromDb = Exam::where('id', $exam)->first();
         $taken_exam = TakenExam::where('exam_id', $exam)->first();
@@ -96,15 +99,16 @@ class ExamController extends Controller
         ])->get();
 
         // calculate the score of the student according to the actual exam marks
-        $student_socre = 
+        $student_score = 
         ($taken_exam->total_score * $examFromDb->marks ) / $taken_exam->marks;
-
+        
+        $student_score = round($student_score, 2);
 
         return view('exams.show_student_exam', [
             'student_answers' => $student_answers,
             'taken_exam' => $taken_exam,
             'exam' => $examFromDb,
-            'student_socre' => $student_socre
+            'student_score' => $student_score
 
         ]);
     }
@@ -189,11 +193,12 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
+        
         $subject = session()->get('subject');
         $exam_key = session()->get('exam')->exam_key;
         $exam_id = session()->get('exam')->id;
         $is_dynamic = session()->get('exam')->is_dynamic;
-        $difficulty = $request->difficulty;
+
         $chapter_id = $request->chapter;
         $total_questions = $request->number_of_questions;
         if($is_dynamic){
@@ -201,15 +206,17 @@ class ExamController extends Controller
                 ['exam_key','=', $exam_key],
                 ['subject_id','=', $subject],
                 ['chapter_number','=', $chapter_id],
-                ['difficulty','=', $difficulty]
+                ['difficulty','=', $request->difficulty],
+                ['question_type', '=', $request->question_type] 
             ])->first();
 
             if($structure == null){
                 $structure = new ExamStructure();
                 $structure->exam_key = $exam_key;
                 $structure->subject_id = $subject;
-                $structure->chapter_number = $chapter_number;
-                $structure->difficulty = $difficulty;
+                $structure->chapter_number = $chapter_id;
+                $structure->difficulty = $request->difficulty;
+                $structure->question_type = $request->question_type;
                 $structure->number_of_questions = $total_questions;
                 $structure->save();
             }
@@ -228,8 +235,8 @@ class ExamController extends Controller
         else {
             $questions = Question::where([
                 ['subject_id','=', $subject],
-                ['difficulty','=', $difficulty],
-                ['chapter_number','=', $chapter_number]
+                ['difficulty','=', $request->difficulty],
+                ['chapter_id','=', $request->chapter]
     
             ])->inRandomOrder()->limit($total_questions)->get();
     
@@ -237,7 +244,14 @@ class ExamController extends Controller
                 $test_paper = new TestPaper();
                 $test_paper->exam_key = $exam_key;
                 $test_paper->question_id = $question->id;
-                $test_paper->save();
+                // Check if the exam already contains this question
+                $already_exists_question = TestPaper::where([
+                    ['exam_key', $exam_key],
+                    ['question_id', $question->id]
+                ])->first();
+                if($already_exists_question == null){
+                    $test_paper->save();
+                }
             }
         }
         
@@ -277,6 +291,10 @@ class ExamController extends Controller
         }
 
         $difficulties = Difficulty::all();
+        $question_types = QuestionType::all();
+        // dd($question_types);
+
+        $chapters = Chapter::where('subject_id', $subject)->get();
         
         
         return view('exams.show', [
@@ -287,7 +305,9 @@ class ExamController extends Controller
             'questions' => $questions,
             'is_dynamic' => $is_dynamic, 
             'structures' => $structures,
-            'difficulties' => $difficulties
+            'difficulties' => $difficulties,
+            'chapters' => $chapters,
+            'question_types' => $question_types
         ]);
     }
 
@@ -360,7 +380,7 @@ class ExamController extends Controller
             foreach($structures as $structure){
                 $questions_of_structure = Question::with('options')->where([
                     ['subject_id', '=', $structure->subject_id],
-                    ['chapeter_number', '=', $structure->chapter_number],
+                    ['chapter_id', '=', $structure->chapter_number],
                     ['difficulty', '=', $structure->difficulty]
                 ])->inRandomOrder()->limit($structure->number_of_questions)->get();
 
@@ -368,7 +388,7 @@ class ExamController extends Controller
                     array_push($questions, $question);
                 }
             }
-
+            $questions = array_unique($questions);
             shuffle($questions);
         }
         else {
@@ -402,10 +422,13 @@ class ExamController extends Controller
 
     public function storeAnswers(Request $request){
         // options chosen
+        $rules = $this->validate($request, array('questions'=>'required'));
         $options = Option::find(array_values($request->input('questions')));
+        // dd($options);
         
         // total score of the student
         $scored_points = $options->sum('points');
+        // dd($scored_points);
 
         // store in taken exam
         $taken_exam = new TakenExam();
@@ -421,6 +444,7 @@ class ExamController extends Controller
         foreach($options as $option){
             $answer = new StudentAnswer();
             $answer->option_id = $option->id;
+            $answer->question_id = $option->question_id;
             $answer->student_id = session()->get('user')->id;
             $answer->exam_key = session()->get('exam')->exam_key;
             $answer->save();

@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        // Schema::table('questions', function (Blueprint $table) {
-        //     $table->softDeletes();
-        //     $table->double('marks')->default(0);
-        //     $table->integer('chapter_number');
-        //     $table->integer('type');
-        //    // $table->dropColumn('chapter_id');
-
-        // });
+        Schema::table('questions', function (Blueprint $table) {
+            $table->dropColumn('chapeter_number');
+            $table->integer('chapter_id');
+        });
     }
 
     /**
@@ -30,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('questions', function (Blueprint $table) {
+            //
+        });
     }
 };

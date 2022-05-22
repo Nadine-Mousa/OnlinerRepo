@@ -48,7 +48,7 @@
             
             <div class="py-2 h5"><b>Question type : </b> {{  $question->type->type_name }}</div>
             <div class="py-2 h5"><b>Question points : </b> {{$question->marks}}</div>
-            <div class="py-2 h5"><b>Chapter: </b> {{$question->chapeter_number}}</div>
+            <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter->chapter_name}}</div>
             <div class="py-2 h5"><b>Difficulty: </b> {{$question->question_difficulty->name}}</div>
             <div class="py-2 h5">
                 <a style="background: #323a56; color: white;" class="btn " href="{{route('options.create',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Add Option </a> &nbsp; &nbsp; &nbsp; &nbsp;

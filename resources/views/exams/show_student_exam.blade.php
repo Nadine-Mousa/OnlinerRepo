@@ -16,23 +16,24 @@
     <link rel="stylesheet" href="{{asset('assets/css/partitions/title.css')}}" media="screen">
 
 
+    <style>
+        .myBg{
+            background:#ccd1e5;
+        }
+    </style>
 
 </head>
-<body>
+<body class="myBg">
 
 @section('content')
-    
-
-    
-
-    
 
 
-
-    <div class="container" style="background-color: white; color:green;">
-    <h1  id="formTitle"> {{$exam->exam_name}} Exam </h1>
-    <h1  id="formTitle"> Your Score: {{$student_socre}} </h1>
-    <h1  id="formTitle"> Exam Marks: {{$exam->marks}}</h1>
+    <div class="six" >
+    <h1> {{$exam->exam_name}} Exam 
+        <span>Exam Key: {{$exam->exam_key}} </span>
+        <span  > Your Score: {{$student_score}} </span>
+        <span  > Exam Marks: {{$exam->marks}}</span>
+    </h1>
 
     </div>
 
@@ -41,6 +42,7 @@
 
         @foreach($student_answers as $student_answer)
         
+                    
 
 
         <div class="container mt-sm-5 my-1">
@@ -49,9 +51,18 @@
                 </div>
                 <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
                     @foreach($student_answer->question->options as $option)
+                    @if($student_answer->question->type->type_name == "Multiple Correct Answers")
+                    <!-- Checkbox -->
+                    <label  style=" {{($option->is_correct) ? 'color:#7FFF00' : ''}} 
+                    {{($option->id == $student_answer->option->id && $option->is_correct == false) ? 'color:red' : ''}}" >
+                    <input style="height:20px; width:20px; margin-top:0px; margin-right:5px;"
+                     {{( $option->id == $student_answer->option->id) ? "checked" : "disabled"}} type="checkbox">{{$option->body}} </label>
+                    @else
+                    <!-- Radio -->
                     <label  style=" {{($option->is_correct) ? 'color:#7FFF00' : ''}} 
                     {{($option->id == $student_answer->option->id && $option->is_correct == false) ? 'color:red' : ''}}"class="options" >{{$option->body}}
                     <input {{( $option->id == $student_answer->option->id) ? "checked" : "disabled"}} type="radio"> <span class="checkmark"></span> </label>
+                    @endif
                     @endforeach
                 </div>
                 
