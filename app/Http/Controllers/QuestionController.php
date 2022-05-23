@@ -8,6 +8,7 @@ use App\Models\Subject;
 use App\Models\SingleChoiceQuestion;
 use App\Models\ProfessorSubject;
 use App\Models\QuestionType;
+use App\Models\Option;
 
 class QuestionController extends Controller
 {
@@ -224,6 +225,17 @@ public function trashed($user, $subject)
     {
         $user=session()->get('user');
         $subject=session()->get('subject');
+// aya
+        $options=Option::where("single_choice_question_id",$question)->select();
+
+
+if($options!=null){
+    $options->delete();
+    foreach ($options as $option){
+        $option->delete();
+    }
+}
+///
         $questionFromDb = SingleChoiceQuestion::find($question);
         $questionFromDb->delete();
         return redirect()->back();
@@ -249,5 +261,26 @@ public function trashed($user, $subject)
          $question->restore();
          return redirect()->back();
      }
+     public function Question_delete($question)
+{
+$questionType=QuestionType::where('question_id',$question)->select();
+$options=Option::where()->select();
+
+
+if($options!=null){
+    $options->delete();
+    foreach ($options as $option){
+        $option->delete();
+    }
+}
+    $questionObj = QuestionType::find($question);
+    if($questionObj!=null){
+        $questionObj->delete();
+    }
+
+    return redirect()->back();
+}
+
+
 }
 

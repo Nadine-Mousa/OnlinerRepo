@@ -89,12 +89,12 @@
         width: 45px;
         height: 4px;
         content: "";
-        right: 45px; 
+        right: 45px;
         margin:auto;
         margin-bottom: 0%;
         background-color: #ccc;
         }
-        .six h1:before { 
+        .six h1:before {
         background-color:#d78b8b;
         left:45px; width:90px;
         }
@@ -112,7 +112,7 @@
 
 
         body {
-            
+
         }
 
         .courses-container {
@@ -156,7 +156,7 @@
         .course h2 {
             letter-spacing: 1px;
             margin: 10px 0;
-            
+
         }
         .course h3{
             color: black;
@@ -191,7 +191,7 @@
             text-align: right;
             width: 200px;
         }
-        
+
         .progress {
             background-color: #ddd;
             border-radius: 3px;
@@ -258,7 +258,7 @@
             transform: translateX(-10px);
         }
 
-        .social-panel {	
+        .social-panel {
             background-color: #fff;
             border-radius: 16px;
             box-shadow: 0 16px 31px -17px rgba(0,31,97,0.6);
@@ -269,7 +269,7 @@
             align-items: center;
             font-family: 'Muli';
             position: relative;
-            height: 169px;	
+            height: 169px;
             width: 370px;
             max-width: calc(100% - 10px);
         }
@@ -315,9 +315,9 @@
 
         .social-panel h4 {
             margin: 20px 0;
-            color: #97A5CE;	
-            font-family: 'Muli';	
-            font-size: 14px;	
+            color: #97A5CE;
+            font-family: 'Muli';
+            font-size: 14px;
             line-height: 18px;
             text-transform: uppercase;
         }
@@ -400,7 +400,7 @@
             .social-panel-container.visible {
                 transform: translateX(0px);
             }
-            
+
             .floating-btn {
                 right: 10px;
             }
@@ -408,25 +408,27 @@
     </style>
 </head>
 <body>
-    
+
 
     @section('content')
-    
+
     <br>
     <div class="six">
+        <span>$user->name</span>
         <h1>{{$subject->subject_name}}
             <span>Subject Exams</span>
         </h1>
         @if($hasApprovalToSubject == true)
-        <button class="button-33" role="button">Add Exam</button>
-       
+        <form method="GET" action="{{route('exams.create')}}"> 
+        <button  type="submit" class="button-33" role="button" >Add Exam</button>
+        </form>
         @endif
 
     </div>
-    
-    
+
+
     @foreach($exams as $exam)
-    
+
             <div class="courses-container">
             <div class="course">
 

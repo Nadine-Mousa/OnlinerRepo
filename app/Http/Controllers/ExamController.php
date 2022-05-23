@@ -28,7 +28,7 @@ class ExamController extends Controller
      */
     public function index()
     {
-        
+
        // $subject = Session::get('subject');
           $subject = session()->get('subject');
        // $user = Session::get('user');
@@ -38,9 +38,9 @@ class ExamController extends Controller
          $hasApprovalToSubject = session()->get('hasApprovalToSubject');
         $exams = Exam::where('subject_id', $subject)->get();
 
-       
-        
-        
+
+
+
         return view('exams.index', [
          'exams' => $exams,
          'user' => $user,
@@ -57,7 +57,7 @@ class ExamController extends Controller
           $subject = session()->get('subject');
           $user = session()->get('user');
           $subjectFromDb = Subject::where('id', $subject)->first();
-          
+
           $is_student=false;
           $currentRole = $user->role;
             if($currentRole == 3) {
@@ -79,7 +79,7 @@ class ExamController extends Controller
     public function show_student_exam($exam)
     {
         $user = session()->get('user');
-       
+
         $subject = session()->get('subject');
         $subjectFromDb = Subject::where('id', $subject)->first();
         $examFromDb = TakenExam::where('id', $exam)->first();
@@ -106,23 +106,23 @@ class ExamController extends Controller
                // array_push($answers, $answer);
             }
         }
-        
-        
+
+
         return view('exams.show_student_exam', [
             'user' => $user,
            // 'answers' => $answers,
             'subject' => $subjectFromDb,
             'exam' => $examFromDb,
             'questions' => $questions,
-            'is_dynamic' => $is_dynamic, 
+            'is_dynamic' => $is_dynamic,
             'structures' => $structures
         ]);
     }
 
-   
+
     public function create()
     {
-        //
+
     }
 
     /**
@@ -164,7 +164,7 @@ class ExamController extends Controller
                     ['difficulty','=', $difficulty]
                 ])->update(['number_of_questions' =>
                     ($structure->number_of_questions + $total_questions)]);
-                
+
                 // $structure->update([
                 // 'number_of_questions' =>
                 //  ($structure->number_of_questions + $total_questions)]);
@@ -176,9 +176,9 @@ class ExamController extends Controller
                 ['subject_id','=', $subject],
                 ['difficulty','=', $difficulty],
                 ['chapter_number','=', $chapter_number]
-    
+
             ])->inRandomOrder()->limit($total_questions)->get();
-    
+
             foreach($questions as $question){
                 $test_paper = new TestPaper();
                 $test_paper->exam_key = $exam_key;
@@ -186,7 +186,7 @@ class ExamController extends Controller
                 $test_paper->save();
             }
         }
-        
+
         return redirect()->route('exams.index');
     }
 
@@ -198,7 +198,7 @@ class ExamController extends Controller
      */
     public function show($exam)
     {
-       
+
          $user = session()->get('user');
         $hasApprovalToSubject = session()->get('hasApprovalToSubject');
         $subject = session()->get('subject');
@@ -222,15 +222,15 @@ class ExamController extends Controller
                 array_push($questions, $question);
             }
         }
-        
-        
+
+
         return view('exams.show', [
             'user' => $user,
             'hasApprovalToSubject' => $hasApprovalToSubject,
             'subject' => $subjectFromDb,
             'exam' => $examFromDb,
             'questions' => $questions,
-            'is_dynamic' => $is_dynamic, 
+            'is_dynamic' => $is_dynamic,
             'structures' => $structures
         ]);
     }
@@ -241,6 +241,70 @@ class ExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function create_exam()
+     {
+        $subject = session()->get('subject');
+        // $user = Session::get('user');
+       $user = session()->get('user'); 
+       $department = session()->get('department');
+       $level = session()->get('level');
+        return view('exams.create', [
+            'user' => $user,
+            'subject' =>  $subject,
+            'department' => $department,
+            'level' => $level,
+        ]);
+     }
+
+     public function store_exam(Request $request)
+     {  
+         $subject = session()->get('subject');
+         // $user = Session::get('user');
+        $user = session()->get('user'); 
+        $department = session()->get('department');
+        $level = session()->get('level');
+
+
+        $this->validate($request, [
+            'exam_key' => 'required',
+             'exam_name' => 'required',
+             'duration' => 'required',
+             
+             'start_time'=>'required',
+             'end_time'=>'required',
+             'total_questions'=>'required',
+             'is_dynamic'=>'required',
+             
+  
+  
+  
+  
+         ]);
+  
+         $exam =Exam::create([
+             'exam_key' => $request->exam_key,
+             'exam_name' => $request->exam_name,
+             'duration' => $request->duration,
+            
+             'total_questions'=>$request->total_questions,    
+             'start_time'=>$request->start_time,    
+             'end_time'=>$request->end_time,  
+             'is_dynamic'=>$request->is_dynamic,       
+             'professor_id'=>$user,
+             'subject_id'=>   $subject ,      
+             'department_id'=> $department,       
+             'level_id'=>$level       
+  
+  
+  
+         ]);
+ 
+       $exam->save();
+        return redirect()->route('exams.index');
+
+    
+     }
     public function edit($id)
     {
         //
@@ -276,7 +340,7 @@ class ExamController extends Controller
         if($taken_exam != null){
             return 'Answers can be submitted only once';
         }
-        
+
         $exam = Exam::where('exam_key', $exam_key)->first();
         session()->put('exam', $exam);
 
@@ -331,7 +395,7 @@ class ExamController extends Controller
         $taken_exam->exam_key = session()->get('exam')->exam_key;
         $taken_exam->student_id = session()->get('user')->id;
         $taken_exam->total_score = $scored_points;
-        $taken_exam->save();        
+        $taken_exam->save();
 
         // store student chosen options of the exam in student aswers table
         foreach($options as $option){
@@ -344,7 +408,7 @@ class ExamController extends Controller
 
 
         // redirect me to the exams I've taken with the link show results on each of them
-        
+
 
         return 'redirected to the exams I have taken before';
         // dd($total_points);

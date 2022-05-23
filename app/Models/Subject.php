@@ -14,5 +14,17 @@ class Subject extends Model
     public function level(){
         return $this->belongsTo(Level::class);
     }
+    protected $fillable = [
+        'subject_name',
+        'subject_description',
+        "chapter_count",
+        "created_at",
+        "department_id",
+        "level_id"
+
+
+    ];
 
 }
+
+

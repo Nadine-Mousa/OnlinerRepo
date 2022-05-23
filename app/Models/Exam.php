@@ -17,7 +17,8 @@ class Exam extends Model
         'professor_id',
         'subject_id',
         'department_id',
-        'level_id'
+        'level_id',
+        'total_questions'
     ];
     
 }

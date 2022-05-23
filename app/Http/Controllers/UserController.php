@@ -46,6 +46,7 @@ class UserController extends Controller
         else {
             //Session::put('user', $userfromDb);
             session()->put('user', $userfromDb);
+           
             $currentRole = $userfromDb->role;
             if($currentRole == 1) {
             session()->put('current_role', "admin");
@@ -62,7 +63,7 @@ class UserController extends Controller
         if(!$existingUser == null){
             return 'invalid email';
         }
-        
+    
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->password = $request->password;
