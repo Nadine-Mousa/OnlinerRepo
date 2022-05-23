@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('chapters', function (Blueprint $table) {
-            $table->id();
-            $table->integer('chapter_num');
-            $table->string('chapter_name');
-            $table->string('chapter_desc');  
-            $table->integer('subject_id');
-            $table->timestamps();
-        });
+        // Schema::create('chapters', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->integer('chapter_num');
+        //     $table->string('chapter_name');
+        //     $table->string('chapter_desc');  
+        //     $table->integer('subject_id');
+        //     $table->timestamps();
+        // });
     }
 
     /**
