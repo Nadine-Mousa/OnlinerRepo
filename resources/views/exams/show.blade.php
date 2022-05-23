@@ -95,6 +95,9 @@
     <br><br>
 
 
+
+   
+
     <!-- Static Exam Questions -->
 
     @if($is_dynamic == false)
@@ -144,6 +147,12 @@
                 <td>{{$structure->type_of_question->type_name}}</td>
                 <td>{{$structure->structure_difficulty->name}}</td>
                 <td>{{$structure->number_of_questions}}</td>
+               <td> <a  class="button-33" href="{{ route('exams.edit_structure', ['structure' => $structure->id])}}"><i class="fas fa-trash-alt"></i> Edit </a></td>
+               <td> <a  class="button-33" href="{{ route('exams.delete_structure', ['structure' => $structure->id])}}"><i class="fas fa-trash-alt"></i> Delete </a></td>
+
+               
+               
+               
             </tr>
         @endforeach
 
@@ -151,6 +160,8 @@
     </table>
 
     @endif
+
+     
 
     <div>
 
@@ -167,6 +178,11 @@
         function showForm() {
             document.getElementById('formElement').style.display = 'block';
             document.getElementById('formTitle').style.display = 'block';
+        }
+
+        function showForm2() {
+            document.getElementById('formElement2').style.display = 'block';
+            document.getElementById('formTitle2').style.display = 'block';
         }
     </script>
 
