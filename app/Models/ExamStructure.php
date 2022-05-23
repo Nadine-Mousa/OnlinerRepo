@@ -13,8 +13,21 @@ class ExamStructure extends Model
         'exam_key',
         'subject_id',
         'chapter_number',
-        'difficulty'
+        'difficulty',
+        'number_of_questions'
     ];
+
+
+    /**
+     * Get the user that owns the ExamStructure
+     *
+     * @return \
+     */
+    public function difficulty_level(): BelongsTo
+    {
+        return $this->belongsTo(Difficulty::class, 'difficulty');
+    }
+
     public function structure_difficulty() : BelongsTo
     {
         return $this->belongsTo(Difficulty::class, 'difficulty');
@@ -23,4 +36,5 @@ class ExamStructure extends Model
     {
         return $this->belongsTo(QuestionType::class, 'question_type');
     }
+
 }

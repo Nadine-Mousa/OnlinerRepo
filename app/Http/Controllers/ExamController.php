@@ -17,11 +17,14 @@ use App\Models\ProfessorSubject;
 use App\Models\ExamStructure;
 use Carbon\Carbon;
 use DateTime;
-use Str;
+//use Str;
+use Illuminate\Support\Str;
 use App\Models\StudentAnswer;
 use App\Models\TakenExam;
+
 // use Collection;
 use Illuminate\Support\Collection;
+
 
 // use Session;
 //use Symfony\Component\HttpFoundation\Session\Session;
@@ -164,6 +167,7 @@ class ExamController extends Controller
         ]);
     }
 
+
     public function store_exam(Request $request)
     {
         // validate the model
@@ -232,11 +236,13 @@ class ExamController extends Controller
     {
         // dd('here to store questions');
         $subject = session()->get('subject');
+        //dd($subject->chapter_count);
         $exam_key = session()->get('exam')->exam_key;
         $exam_id = session()->get('exam')->id;
         $is_dynamic = session()->get('exam')->is_dynamic;
 
         $chapter_id = $request->chapter;
+        $chapter_number = $request->chapter;
         $total_questions = $request->number_of_questions;
         if($is_dynamic){
             $structure = ExamStructure::where([
@@ -299,6 +305,71 @@ class ExamController extends Controller
 
     }
 
+
+
+   //edit & delete exam structure
+    public function edit_structure($structure)
+    {
+       
+        $structureFromDb = ExamStructure::where('id', $structure)->first();
+        $difficulties = Difficulty::all();
+        $subject = session()->get('subject');
+        $subjectFromDb = Subject::where('id', $subject)->first();
+        $exam_key = session()->get('exam')->exam_key;
+        $exam_id = session()->get('exam')->id;
+    //    $chapter_id = $request->chapter;
+    //    $chapter_number = $request->chapter;
+
+        return view('exams.edit_structure')->with([
+            'structure'=> $structureFromDb,
+            'subject'=>$subjectFromDb,
+            'exam_key'=>$exam_key,
+            'exam_id'=>$exam_id,
+            'difficulties'=>$difficulties
+
+        ]);
+
+    }
+    public function update_structure(Request $request, $structure)
+    {
+        $structureFromDb = ExamStructure::find($structure);
+        //dd($structureFromDb->id);
+        $subject = session()->get('subject');
+        $subjectFromDb=Subject::where('id', $subject)->first();
+       // dd($subjectFromDb->chapter_count);
+        $exam_key = session()->get('exam')->exam_key;
+        $exam_id = session()->get('exam')->id;
+           
+        $this->validate($request, [
+            'chapter_number' => 'required',
+            'difficulty' => 'required',
+            'number_of_questions' => 'required',
+           
+        ]);
+
+        $structureFromDb-> subject_id = $subjectFromDb->id;
+        $structureFromDb->  exam_key = $exam_key;
+        $structureFromDb-> chapter_number = $request->chapter;
+     
+        $structureFromDb-> difficulty = $request->difficulty;
+       $structureFromDb-> number_of_questions = $request->number_of_questions;
+
+       $structureFromDb->save();
+    
+        
+       return redirect()->route('exams.show_exam', ['exam' => $exam_id]);
+
+
+    }
+
+    public function delete_structure($structure)
+    {
+        $structureFromDb = ExamStructure::find($structure);
+       
+        $structureFromDb->delete();
+        return redirect()->back();
+    }
+
     /**
      * Display the specified resource.
      *
@@ -335,6 +406,7 @@ class ExamController extends Controller
 
 
         $difficulties = Difficulty::all();
+
         $question_types = QuestionType::all();
         // dd($question_types);
 

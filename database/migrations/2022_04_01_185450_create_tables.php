@@ -31,20 +31,20 @@ return new class extends Migration
             $table->string('role_name', 100);
         });
 
-        Schema::create('exams', function (Blueprint $table) {
-            $table->id();
-            $table->string('exam_key');
-            $table->string('exam_name');
-            $table->double('duration', 8, 2);
-            $table->time('start_time')->nullable();
-            $table->time('end_time')->nullable();
-            $table->integer('professor_id');   
-            $table->integer('subject_id');
-            $table->integer('department_id');
-            $table->integer('level_id');
-            $table->integer('total_questions')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('exams', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('exam_key');
+        //     $table->string('exam_name');
+        //     $table->double('duration', 8, 2);
+        //     $table->time('start_time')->nullable();
+        //     $table->time('end_time')->nullable();
+        //     $table->integer('professor_id');   
+        //     $table->integer('subject_id');
+        //     $table->integer('department_id');
+        //     $table->integer('level_id');
+        //     $table->integer('total_questions')->nullable();
+        //     $table->timestamps();
+        // });
 
         Schema::create('test_papers', function (Blueprint $table) {
             $table->id();
