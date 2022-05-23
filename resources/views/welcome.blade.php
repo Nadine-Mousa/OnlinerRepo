@@ -279,7 +279,15 @@
     if(exist){
       alert(msg);
     }
-  </script>
+    </script>
+    <script>
+      var msg = '{{Session::get('notAcceptingResponses')}}';
+      var exist = '{{Session::has('notAcceptingResponses')}}';
+      if(exist){
+        alert(msg);
+      }
+    </script>
+  
 
 
     @endsection('content')

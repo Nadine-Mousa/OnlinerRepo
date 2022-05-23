@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onliner | Question Bank</title>
+    <title>Onliner | My exams</title>
 
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
@@ -49,7 +49,7 @@
                             Duration: {{$student_exam->exam->duration}} min.
                         </span>
                     </div>
-                    <h4>Key: {{$student_exam->exam->exam_key}}</h4>
+                    <h4>Exam key: {{$student_exam->exam->exam_key}}</h4>
                     <h3>{{$student_exam->exam->exam_name}} Exam</h3>
                     <a href="{{route('student_exam', ['exam' => $student_exam->exam->id])}}">My Results </a>
 

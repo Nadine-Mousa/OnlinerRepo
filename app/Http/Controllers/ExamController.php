@@ -358,8 +358,7 @@ class ExamController extends Controller
         session()->put('exam', $exam);
 
 
-        // If the student has taken this exam before, redirect him to 
-        // his results page
+        // If the student has taken this exam before, redirect him to his results page
 
         $taken_exam = TakenExam::where([
             ['exam_key', '=', $exam_key],
@@ -370,6 +369,52 @@ class ExamController extends Controller
             return redirect()->route('student_exam', ['exam' => $exam->id]);
         }
 
+        // if he hasn't take it :
+        // first check if the exam can be accessed anytime
+        $timer = 0;
+        // Note: Timer is calculated in minutes
+        if($exam->is_accessed_anytime){
+            // the exam can be accecced anytime
+            $timer = $exam->duration;
+        }
+        else {
+            // exam is accessed only in specified date and time
+            $start_from = $exam->start_from;
+            $start = Carbon::createFromFormat('Y-m-d H:i:s', $start_from);
+            list($whole, $decimal) = explode('.', $exam->duration);
+            $end = Carbon::createFromFormat('Y-m-d H:i:s', $start_from);
+            $end->addMinute($whole);
+            $end->addSecond($decimal / 100 * 60);
+            // dd($start, $end);
+            $now = Carbon::now();
+            // dd($now);
+            // is this the time when the exam is accecced?
+            if($now->gte($start) && $now->lt($end)){
+                // dd('دا وقت الامتحان فعلا');
+                $interval = $now->diff($end);
+                $timer += $interval->h * 60;
+                $timer = $interval->i;
+                $timer += $interval->s / 60;
+            }
+            else {
+                // dd('دا  مش وقت الامتحان ');
+                // is the exam currently accepting responses?
+                if($exam->is_accepting_responses){
+                    // dd('the exam is currently accepting responses');
+                    $timer = 1; 
+                }
+                else {
+                    // dd('the exam is not accepting responses currently');
+                    return redirect()->back()->with('notAcceptingResponses',
+                    'The exam is not accepting responses currently');
+
+
+                }
+                
+                
+            }
+
+        }
 
         $questions = [];
         if($exam->is_dynamic == true){
@@ -429,6 +474,8 @@ class ExamController extends Controller
         // total score of the student
         $scored_points = $options->sum('points');
         // dd($scored_points);
+        
+        $examFromDb = session()->get('exam');
 
         // store in taken exam
         $taken_exam = new TakenExam();
@@ -438,6 +485,11 @@ class ExamController extends Controller
         $taken_exam->total_score = $scored_points;
         $total_exam_marks = session()->get('total_exam_marks' );
         $taken_exam->marks = $total_exam_marks;
+        // calculate marks of the student
+        $student_score = 
+        ($taken_exam->total_score * $examFromDb->marks ) / $taken_exam->marks;
+        $student_score = round($student_score, 2);
+        $taken_exam->student_score = $student_score;
         $taken_exam->save();        
 
         // store student chosen options of the exam in student aswers table
@@ -456,20 +508,19 @@ class ExamController extends Controller
 
     public function show_results($exam)
     {
+        // Show all the students results that have taken this exam
         $user = session()->get('user');
         $hasApprovalToSubject = session()->get('hasApprovalToSubject');
         $subject = session()->get('subject');
         $subjectFromDb = Subject::where('id', $subject)->first();
-       // $examFromDb = Exam::where('id', $exam)->first();
        
-       // $exam_key = $examFromDb->exam_key;
-       // $exam = session()->get('exam');
-        $results=TakenExam::where('exam_id', $exam)->get();
-       // session()->put('exam', $results);
+        $taken_exams=TakenExam::where('exam_id', $exam)->orderBy('student_score', 'DESC')->get();
+        $exam=Exam::where('id', $exam)->first();
         
         return view('exams.show_results')->with([
             'user' => $user,
-            'results'=> $results,
+            'taken_exams'=> $taken_exams,
+            'exam'=> $exam,
             'hasApprovalToSubject' =>  $hasApprovalToSubject,
         ]);
     }
