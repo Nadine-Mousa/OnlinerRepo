@@ -62,6 +62,9 @@ Route::get('{user}/{subject}/{question}/options/create', 'App\Http\Controllers\O
 Route::get('/exams', 'App\Http\Controllers\ExamController@index')->name('exams.index');
 Route::post('/exams/storeAnswers', 'App\Http\Controllers\ExamController@storeAnswers')->name('exams.storeAnswers');
 Route::post('/exams', 'App\Http\Controllers\ExamController@store')->name('exams.store');
+
+
+
 Route::get('/exams/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('exams.student_exams');
 Route::get('/exams/quiz', 'App\Http\Controllers\ExamController@takeExam')->name('exams.quiz');
 
@@ -71,6 +74,11 @@ Route::get('/student_exams/{exam}', 'App\Http\Controllers\ExamController@show_st
 Route::get('/exams/show_results/{exam}', 'App\Http\Controllers\ExamController@show_results')->name('exams.show_results');
 Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show_exam');
 
+//edit & delete exam structur
+Route::get('/exams/delete/{structure}', 'App\Http\Controllers\ExamController@delete_structure')->name('exams.delete_structure');
+
+Route::get('/exams/edit/{structure}', 'App\Http\Controllers\ExamController@edit_structure')->name('exams.edit_structure');
+Route::post('/exams/update/{structure}', 'App\Http\Controllers\ExamController@update_structure')->name('exams.update_structure');
 
 //Admin
 
@@ -110,7 +118,7 @@ Route::get('/error', function(){
 //});
 
 Route::get('/test', function(){
-    return view('exams.show_results');
+    return view('exams.edit_structur');
 });
 
 
