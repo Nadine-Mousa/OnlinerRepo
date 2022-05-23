@@ -46,7 +46,11 @@
                 </div>
                 <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
                     @foreach($question->options as $option)
-                    <label  class="options" >{{$option->body}} <input  type="radio"  name="questions[{{ $question->id }}]"  value="{{ $option->id }}"> <span class="checkmark"></span> </label>
+                    @if($question->type->type_name == "Multiple Correct Answers")
+                    <label> <input type="checkbox" style="width: 20px; height: 20px; margin-right: 8px; margin-top:0px;" name="questions[]"  value="{{ $option->id }}">{{$option->body}}   </label>
+                    @else
+                    <label  class="options" >{{$option->body}} <input required type="radio"  name="questions[{{ $question->id }}]"  value="{{ $option->id }}"> <span class="checkmark"></span> </label>
+                    @endif
                     @endforeach
 
                 </div>
@@ -58,7 +62,7 @@
         
         @endforeach
         
-        <button type="submit" class="button-33">Finish Exam</button>
+        <button style="margin-left: 570px;" type="submit" class="button-33">Finish Exam</button>
        
     </form>
 

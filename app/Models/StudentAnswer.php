@@ -15,7 +15,7 @@ class StudentAnswer extends Model
         return $this->belongsTo(Option::class);
     }
     public function question(){
-        return $this->belongsTo(SingleChoiceQuestion::class);
+        return $this->belongsTo(Question::class);
     }
 
 }

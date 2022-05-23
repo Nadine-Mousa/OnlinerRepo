@@ -66,8 +66,10 @@ class UserController extends Controller
             }
         }
         else {
+
             return redirect()->back()
             ->withErrors(['login_failed'=>'Invalid Email or Password']);
+
         }
     }
 

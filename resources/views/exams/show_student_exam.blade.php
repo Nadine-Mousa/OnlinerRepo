@@ -16,42 +16,82 @@
     <link rel="stylesheet" href="{{asset('assets/css/partitions/title.css')}}" media="screen">
 
 
+    <style>
+        .myBg{
+            background:#ccd1e5;
+        }
+        input[type="checkbox"]:disabled + label::before{
+        background: red;
+        }
+        input[type="checkbox"]:disabled + label:hover::before{
+        background: red;
+        border: 1px solid red;
+        }
+    </style>
 
 </head>
-<body>
+<body class="myBg">
 
 @section('content')
-    
-
-    
-
-    
 
 
-
-    <div class="container" style="background-color: white; color:green;">
-    <h1  id="formTitle"> {{$exam->exam_name}} Exam </h1>
-    <h1  id="formTitle"> Your Score: {{$student_socre}} </h1>
-    <h1  id="formTitle"> Exam Marks: {{$exam->marks}}</h1>
+    <div class="six" >
+    <h1> {{$exam->exam_name}} Exam 
+        <span>Exam Key: {{$exam->exam_key}} </span>
+        <span  > Your Score: {{$student_score}} </span>
+        <span  > Exam Marks: {{$exam->marks}}</span>
+    </h1>
 
     </div>
 
 
     <!-- Questions -->
 
-        @foreach($student_answers as $student_answer)
+        @foreach($student_answers_single as $student_answer_single)
         
-
+                    
+        <!-- Single choice quesitons -->
 
         <div class="container mt-sm-5 my-1">
             <div class="question ml-sm-5 pl-sm-5 pt-2">
-                <div class="py-2 h5"><b>Q. {{$student_answer->question->title}} </b>
+                <div class="py-2 h5"><b>Q. {{$student_answer_single->question->title}} </b>
                 </div>
                 <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-                    @foreach($student_answer->question->options as $option)
+                    @foreach($student_answer_single->question->options as $option)
+                    <!-- Radio -->
+                    <label  style="{{($option->is_correct) ? 'color:#7FFF00' : ''}} 
+                    {{($option->id == $student_answer_single->option->id && $option->is_correct == false) ? 'color:red' : ''}}"class="options" >{{$option->body}}
+                    <input {{( $option->id == $student_answer_single->option->id) ? "checked" : ""}}  type="radio"> <span class="checkmark"></span> </label>
+                    @endforeach
+                </div>
+                
+            </div>
+
+        </div>
+        <br>
+
+        @endforeach
+
+
+
+
+        @foreach($questions_multiple as $question)
+
+        <!-- Multiple Choice Questions -->
+        <div class="container mt-sm-5 my-1">
+            <div class="question ml-sm-5 pl-sm-5 pt-2">
+                <div class="py-2 h5"><b>Q. {{$question->title}} </b>
+                </div>
+                <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+                    @foreach($question->options as $option)
+                    <!-- Checkbox -->
+
                     <label  style=" {{($option->is_correct) ? 'color:#7FFF00' : ''}} 
-                    {{($option->id == $student_answer->option->id && $option->is_correct == false) ? 'color:red' : ''}}"class="options" >{{$option->body}}
-                    <input {{( $option->id == $student_answer->option->id) ? "checked" : "disabled"}} type="radio"> <span class="checkmark"></span> </label>
+                    {{($student_options_multiple_ids->contains($option->id) && $option->is_correct == false) ? 'color:red' : ''}}" >
+
+                    <input style="height:20px; width:20px; margin-top:0px; margin-right:5px;"
+                    {{ $student_options_multiple_ids->contains($option->id) ? 'checked' : '' }} disabled type="checkbox" >{{$option->body}} </label>
+
                     @endforeach
                 </div>
                 

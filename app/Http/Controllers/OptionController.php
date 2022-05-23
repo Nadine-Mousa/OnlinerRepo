@@ -45,6 +45,14 @@ class OptionController extends Controller
                 'points' => 'required'
             ]);
         }
+        $options = Option::where('question_id', $questionFromDb->id)->get();
+        $has_correct_answer = $options->sum('is_correct') > 0;
+        // if the question type is mcq | t/f, it should have only one correct ans
+        if($request->is_correct == "yes" && 
+        ($questionFromDb->question_type == 1 || $questionFromDb->question_type == 2)    
+            && $has_correct_answer){
+                return redirect()->back()->with('alert', 'This question can only have one correct answer ');
+        }
 
         // dd( $request->is_correct, $request->body);
 

@@ -15,7 +15,7 @@ class Question extends Model
     protected $fillable = [
         'subject_id',
         'title',
-        'chapeter_number',
+        'chapter_id',
         'marks',
         'difficulty',
         'question_type'
@@ -33,7 +33,7 @@ class Question extends Model
     }
     public function chapter(): BelongsTo
     {
-        return $this->belongsTo(Chapter::class, 'chapeter_number');
+        return $this->belongsTo(Chapter::class, 'chapter_id');
     }
 
     public function subject(): BelongsTo

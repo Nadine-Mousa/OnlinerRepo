@@ -8,9 +8,11 @@ use App\Models\User;
 use App\Models\Option;
 use App\Models\Subject;
 use App\Models\TestPaper;
+use App\Models\Chapter;
 use App\Models\Difficulty;
-use App\Models\SingleChoiceQuestion;
+// use App\Models\SingleChoiceQuestion;
 use App\Models\Question;
+use App\Models\QuestionType;
 use App\Models\ProfessorSubject;
 use App\Models\ExamStructure;
 use Carbon\Carbon;
@@ -19,7 +21,9 @@ use DateTime;
 use Illuminate\Support\Str;
 use App\Models\StudentAnswer;
 use App\Models\TakenExam;
-//use App\Models\Question;
+
+// use Collection;
+use Illuminate\Support\Collection;
 
 
 // use Session;
@@ -34,7 +38,7 @@ class ExamController extends Controller
      */
     public function index()
     {
-        
+
        // $subject = Session::get('subject');
           $subject = session()->get('subject');
        // $user = Session::get('user');
@@ -44,9 +48,9 @@ class ExamController extends Controller
          $hasApprovalToSubject = session()->get('hasApprovalToSubject');
         $exams = Exam::where('subject_id', $subject)->get();
 
-       
-        
-        
+
+
+
         return view('exams.index', [
          'exams' => $exams,
          'user' => $user,
@@ -62,9 +66,10 @@ class ExamController extends Controller
     {
         // dd('here are the exams the student have taken before');
           $subject = session()->get('subject');
+          
           $user = session()->get('user');
           $subjectFromDb = Subject::where('id', $subject)->first();
-          
+
           $is_student=false;
           $currentRole = $user->role;
             if($currentRole == 3) {
@@ -72,9 +77,12 @@ class ExamController extends Controller
             }
 
           $student_exams=TakenExam::where('student_id', $user->id)->get();
-         //dd($student_exams->exams->exam_name) ;
 
-        //  dd($student_exams);
+
+        if($subject == null ){
+            return redirect()->back()->with('quizTaken', 'You have taken taken successfully');
+        }
+
           return view('exams.show_student_exams')->with([
             'student_exams'=> $student_exams,
              'is_student'=> $is_student,
@@ -88,6 +96,7 @@ class ExamController extends Controller
     public function show_student_exam($exam)
     {
 
+        // dd('here are the results');
         $user = session()->get('user');
         $examFromDb = Exam::where('id', $exam)->first();
         $taken_exam = TakenExam::where('exam_id', $exam)->first();
@@ -98,15 +107,46 @@ class ExamController extends Controller
         ])->get();
 
         // calculate the score of the student according to the actual exam marks
-        $student_socre = 
+        $student_score = 
         ($taken_exam->total_score * $examFromDb->marks ) / $taken_exam->marks;
+        
+        $student_score = round($student_score, 2);
+
+        $student_answers_single = [];
+        $student_answers_multiple = [];
+        $student_options_multiple = new Collection();
+        $student_options_multiple_ids = new Collection();
+        $questions_multiple = [];
+        foreach($student_answers as $student_answer){
+            $question = Question::find($student_answer->question_id);
+            if($question->question_type == 3){
+                // the question has more than one correct answer
+                array_push($student_answers_multiple , $student_answer);
+                $option = Option::find($student_answer->option_id);
+                // array_push($student_options_multiple , $option);
+                $student_options_multiple->push($option);
+                $student_options_multiple_ids->push($option->id);
+                array_push($questions_multiple , $question);
+            }
+            else {
+                array_push($student_answers_single , $student_answer);
+            }
+        }
+
+        $questions_multiple = array_unique($questions_multiple);
+
 
 
         return view('exams.show_student_exam', [
-            'student_answers' => $student_answers,
+            'student_answers_single' => $student_answers_single,
+            'questions_multiple' => $questions_multiple,
+            'student_options_multiple' => $student_options_multiple,
+            'student_answers_multiple' => $student_answers_multiple,
             'taken_exam' => $taken_exam,
             'exam' => $examFromDb,
-            'student_socre' => $student_socre
+
+            'student_options_multiple_ids' => $student_options_multiple_ids,
+            'student_score' => $student_score
 
         ]);
     }
@@ -177,11 +217,13 @@ class ExamController extends Controller
             'total_questions' => 0,       
             'level_id'=>$level,
             'is_accessed_anytime' => $is_accessed_anytime,
-            'is_accepting_responses' => false
+            'is_accepting_responses' => false,
+            'marks' => $request->marks
         ]);
 
       $exam->save();
       return redirect()->route('exams.index');
+
     }
 
     /**
@@ -192,12 +234,13 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
+        // dd('here to store questions');
         $subject = session()->get('subject');
         //dd($subject->chapter_count);
         $exam_key = session()->get('exam')->exam_key;
         $exam_id = session()->get('exam')->id;
         $is_dynamic = session()->get('exam')->is_dynamic;
-        $difficulty = $request->difficulty;
+
         $chapter_id = $request->chapter;
         $chapter_number = $request->chapter;
         $total_questions = $request->number_of_questions;
@@ -206,15 +249,17 @@ class ExamController extends Controller
                 ['exam_key','=', $exam_key],
                 ['subject_id','=', $subject],
                 ['chapter_number','=', $chapter_id],
-                ['difficulty','=', $difficulty]
+                ['difficulty','=', $request->difficulty],
+                ['question_type', '=', $request->question_type] 
             ])->first();
 
             if($structure == null){
                 $structure = new ExamStructure();
                 $structure->exam_key = $exam_key;
                 $structure->subject_id = $subject;
-                $structure->chapter_number = $chapter_number;
-                $structure->difficulty = $difficulty;
+                $structure->chapter_number = $chapter_id;
+                $structure->difficulty = $request->difficulty;
+                $structure->question_type = $request->question_type;
                 $structure->number_of_questions = $total_questions;
                 $structure->save();
             }
@@ -223,30 +268,41 @@ class ExamController extends Controller
                     ['exam_key','=', $exam_key],
                     ['subject_id','=', $subject],
                     ['chapter_number','=', $chapter_number],
-                    ['difficulty','=', $difficulty]
+                    ['difficulty','=', $difficulty],
+                    ['question_type', '=', $request->question_type] 
                 ])->update(['number_of_questions' =>
                     ($structure->number_of_questions + $total_questions)]);
-                
+
             }
 
         }
         else {
             $questions = Question::where([
                 ['subject_id','=', $subject],
-                ['difficulty','=', $difficulty],
-                ['chapter_number','=', $chapter_number]
+
+                ['difficulty','=', $request->difficulty],
+                ['chapter_id','=', $request->chapter]
     
             ])->inRandomOrder()->limit($total_questions)->get();
-    
+
             foreach($questions as $question){
                 $test_paper = new TestPaper();
                 $test_paper->exam_key = $exam_key;
                 $test_paper->question_id = $question->id;
-                $test_paper->save();
+                // Check if the exam already contains this question
+                $already_exists_question = TestPaper::where([
+                    ['exam_key', $exam_key],
+                    ['question_id', $question->id]
+                ])->first();
+                if($already_exists_question == null){
+                    $test_paper->save();
+                }
             }
         }
+
         
         return redirect()->route('exams.show_exam', ['exam' => $exam_id]);
+
     }
 
 
@@ -322,7 +378,9 @@ class ExamController extends Controller
      */
     public function show($exam)
     {
+
         $user = session()->get('user');
+
         $hasApprovalToSubject = session()->get('hasApprovalToSubject');
         $subject = session()->get('subject');
         $subjectFromDb = Subject::where('id', $subject)->first();
@@ -346,8 +404,14 @@ class ExamController extends Controller
             }
         }
 
+
         $difficulties = Difficulty::all();
-      
+
+        $question_types = QuestionType::all();
+        // dd($question_types);
+
+        $chapters = Chapter::where('subject_id', $subject)->get();
+        
         
         return view('exams.show', [
             'user' => $user,
@@ -355,9 +419,13 @@ class ExamController extends Controller
             'subject' => $subjectFromDb,
             'exam' => $examFromDb,
             'questions' => $questions,
+
             'is_dynamic' => $is_dynamic, 
             'structures' => $structures,
-            'difficulties' => $difficulties
+            'difficulties' => $difficulties,
+            'chapters' => $chapters,
+            'question_types' => $question_types
+
         ]);
     }
 
@@ -367,6 +435,10 @@ class ExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function edit($id)
     {
         //
@@ -405,11 +477,11 @@ class ExamController extends Controller
             ->with('noSuchExamKey','There is no such exam key. Please, make sure all letters are captical.');
         }
 
+
         session()->put('exam', $exam);
 
 
-        // If the student has taken this exam before, redirect him to 
-        // his results page
+        // If the student has taken this exam before, redirect him to his results page
 
         $taken_exam = TakenExam::where([
             ['exam_key', '=', $exam_key],
@@ -420,6 +492,52 @@ class ExamController extends Controller
             return redirect()->route('student_exam', ['exam' => $exam->id]);
         }
 
+        // if he hasn't take it :
+        // first check if the exam can be accessed anytime
+        $timer = 0;
+        // Note: Timer is calculated in minutes
+        if($exam->is_accessed_anytime){
+            // the exam can be accecced anytime
+            $timer = $exam->duration;
+        }
+        else {
+            // exam is accessed only in specified date and time
+            $start_from = $exam->start_from;
+            $start = Carbon::createFromFormat('Y-m-d H:i:s', $start_from);
+            list($whole, $decimal) = explode('.', $exam->duration);
+            $end = Carbon::createFromFormat('Y-m-d H:i:s', $start_from);
+            $end->addMinute($whole);
+            $end->addSecond($decimal / 100 * 60);
+            // dd($start, $end);
+            $now = Carbon::now();
+            // dd($now);
+            // is this the time when the exam is accecced?
+            if($now->gte($start) && $now->lt($end)){
+                // dd('دا وقت الامتحان فعلا');
+                $interval = $now->diff($end);
+                $timer += $interval->h * 60;
+                $timer = $interval->i;
+                $timer += $interval->s / 60;
+            }
+            else {
+                // dd('دا  مش وقت الامتحان ');
+                // is the exam currently accepting responses?
+                if($exam->is_accepting_responses){
+                    // dd('the exam is currently accepting responses');
+                    $timer = 1; 
+                }
+                else {
+                    // dd('the exam is not accepting responses currently');
+                    return redirect()->back()->with('notAcceptingResponses',
+                    'The exam is not accepting responses currently');
+
+
+                }
+                
+                
+            }
+
+        }
 
         $questions = [];
         if($exam->is_dynamic == true){
@@ -430,15 +548,16 @@ class ExamController extends Controller
             foreach($structures as $structure){
                 $questions_of_structure = Question::with('options')->where([
                     ['subject_id', '=', $structure->subject_id],
-                    ['chapeter_number', '=', $structure->chapter_number],
-                    ['difficulty', '=', $structure->difficulty]
+                    ['chapter_id', '=', $structure->chapter_number],
+                    ['difficulty', '=', $structure->difficulty],
+                    ['question_type', '=', $structure->question_type]
                 ])->inRandomOrder()->limit($structure->number_of_questions)->get();
 
                 foreach($questions_of_structure as $question){
                     array_push($questions, $question);
                 }
             }
-
+            $questions = array_unique($questions);
             shuffle($questions);
         }
         else {
@@ -472,10 +591,15 @@ class ExamController extends Controller
 
     public function storeAnswers(Request $request){
         // options chosen
+        $rules = $this->validate($request, array('questions'=>'required'));
         $options = Option::find(array_values($request->input('questions')));
+        // dd($options);
         
         // total score of the student
         $scored_points = $options->sum('points');
+        // dd($scored_points);
+        
+        $examFromDb = session()->get('exam');
 
         // store in taken exam
         $taken_exam = new TakenExam();
@@ -483,39 +607,48 @@ class ExamController extends Controller
         $taken_exam->student_id = session()->get('user')->id;
         $taken_exam->exam_id = session()->get('exam')->id;
         $taken_exam->total_score = $scored_points;
+
         $total_exam_marks = session()->get('total_exam_marks' );
         $taken_exam->marks = $total_exam_marks;
+        // calculate marks of the student
+        $student_score = 
+        ($taken_exam->total_score * $examFromDb->marks ) / $taken_exam->marks;
+        $student_score = round($student_score, 2);
+        $taken_exam->student_score = $student_score;
         $taken_exam->save();        
+
 
         // store student chosen options of the exam in student aswers table
         foreach($options as $option){
             $answer = new StudentAnswer();
             $answer->option_id = $option->id;
+            $answer->question_id = $option->question_id;
             $answer->student_id = session()->get('user')->id;
             $answer->exam_key = session()->get('exam')->exam_key;
             $answer->save();
         }
 
 
+
         return redirect()->route('exams.student_exams');
     }
 
+
     public function show_results($exam)
     {
+        // Show all the students results that have taken this exam
         $user = session()->get('user');
         $hasApprovalToSubject = session()->get('hasApprovalToSubject');
         $subject = session()->get('subject');
         $subjectFromDb = Subject::where('id', $subject)->first();
-       // $examFromDb = Exam::where('id', $exam)->first();
        
-       // $exam_key = $examFromDb->exam_key;
-       // $exam = session()->get('exam');
-        $results=TakenExam::where('exam_id', $exam)->get();
-       // session()->put('exam', $results);
+        $taken_exams=TakenExam::where('exam_id', $exam)->orderBy('student_score', 'DESC')->get();
+        $exam=Exam::where('id', $exam)->first();
         
         return view('exams.show_results')->with([
             'user' => $user,
-            'results'=> $results,
+            'taken_exams'=> $taken_exams,
+            'exam'=> $exam,
             'hasApprovalToSubject' =>  $hasApprovalToSubject,
         ]);
     }

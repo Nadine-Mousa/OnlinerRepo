@@ -53,9 +53,7 @@
                 @endforeach
             </div>
             <br>
-            <div class="py-2 h5"><b>Question points : </b> {{$question->marks}}</div>
-            <div class="py-2 h5"><b>Chapter: </b> {{$question->chapeter_number}}</div>
-            <div class="py-2 h5"><b>Difficulty: </b> {{$question->difficulty}}</div>
+            
             <div class="py-2 h5">
                 <a style="background: #323a56; color: white;" class="btn btn-danger" href="{{route('questions.show',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> show </a> &nbsp; &nbsp; &nbsp; &nbsp;
                 <a style="background: #323a56; color: white;" class="btn btn-danger" href="{{route('questions.destroy',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Delete </a> &nbsp; &nbsp; &nbsp; &nbsp;

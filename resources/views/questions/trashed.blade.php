@@ -48,7 +48,7 @@
             </div>
             <br>
             <div class="py-2 h5"><b>Question points : </b> {{$trashed_question->marks}}</div>
-            <div class="py-2 h5"><b>Chapter: </b> {{$trashed_question->chapeter_number}}</div>
+            <div class="py-2 h5"><b>Chapter: </b> {{$trashed_question->chapter_id}}</div>
             <div class="py-2 h5"><b>Difficulty: </b> {{$trashed_question->difficulty}}</div>
             <div class="py-2 h5">
                 <a style="background: #323a56; color: white;" class="btn btn-danger" href="{{route('questions.hdelete',['user' => $user->id, 'subject' => $subject, 'question' => $trashed_question->id ])}}"><i class="fas fa-trash-alt"></i> Delete </a> &nbsp; &nbsp; &nbsp; &nbsp;

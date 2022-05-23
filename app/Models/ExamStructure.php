@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class ExamStructure extends Model
 {
     use HasFactory;
@@ -16,6 +17,7 @@ class ExamStructure extends Model
         'number_of_questions'
     ];
 
+
     /**
      * Get the user that owns the ExamStructure
      *
@@ -25,4 +27,14 @@ class ExamStructure extends Model
     {
         return $this->belongsTo(Difficulty::class, 'difficulty');
     }
+
+    public function structure_difficulty() : BelongsTo
+    {
+        return $this->belongsTo(Difficulty::class, 'difficulty');
+    }
+    public function type_of_question() : BelongsTo
+    {
+        return $this->belongsTo(QuestionType::class, 'question_type');
+    }
+
 }
