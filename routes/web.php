@@ -26,6 +26,8 @@ Route::get('/departments', 'App\Http\Controllers\DepartmentController@index')->n
 Route::get('departments/{department}/levels', 'App\Http\Controllers\LevelController@index')->name('levels.index');
 
 
+
+
 // Subjects Routes
 
 Route::get('levels/{level}/subjects', 'App\Http\Controllers\SubjectController@index')->name('subjects.index');
@@ -72,6 +74,11 @@ Route::get('/exams/show_results/{exam}', 'App\Http\Controllers\ExamController@sh
 Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show_exam');
 
 
+Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create');
+Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->name('exams.store');
+
+
+
 //Admin
 
 Route::get('/dashboard', 'App\Http\Controllers\AdminController@show_professor_requests')->name('dashboard');
@@ -82,6 +89,16 @@ Route::get('/dashboard/reject_prof_subject/{professor_subject}', 'App\Http\Contr
 Route::get('/dashboard/approve_prof_subject/{professor_subject}', 'App\Http\Controllers\AdminController@approve_professor_subject')->name('dashboard.approve_prof_subject' );
 
 Route::get('/dashboard/departments', 'App\Http\Controllers\AdminController@show_departments')->name('dashboard.departments' );
+Route::get('/dashboard/levels', 'App\Http\Controllers\AdminController@show_levels')->name('dashboard.levels' );
+Route::get('/dashboard/subjects', 'App\Http\Controllers\AdminController@show_subjects')->name('dashboard.subjects' );
+Route::get('/dashboard/exams', 'App\Http\Controllers\AdminController@show_exams')->name('dashboard.exams' );
+Route::get('/dashboard/professors', 'App\Http\Controllers\AdminController@show_professors')->name('dashboard.professors' );
+Route::get('/dashboard/chapters', 'App\Http\Controllers\AdminController@show_chapters')->name('dashboard.chapters' );
+
+//Route::get('/dashboard', 'App\Http\Controllers\AdminController@GetCount')->name('dashboard' );
+
+
+
 
 //create departments
 Route::post('/dashboard/departments/store', 'App\Http\Controllers\AdminController@departments_store')->name('dashboard.departments.store');
@@ -92,6 +109,66 @@ Route::post('/dashboard/departments/update/{department}', 'App\Http\Controllers\
 //delete departments
 Route::get('/dashboard/departments/delete/{department}', 'App\Http\Controllers\AdminController@departments_delete')->name('dashboard.departments.delete');
 
+//create levels
+Route::post('/dashboard/levels/store', 'App\Http\Controllers\AdminController@levels_store')->name('dashboard.levels.store');
+Route::get('/dashboard/levels/create', 'App\Http\Controllers\AdminController@levels_create')->name('dashboard.levels.create');
+//edit levels
+Route::get('/dashboard/levels/edit/{level}', 'App\Http\Controllers\AdminController@levels_edit')->name('dashboard.levels.edit');
+Route::post('/dashboard/levels/update/{level}', 'App\Http\Controllers\AdminController@levels_update')->name('dashboard.levels.update');
+//delete levels
+Route::get('/dashboard/levels/delete/{level}', 'App\Http\Controllers\AdminController@levels_delete')->name('dashboard.levels.delete');
+
+//create subject
+Route::post('/dashboard/subjects/store', 'App\Http\Controllers\AdminController@subjects_store')->name('dashboard.subjects.store');
+Route::get('/dashboard/subjects/create', 'App\Http\Controllers\AdminController@subjects_create')->name('dashboard.subjects.create');
+//edit subject
+Route::get('/dashboard/subjects/edit/{subject}', 'App\Http\Controllers\AdminController@subjects_edit')->name('dashboard.subjects.edit');
+Route::post('/dashboard/subjects/update/{subject}', 'App\Http\Controllers\AdminController@subjects_update')->name('dashboard.subjects.update');
+//delete subject
+Route::get('/dashboard/subjects/delete/{subject}', 'App\Http\Controllers\AdminController@subjects_delete')->name('dashboard.subjects.delete');
+
+
+
+//create exam
+Route::post('/dashboard/exams/store', 'App\Http\Controllers\AdminController@exams_store')->name('dashboard.exams.store');
+Route::get('/dashboard/exams/create', 'App\Http\Controllers\AdminController@exams_create')->name('dashboard.exams.create');
+//edit exam
+Route::get('/dashboard/exams/edit/{exam}', 'App\Http\Controllers\AdminController@exams_edit')->name('dashboard.exams.edit');
+Route::post('/dashboard/exams/update/{exam}', 'App\Http\Controllers\AdminController@exams_update')->name('dashboard.exams.update');
+//deleteexam
+Route::get('/dashboard/exams/delete/{exam}', 'App\Http\Controllers\AdminController@exams_delete')->name('dashboard.exams.delete');
+
+
+//create prof
+Route::post('/dashboard/professors/store', 'App\Http\Controllers\AdminController@professors_store')->name('dashboard.professors.store');
+Route::get('/dashboard/professors/create', 'App\Http\Controllers\AdminController@professors_create')->name('dashboard.professors.create');
+//edit prof
+Route::get('/dashboard/professors/edit/{professor}', 'App\Http\Controllers\AdminController@professors_edit')->name('dashboard.professors.edit');
+Route::post('/dashboard/professors/update/{professor}', 'App\Http\Controllers\AdminController@professors_update')->name('dashboard.professors.update');
+//delete prof
+Route::get('/dashboard/professors/delete/{professor}', 'App\Http\Controllers\AdminController@professors_delete')->name('dashboard.professors.delete');
+
+// chapters
+//create prof
+Route::post('/dashboard/chapters/store', 'App\Http\Controllers\AdminController@chapters_store')->name('dashboard.chapters.store');
+Route::get('/dashboard/chapters/create', 'App\Http\Controllers\AdminController@chapters_create')->name('dashboard.chapters.create');
+//edit prof
+Route::get('/dashboard/chapters/edit/{chapter}', 'App\Http\Controllers\AdminController@chapters_edit')->name('dashboard.chapters.edit');
+Route::post('/dashboard/chapters/update/{chapter}', 'App\Http\Controllers\AdminController@chapters_update')->name('dashboard.chapters.update');
+//delete prof
+Route::get('/dashboard/chapters/delete/{chapters}', 'App\Http\Controllers\AdminController@chapters_delete')->name('dashboard.chapters.delete');
+
+
+
+
+//create chapter
+Route::post('/dashboard/chapters/store', 'App\Http\Controllers\AdminController@chapters_store')->name('dashboard.chapters.store');
+Route::get('/dashboard/chapters/create', 'App\Http\Controllers\AdminController@chapters_create')->name('dashboard.chapters.create');
+//edit chapter
+Route::get('/dashboard/chapters/edit/{chapter}', 'App\Http\Controllers\AdminController@chapters_edit')->name('dashboard.chapters.edit');
+Route::post('/dashboard/chapters/update/{chapter}', 'App\Http\Controllers\AdminController@chapters_update')->name('dashboard.chapters.update');
+//delete chapter
+Route::get('/dashboard/chapters/delete/{chapter}', 'App\Http\Controllers\AdminController@professors_delete')->name('dashboard.chapters.delete');
 
 
 

@@ -15,16 +15,17 @@
     <link rel="stylesheet" href="{{asset('assets/css/partitions/buttons.css')}}" media="screen">
     <link rel="stylesheet" href="{{asset('assets/css/exams/index.css')}}" media="screen">
 
-    
 </head>
 <body>
-    
+
 
     @section('content')
-    
+
     <br>
     <div class="six">
+        <span>$user->name</span>
         <h1>{{$subject->subject_name}}
+
         <span>Exams you have created</span>        
     </h1>
         
@@ -43,8 +44,9 @@
         </div>
         @endif
     
+
     @foreach($exams as $exam)
-    
+
             <div class="courses-container">
             <div class="course">
 

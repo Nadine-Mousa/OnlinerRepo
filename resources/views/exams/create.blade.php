@@ -1,10 +1,13 @@
+
 @extends('layouts.nav')
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 	<title>Onliner | Create Exam</title>
     <link rel="stylesheet" href="{{asset('assets/css/exams/create.css')}}" media="screen">
     <link rel="stylesheet" href="{{asset('assets/css/partitions/title.css')}}" media="screen">
@@ -106,14 +109,17 @@
 			<div class= "formgroup" >
 				<br>
 				<button style="margin-left: 260px; font-size: 25px; background:#323a56; color: white; height:35px; width:25%;" class="btn" type="submit">Create</button>
+
 			</div>
 		</form>
 	</div>
+
 
 </div>
 	
 @endsection
 </div>
+
 
 </body>
 </html>

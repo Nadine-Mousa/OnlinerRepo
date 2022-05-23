@@ -14,6 +14,7 @@ use App\Models\Option;
 use App\Models\Difficulty;
 
 
+
 class QuestionController extends Controller
 {
     /**
@@ -248,7 +249,9 @@ public function trashed($user, $subject)
     {
         $user=session()->get('user');
         $subject=session()->get('subject');
+
         $questionFromDb = Question::find($question);
+
         $questionFromDb->delete();
 
         $options = Option::where('question_id', $question)->get();
@@ -287,5 +290,26 @@ public function trashed($user, $subject)
          $question->restore();
          return redirect()->back();
      }
+     public function Question_delete($question)
+{
+$questionType=QuestionType::where('question_id',$question)->select();
+$options=Option::where()->select();
+
+
+if($options!=null){
+    $options->delete();
+    foreach ($options as $option){
+        $option->delete();
+    }
+}
+    $questionObj = QuestionType::find($question);
+    if($questionObj!=null){
+        $questionObj->delete();
+    }
+
+    return redirect()->back();
+}
+
+
 }
 
