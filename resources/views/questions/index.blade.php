@@ -55,9 +55,9 @@
             <br>
             
             <div class="py-2 h5">
-                <a style="background: #323a56; color: white;" class="btn btn-danger" href="{{route('questions.show',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> show </a> &nbsp; &nbsp; &nbsp; &nbsp;
-                <a style="background: #323a56; color: white;" class="btn btn-danger" href="{{route('questions.destroy',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Delete </a> &nbsp; &nbsp; &nbsp; &nbsp;
-                <a style="background: #323a56; color: white;" class="btn btn-danger" href="{{route('questions.edit',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Edit </a>
+                <a style="background: #323a56; color: white;" class="btn " href="{{route('questions.show',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> show </a> &nbsp; &nbsp; &nbsp; &nbsp;
+                <a style="background: #323a56; color: white;" class="btn " href="{{route('questions.destroy',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Delete </a> &nbsp; &nbsp; &nbsp; &nbsp;
+                <a style="background: #323a56; color: white;" class="btn " href="{{route('questions.edit',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Edit </a>
             </div> 
         </div>
     </div>

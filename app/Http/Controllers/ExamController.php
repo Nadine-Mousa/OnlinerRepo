@@ -261,8 +261,8 @@ class ExamController extends Controller
                 $structure = ExamStructure::where([
                     ['exam_key','=', $exam_key],
                     ['subject_id','=', $subject],
-                    ['chapter_number','=', $chapter_number],
-                    ['difficulty','=', $difficulty],
+                    ['chapter_number','=', $chapter_id],
+                    ['difficulty','=', $request->difficulty],
                     ['question_type', '=', $request->question_type] 
                 ])->update(['number_of_questions' =>
                     ($structure->number_of_questions + $total_questions)]);
@@ -399,7 +399,8 @@ class ExamController extends Controller
         $exam_key = $request->exam_key;
         $user = session()->get('user');
         $exam = Exam::where('exam_key', $exam_key)->first();
-
+        $subject = session()->get('subject');
+        
         if($exam == null){
             return redirect()->back()
             ->with('noSuchExamKey','There is no such exam key. Please, make sure all letters are captical.');

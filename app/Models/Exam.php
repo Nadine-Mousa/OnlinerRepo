@@ -21,7 +21,8 @@ class Exam extends Model
         'level_id',
         'is_dynamic',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'marks'
 
     ];
     
