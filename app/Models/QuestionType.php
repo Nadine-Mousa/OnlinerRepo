@@ -13,9 +13,15 @@ class QuestionType extends Model
         'type_name',
 
     ];
+
+    // public function questions()
+    // {
+    //     return $this->hasMany(Question::class);
+    // }
     
-    public function question(): HasMany
-    {
-        return $this->hasMany(SingleChoiceQuestion::class);
-    }
+    // public function question(): HasMany
+    // {
+    //     return $this->hasMany(SingleChoiceQuestion::class);
+    // }
+    
 }

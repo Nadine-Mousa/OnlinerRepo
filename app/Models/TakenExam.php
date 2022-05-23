@@ -16,6 +16,7 @@ class TakenExam extends Model
     public function exam(): BelongsTo
     {
         return $this->belongsTo(Exam::class, 'exam_id');
+        // return $this->belongsTo(Exam::class);
     }
 
    
@@ -23,6 +24,8 @@ class TakenExam extends Model
     {
         return $this->belongsTo(User::class, 'student_id' );
     }
+
+    
 
 
 

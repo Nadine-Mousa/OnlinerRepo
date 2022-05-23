@@ -12,13 +12,17 @@ class Exam extends Model
         'exam_key',
         'exam_name',
         'duration',
-        'start_time',
-        'end_time',
+        'start_from',
+        'is_accessed_anytime',
+        'is_accepting_responses',
         'professor_id',
         'subject_id',
         'department_id',
         'level_id',
-        'total_questions'
+        'is_dynamic',
+        'created_at',
+        'updated_at'
+
     ];
     
 }

@@ -1,0 +1,28 @@
+.formgroup {
+    color: #323a56;
+    font: solid 50px;
+    font-style: bold;
+    margin-bottom: 10px;
+}
+
+.bodyCreateExam{
+    margin-top: 50px;
+    /* margin-left: 300px; */
+    
+}
+
+.formgroup input {
+    width: 100%;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    /* font-size: 40px; */
+}
+.formgroup label {
+    font-size: 25px;
+    margin-bottom: 6px;
+
+}
+
+.bgcolor {
+    background-color: #cdd1e5;
+}

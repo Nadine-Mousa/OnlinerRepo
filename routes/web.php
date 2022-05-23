@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 // User Routes
 
+Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
+
 Route::get('/login_page', 'App\Http\Controllers\UserController@showLoginForm')->name('showLoginForm');
 
 Route::post('/login', 'App\Http\Controllers\UserController@login')->name('login');
@@ -36,6 +38,7 @@ Route::get('/subjects/{subject}/ask_for_approve', 'App\Http\Controllers\SubjectC
 
 // Questions Routes
 Route::get('{user}/{subject}/questions', 'App\Http\Controllers\QuestionController@index')->name('questions.index');
+Route::get('{user}/{subject}/questions/show/{question}', 'App\Http\Controllers\QuestionController@show')->name('questions.show');
 //create
 Route::post('{user}/{subject}/questions/store', 'App\Http\Controllers\QuestionController@store')->name('questions.store');
 Route::get('{user}/{subject}/questions/create', 'App\Http\Controllers\QuestionController@create')->name('questions.create');
@@ -49,15 +52,26 @@ Route::get('{user}/{subject}/questions/edit/{question}', 'App\Http\Controllers\Q
 Route::post('{user}/{subject}/questions/update/{question}', 'App\Http\Controllers\QuestionController@update')->name('questions.update');
 
 
+// Option Routes
+//create
+Route::post('{user}/{subject}/{question}/options/store', 'App\Http\Controllers\OptionController@store')->name('options.store');
+Route::get('{user}/{subject}/{question}/options/create', 'App\Http\Controllers\OptionController@create')->name('options.create');
+
+
+
 
 // Exams Routes
 Route::get('/exams', 'App\Http\Controllers\ExamController@index')->name('exams.index');
 Route::post('/exams/storeAnswers', 'App\Http\Controllers\ExamController@storeAnswers')->name('exams.storeAnswers');
 Route::post('/exams', 'App\Http\Controllers\ExamController@store')->name('exams.store');
-Route::get('/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('student_exams');
-Route::get('/student_exams/{exam}', 'App\Http\Controllers\ExamController@show_student_exam')->name('student_exam');
+Route::get('/exams/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('exams.student_exams');
 Route::get('/exams/quiz', 'App\Http\Controllers\ExamController@takeExam')->name('exams.quiz');
-Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show');
+
+Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create_exam');
+Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->name('exams.store_exam'); 
+Route::get('/student_exams/{exam}', 'App\Http\Controllers\ExamController@show_student_exam')->name('student_exam');
+Route::get('/exams/show_results/{exam}', 'App\Http\Controllers\ExamController@show_results')->name('exams.show_results');
+Route::get('/exams/{exam}', 'App\Http\Controllers\ExamController@show')->name('exams.show_exam');
 
 
 Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create');
@@ -172,6 +186,11 @@ Route::get('/error', function(){
   //  return view('admin.index');
 //});
 
-Route::get('/welcome', function(){
-    return view('welcome');
+Route::get('/test', function(){
+    return view('exams.show_results');
 });
+
+
+Route::get('home', 'App\Http\Controllers\UserController@home')->name('home');
+Route::get('about', 'App\Http\Controllers\UserController@about')->name('about');
+Route::get('contact', 'App\Http\Controllers\UserController@contact')->name('contact');

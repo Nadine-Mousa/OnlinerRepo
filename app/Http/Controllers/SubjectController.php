@@ -65,17 +65,12 @@ class SubjectController extends Controller
      */
     public function show( $subject)
     {
-        //$user = Session::get('user');
         $user = session()->get('user');
         
-       // $department = Session::get('department');
        $department = session()->get('department');
-       //dd($department);
-       // $level = Session::get('level');
        $level = session()->get('level');
-       // Session::put('subject', $subject);
        session()->put('subject', $subject);
-        $subjectFromDb = Subject::where('id', $subject)->first();
+       $subjectFromDb = Subject::where('id', $subject)->first();
 
         $professor_subject = ProfessorSubject::where([
             ['professor_id', '=', $user->id],
@@ -112,8 +107,17 @@ class SubjectController extends Controller
          {
              $is_prof = true;
          }
+         $temp_professor_subject = TempProfessorSubject::where([
+             ['professor_id', '=', $user->id],
+             ['subject_id', '=', $subjectFromDb->id]
+         ])->first();
 
-        //Session::put('hasApprovalToSubject', $hasApprovalToSubject);
+         $has_requested_subject_approval = false;
+         if($temp_professor_subject != null) {
+             $has_requested_subject_approval = true;
+         }
+         
+
         session()->put('hasApprovalToSubject', $hasApprovalToSubject);
 
         return view('subjects.show', ['user' => $user, 
@@ -122,7 +126,8 @@ class SubjectController extends Controller
          'subject' => $subjectFromDb,
          'hasApprovalToSubject' => $hasApprovalToSubject,
          'is_student' => $is_student,
-         'is_prof' => $is_prof
+         'is_prof' => $is_prof,
+         'has_requested_subject_approval' => $has_requested_subject_approval
         ]);
     }
 

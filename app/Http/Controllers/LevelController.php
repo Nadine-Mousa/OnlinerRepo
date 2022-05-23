@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Level;
+use App\Models\Department;
 use App\Models\User;
 use Session;
 
@@ -22,10 +23,11 @@ class LevelController extends Controller
         
        // Session::put('department', $department);
         session()->put('department', $department);
+        $departmentFromDb = Department::find($department);
         $levels = Level::all();
         return view('levels.index',
         ['levels' => $levels,
-        'department' => $department, 
+        'department' => $departmentFromDb, 
         'user' => $user]);
 
     }

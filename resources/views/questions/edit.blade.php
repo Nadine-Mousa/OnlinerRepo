@@ -6,11 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Onliner | Edit Question</title>
+
 </head>
 <body>
 @section('content')
 
+
 	<div class="container">
+
 		@if (count($errors)>0)
 		@foreach ($errors->all() as $item)
 		<div class="alert alert-primary" role="alert">
@@ -27,61 +30,36 @@
 			<label for="exampleFormControlInput1">Title</label>
 			<input class="form-control" type="text" required="required" name="title" value="{{$question->title}}">
 			</div>
-
-		
 			
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option one</label>
-				<input class="form-control" type="text" required="required"  name="option_one" value="{{$question->option_one}}">
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option two</label>
-				<input class="form-control" type="text" required="required" name="option_two" value="{{$question->option_two}}">
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option three</label>
-				<input class="form-control" type="text" required="required" name="option_three" value="{{$question->option_three}}">
-				<span>OPtion three</span>>
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Option four</label>
-				<input class="form-control" type="text" required="required" name="option_four" value="{{$question->option_four}}">
-			</div>
-
-			<div class="form-group">
-				<label for="exampleFormControlInput1"> Answer </label>
-				<input class="form-control" type="text" required="required" name="answer" value="{{$question->answer}}">
-			</div>
 <br>
 			<select class="form-select" aria-label="Default select example" name="difficulty">
-				<option selected > {{$question->difficulty}}</option>
-				<option value="A">A</option>
-				<option value="B">B</option>
-				<option value="C">C</option>
-				<option value="D">D</option>
+				<option value="{{$question->question_difficulty->id}}" selected > {{$question->question_difficulty->name}}</option>
+				@foreach($difficulties as $difficulty)
+					@if($difficulty->id != $question->difficulty)<option value="{{$difficulty->id}}"> {{$difficulty->name}}</option> @endif
+				@endforeach
+				
 			  </select>
 <br>
 <br>
 		<select class="form-select" aria-label="Default select example" name="question_type">
-			<option selected >{{$question_name}}</option>
+			<option value = "{{$question->question_type}}" selected>{{$question->type->type_name}}</option>
 			@foreach ($question_types as $question_type)
-			<option value="{{$question_type->id}}">{{$question_type->type_name}}</option>
+			@if($question_type->id != $question->question_type)<option value="{{$question_type->id}}">{{$question_type->type_name}}</option>@endif
 			@endforeach
 			
 		</select>
 <br>
-			<div class="form-group">
-				<label for="exampleFormControlInput1"> Chapter Number </label>
-				<input class="form-control" type="text" required="required" name="chapter_number" value="{{$question->chapter_number}}">
-			</div>
 
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Marks</label>
-				<input class="form-control" type="text" required="required" name="marks" value="{{$question->marks}}" >
-			</div>
+		<select class="form-select" aria-label="Default select example" name="chapter_id">
+			<option value="{{$question->chapter->id}}" selected > {{$question->chapter->chapter_name}} </option>
+			@foreach ($chapters as $chapter)
+				@if($chapter->id != $question->chapter->id)<option value="{{$chapter->id}}">{{$chapter->chapter_name}}</option> @endif
+			@endforeach
+			
+		</select>
+
+<br>
+			
 
 
 			

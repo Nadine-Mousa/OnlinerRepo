@@ -1,3 +1,4 @@
+@extends('layouts.nav')
 <!DOCTYPE html>
 <html style="font-size: 16px;">
   <head>
@@ -6,9 +7,11 @@
     <meta name="keywords" content="Our Mission, The Future is Here, ​Architectural Design &amp;amp; Research, Architectural Agency, About Company, Our Team, ​Building Expertise">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>Home</title>
+    <title>Onliner | Home</title>
     <link rel="stylesheet" href="{{asset('assets/css/welcome/nicepage.css')}}" media="screen">
     <link rel="stylesheet" href="{{asset('assets/css/welcome/Home.css')}}" media="screen">
+    <link rel="stylesheet" href="{{asset('assets/css/welcome/exam_key.css')}}" media="screen">
+
     <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 4.7.1, nicepage.com">
@@ -24,16 +27,30 @@
           }
       </script>
 
+
+
+
     <meta name="theme-color" content="#323a56">
     <meta property="og:title" content="Home">
     <meta property="og:type" content="website">
+
+
   </head>
-  <body class="u-body u-xl-mode"><header class="u-clearfix u-header u-header" id="sec-664a"><div class="u-clearfix u-sheet u-sheet-1">
+  @section('content')
+  <body class="u-body u-xl-mode">
+    <!-- <header class="u-clearfix u-header u-header" id="sec-664a">
+      <div class="u-clearfix u-sheet u-sheet-1">
+         image
         <a href="https://nicepage.com" class="u-image u-logo u-image-1">
           <img style="height: 100px; width: 200px;"  src="assets/images/welcome/logo.jpg" class="u-logo-image u-logo-image-1">
         </a>
-        @include('partitions.exam_key')
-      </div></header> 
+        
+      </div>
+    </header>-->
+
+    <!-- Exam Key Input -->
+
+    
     <section class="u-clearfix u-image u-section-1" id="sec-cd44" data-image-width="1127" data-image-height="750">
       <div class="u-clearfix u-sheet u-sheet-1">
         <div class="u-clearfix u-layout-wrap u-layout-wrap-1">
@@ -42,6 +59,22 @@
               <div class="u-align-left u-container-style u-layout-cell u-left-cell u-palette-1-base u-shape-rectangle u-size-21 u-layout-cell-1">
                 <div class="u-container-layout u-valign-top u-container-layout-1">
                   <h1 class="u-text u-text-1">Onliner</h1>
+                  <!-- exam key  -->
+                  @if($user->role == 3)
+                    <div class="containerExamKey">
+                          <div class="content" >
+                              <form class="subscription" metod="GET" action="{{route('exams.quiz')}}">
+                                @csrf
+                              <input name="exam_key" class="add-email" required="required" type="text" placeholder="Enter an exam key ....">
+                              <button class="submit-email" type="submit">
+                                  <span class="before-submit">Take exam</span>
+                                  <span class="after-submit">Go kill it!</span>
+                              </button>
+                              </form>
+                          </div>
+                    </div>
+                  @endif
+
                   <p class="u-large-text u-text u-text-palette-1-light-2 u-text-variant u-text-2">We're building value and opportunity by investing in cybersecurity, analytics, digital solutions, engineering and science, and consulting. </p>
                   <p class="u-text u-text-default u-text-3">Images from <a href="https://www.freepik.com/photos/background" class="u-border-1 u-border-white u-btn u-button-link u-button-style u-none u-text-body-alt-color u-btn-1">Freepik</a>
                   </p>
@@ -50,15 +83,15 @@
               </div>
               <div class="u-align-right u-container-style u-layout-cell u-right-cell u-size-39 u-layout-cell-2">
                 <div class="u-container-layout u-container-layout-2">
-                  <p class="u-text u-text-body-alt-color u-text-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit nullam nunc justo sagittis suscipit ultrices.</p>
+                  <p class="u-text u-text-body-alt-color u-text-4" > <span style="color:#323a56;"> Lorem ipsum dolor sit amet, consectetur adipiscing elit nullam nunc justo sagittis suscipit ultrices. </span></p>
                   <div class="u-social-icons u-spacing-16 u-social-icons-1">
-                    <a class="u-social-url" target="_blank" href=""><span class="u-icon u-icon-circle u-social-facebook u-social-icon u-text-white u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-60c6"></use></svg><svg x="0px" y="0px" viewBox="0 0 112 112" id="svg-60c6" class="u-svg-content"><path d="M75.5,28.8H65.4c-1.5,0-4,0.9-4,4.3v9.4h13.9l-1.5,15.8H61.4v45.1H42.8V58.3h-8.8V42.4h8.8V32.2 c0-7.4,3.4-18.8,18.8-18.8h13.8v15.4H75.5z"></path></svg></span>
+                    <a class="u-social-url" target="_blank" href=""><span class="u-icon u-icon-circle u-social-facebook u-social-icon  u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-60c6"></use></svg><svg x="0px" y="0px" viewBox="0 0 112 112" id="svg-60c6" class="u-svg-content"><path d="M75.5,28.8H65.4c-1.5,0-4,0.9-4,4.3v9.4h13.9l-1.5,15.8H61.4v45.1H42.8V58.3h-8.8V42.4h8.8V32.2 c0-7.4,3.4-18.8,18.8-18.8h13.8v15.4H75.5z"></path></svg></span>
                     </a>
-                    <a class="u-social-url" target="_blank" href=""><span class="u-icon u-icon-circle u-social-icon u-social-twitter u-text-white u-icon-2"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-52c2"></use></svg><svg x="0px" y="0px" viewBox="0 0 112 112" id="svg-52c2" class="u-svg-content"><path d="M92.2,38.2c0,0.8,0,1.6,0,2.3c0,24.3-18.6,52.4-52.6,52.4c-10.6,0.1-20.2-2.9-28.5-8.2 c1.4,0.2,2.9,0.2,4.4,0.2c8.7,0,16.7-2.9,23-7.9c-8.1-0.2-14.9-5.5-17.3-12.8c1.1,0.2,2.4,0.2,3.4,0.2c1.6,0,3.3-0.2,4.8-0.7 c-8.4-1.6-14.9-9.2-14.9-18c0-0.2,0-0.2,0-0.2c2.5,1.4,5.4,2.2,8.4,2.3c-5-3.3-8.3-8.9-8.3-15.4c0-3.4,1-6.5,2.5-9.2 c9.1,11.1,22.7,18.5,38,19.2c-0.2-1.4-0.4-2.8-0.4-4.3c0.1-10,8.3-18.2,18.5-18.2c5.4,0,10.1,2.2,13.5,5.7c4.3-0.8,8.1-2.3,11.7-4.5 c-1.4,4.3-4.3,7.9-8.1,10.1c3.7-0.4,7.3-1.4,10.6-2.9C98.9,32.3,95.7,35.5,92.2,38.2z"></path></svg></span>
+                    <a class="u-social-url" target="_blank" href=""><span class="u-icon u-icon-circle u-social-icon u-social-twitter  u-icon-2"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-52c2"></use></svg><svg x="0px" y="0px" viewBox="0 0 112 112" id="svg-52c2" class="u-svg-content"><path d="M92.2,38.2c0,0.8,0,1.6,0,2.3c0,24.3-18.6,52.4-52.6,52.4c-10.6,0.1-20.2-2.9-28.5-8.2 c1.4,0.2,2.9,0.2,4.4,0.2c8.7,0,16.7-2.9,23-7.9c-8.1-0.2-14.9-5.5-17.3-12.8c1.1,0.2,2.4,0.2,3.4,0.2c1.6,0,3.3-0.2,4.8-0.7 c-8.4-1.6-14.9-9.2-14.9-18c0-0.2,0-0.2,0-0.2c2.5,1.4,5.4,2.2,8.4,2.3c-5-3.3-8.3-8.9-8.3-15.4c0-3.4,1-6.5,2.5-9.2 c9.1,11.1,22.7,18.5,38,19.2c-0.2-1.4-0.4-2.8-0.4-4.3c0.1-10,8.3-18.2,18.5-18.2c5.4,0,10.1,2.2,13.5,5.7c4.3-0.8,8.1-2.3,11.7-4.5 c-1.4,4.3-4.3,7.9-8.1,10.1c3.7-0.4,7.3-1.4,10.6-2.9C98.9,32.3,95.7,35.5,92.2,38.2z"></path></svg></span>
                     </a>
-                    <a class="u-social-url" target="_blank" href=""><span class="u-icon u-icon-circle u-social-icon u-social-instagram u-text-white u-icon-3"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-24b3"></use></svg><svg x="0px" y="0px" viewBox="0 0 112 112" id="svg-24b3" class="u-svg-content"><path d="M55.9,32.9c-12.8,0-23.2,10.4-23.2,23.2s10.4,23.2,23.2,23.2s23.2-10.4,23.2-23.2S68.7,32.9,55.9,32.9z M55.9,69.4c-7.4,0-13.3-6-13.3-13.3c-0.1-7.4,6-13.3,13.3-13.3s13.3,6,13.3,13.3C69.3,63.5,63.3,69.4,55.9,69.4z"></path><path d="M79.7,26.8c-3,0-5.4,2.5-5.4,5.4s2.5,5.4,5.4,5.4c3,0,5.4-2.5,5.4-5.4S82.7,26.8,79.7,26.8z"></path><path d="M78.2,11H33.5C21,11,10.8,21.3,10.8,33.7v44.7c0,12.6,10.2,22.8,22.7,22.8h44.7c12.6,0,22.7-10.2,22.7-22.7 V33.7C100.8,21.1,90.6,11,78.2,11z M91,78.4c0,7.1-5.8,12.8-12.8,12.8H33.5c-7.1,0-12.8-5.8-12.8-12.8V33.7 c0-7.1,5.8-12.8,12.8-12.8h44.7c7.1,0,12.8,5.8,12.8,12.8V78.4z"></path></svg></span>
+                    <a class="u-social-url" target="_blank" href=""><span class="u-icon u-icon-circle u-social-icon u-social-instagram  u-icon-3"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-24b3"></use></svg><svg x="0px" y="0px" viewBox="0 0 112 112" id="svg-24b3" class="u-svg-content"><path d="M55.9,32.9c-12.8,0-23.2,10.4-23.2,23.2s10.4,23.2,23.2,23.2s23.2-10.4,23.2-23.2S68.7,32.9,55.9,32.9z M55.9,69.4c-7.4,0-13.3-6-13.3-13.3c-0.1-7.4,6-13.3,13.3-13.3s13.3,6,13.3,13.3C69.3,63.5,63.3,69.4,55.9,69.4z"></path><path d="M79.7,26.8c-3,0-5.4,2.5-5.4,5.4s2.5,5.4,5.4,5.4c3,0,5.4-2.5,5.4-5.4S82.7,26.8,79.7,26.8z"></path><path d="M78.2,11H33.5C21,11,10.8,21.3,10.8,33.7v44.7c0,12.6,10.2,22.8,22.7,22.8h44.7c12.6,0,22.7-10.2,22.7-22.7 V33.7C100.8,21.1,90.6,11,78.2,11z M91,78.4c0,7.1-5.8,12.8-12.8,12.8H33.5c-7.1,0-12.8-5.8-12.8-12.8V33.7 c0-7.1,5.8-12.8,12.8-12.8h44.7c7.1,0,12.8,5.8,12.8,12.8V78.4z"></path></svg></span>
                     </a>
-                    <a class="u-social-url" target="_blank" href="#"><span class="u-icon u-icon-circle u-social-icon u-social-youtube u-text-white u-icon-4"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-b189"></use></svg><svg x="0px" y="0px" viewBox="0 0 112 112" id="svg-b189" class="u-svg-content"><path d="M82.3,24H29.7C19.3,24,11,32.5,11,43v26.7c0,10.5,8.3,19,18.7,19h52.5c10.3,0,18.7-8.5,18.7-19V43 C101,32.5,92.7,24,82.3,24L82.3,24z M69.7,57.6L45.1,69.5c-0.7,0.2-1.4-0.2-1.4-0.8V44.1c0-0.7,0.8-1.3,1.4-0.8l24.6,12.6 C70.4,56.2,70.4,57.3,69.7,57.6L69.7,57.6z"></path></svg></span>
+                    <a class="u-social-url" target="_blank" href="#"><span class="u-icon u-icon-circle u-social-icon u-social-youtube  u-icon-4"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-b189"></use></svg><svg x="0px" y="0px" viewBox="0 0 112 112" id="svg-b189" class="u-svg-content"><path d="M82.3,24H29.7C19.3,24,11,32.5,11,43v26.7c0,10.5,8.3,19,18.7,19h52.5c10.3,0,18.7-8.5,18.7-19V43 C101,32.5,92.7,24,82.3,24L82.3,24z M69.7,57.6L45.1,69.5c-0.7,0.2-1.4-0.2-1.4-0.8V44.1c0-0.7,0.8-1.3,1.4-0.8l24.6,12.6 C70.4,56.2,70.4,57.3,69.7,57.6L69.7,57.6z"></path></svg></span>
                     </a>
                   </div>
                 </div>
@@ -66,7 +99,8 @@
             </div>
           </div>
         </div>
-        <h2 class="u-text u-text-palette-4-dark-2 u-text-5">Put Your Pencils Down</h2>
+
+        <h2  class="u-text u-text-palette-4-dark-2 u-text-5"><span style="color: #232a56" >Put Your Pencils Down</span></h2>
       </div>
     </section>
     <section class="u-align-left u-clearfix u-palette-1-light-2 u-section-2" id="sec-f9d8">
@@ -106,28 +140,8 @@
         </div>
       </div>
     </section>
-    <section class="u-align-center u-clearfix u-palette-1-light-2 u-section-3" id="carousel_d6a1">
-      <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-sm u-valign-middle-xl u-valign-middle-xs u-sheet-1">
-        <div class="u-palette-2-base u-shape u-shape-rectangle u-shape-1"></div>
-        <div class="u-palette-2-base u-shape u-shape-rectangle u-shape-2"></div>
-        <div class="u-clearfix u-layout-wrap u-layout-wrap-1">
-          <div class="u-layout">
-            <div class="u-layout-row">
-              <div class="u-container-style u-image u-layout-cell u-left-cell u-size-32 u-image-1" data-image-width="1000" data-image-height="1019">
-                <div class="u-container-layout u-valign-bottom u-container-layout-1"></div>
-              </div>
-              <div class="u-align-left u-container-style u-layout-cell u-right-cell u-size-28 u-white u-layout-cell-2">
-                <div class="u-container-layout u-valign-middle u-container-layout-2">
-                  <h2 class="u-text u-text-1">Projects Planning</h2>
-                  <p class="u-text u-text-2">Sample text. Click to select the text box. Click again or double click to start editing the text.&nbsp;Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                  <a href="https://nicepage.studio" class="u-active-palette-1-base u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-palette-1-base u-btn u-button-style u-hover-palette-1-base u-none u-text-active-white u-text-hover-white u-btn-1">view more</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+
+
     <section class="u-align-left u-clearfix u-palette-1-base u-section-4" id="carousel_370a">
       <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-xl u-sheet-1">
         <div class="u-align-left u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-group-1">
@@ -223,6 +237,7 @@
         </div>
       </div>
     </section>
+    
     <section class="u-clearfix u-palette-1-light-2 u-section-5" id="carousel_6ca4">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <div class="u-palette-2-base u-shape u-shape-rectangle u-shape-1"></div>
@@ -238,135 +253,9 @@
         </div>
       </div>
     </section>
-    <section class="u-clearfix u-palette-1-base u-section-6" id="carousel_ca67">
-      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <div class="u-clearfix u-expanded-width u-gutter-20 u-layout-wrap u-layout-wrap-1">
-          <div class="u-layout">
-            <div class="u-layout-row">
-              <div class="u-size-16">
-                <div class="u-layout-col">
-                  <div class="u-size-30">
-                    <div class="u-layout-row">
-                      <div class="u-align-center u-container-style u-layout-cell u-palette-2-base u-shape-rectangle u-size-60 u-layout-cell-1">
-                        <div class="u-container-layout u-valign-middle u-container-layout-1"><span class="u-icon u-icon-rectangle u-spacing-10 u-text-white u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 60 60" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-2186"></use></svg><svg class="u-svg-content" viewBox="0 0 60 60" x="0px" y="0px" id="svg-2186" style="enable-background:new 0 0 60 60;"><g><path d="M42.595,0H17.405C14.977,0,13,1.977,13,4.405v51.189C13,58.023,14.977,60,17.405,60h25.189C45.023,60,47,58.023,47,55.595
-		V4.405C47,1.977,45.023,0,42.595,0z M15,8h30v38H15V8z M17.405,2h25.189C43.921,2,45,3.079,45,4.405V6H15V4.405
-		C15,3.079,16.079,2,17.405,2z M42.595,58H17.405C16.079,58,15,56.921,15,55.595V48h30v7.595C45,56.921,43.921,58,42.595,58z"></path><path d="M30,49c-2.206,0-4,1.794-4,4s1.794,4,4,4s4-1.794,4-4S32.206,49,30,49z M30,55c-1.103,0-2-0.897-2-2s0.897-2,2-2
-		s2,0.897,2,2S31.103,55,30,55z"></path><path d="M26,5h4c0.553,0,1-0.447,1-1s-0.447-1-1-1h-4c-0.553,0-1,0.447-1,1S25.447,5,26,5z"></path><path d="M33,5h1c0.553,0,1-0.447,1-1s-0.447-1-1-1h-1c-0.553,0-1,0.447-1,1S32.447,5,33,5z"></path><path d="M56.612,4.569c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414c3.736,3.736,3.736,9.815,0,13.552
-		c-0.391,0.391-0.391,1.023,0,1.414c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293
-		C61.128,16.434,61.128,9.085,56.612,4.569z"></path><path d="M52.401,6.845c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414c1.237,1.237,1.918,2.885,1.918,4.639
-		s-0.681,3.401-1.918,4.638c-0.391,0.391-0.391,1.023,0,1.414c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293
-		c1.615-1.614,2.504-3.764,2.504-6.052S54.017,8.459,52.401,6.845z"></path><path d="M4.802,5.983c0.391-0.391,0.391-1.023,0-1.414s-1.023-0.391-1.414,0c-4.516,4.516-4.516,11.864,0,16.38
-		c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414
-		C1.065,15.799,1.065,9.72,4.802,5.983z"></path><path d="M9.013,6.569c-0.391-0.391-1.023-0.391-1.414,0c-1.615,1.614-2.504,3.764-2.504,6.052s0.889,4.438,2.504,6.053
-		c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414
-		c-1.237-1.237-1.918-2.885-1.918-4.639S7.775,9.22,9.013,7.983C9.403,7.593,9.403,6.96,9.013,6.569z"></path>
-</g></svg></span>
-                          <p class="u-text u-text-body-alt-color u-text-1">Click again or double click to start editing the <span style="font-weight: 700;"></span>text.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="u-size-30">
-                    <div class="u-layout-row">
-                      <div class="u-align-center u-container-style u-layout-cell u-palette-2-base u-radius-4 u-shape-round u-size-60 u-layout-cell-2">
-                        <div class="u-container-layout u-valign-middle u-container-layout-2"><span class="u-icon u-icon-rectangle u-spacing-10 u-text-white u-icon-2"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 54 54" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-b0fd"></use></svg><svg class="u-svg-content" viewBox="0 0 54 54" x="0px" y="0px" id="svg-b0fd" style="enable-background:new 0 0 54 54;"><g><path d="M27,8c-9.374,0-17,7.626-17,17c0,7.112,4.391,13.412,11,15.9V50c0,0.553,0.447,1,1,1h1v2c0,0.553,0.447,1,1,1h6
-		c0.553,0,1-0.447,1-1v-2h1c0.553,0,1-0.447,1-1v-9.1c6.609-2.488,11-8.788,11-15.9C44,15.626,36.374,8,27,8z M30,49
-		c-0.553,0-1,0.447-1,1v2h-4v-2c0-0.553-0.447-1-1-1h-1v-5h8v5H30z M31.688,39.242C31.277,39.377,31,39.761,31,40.192V42h-8v-1.808
-		c0-0.432-0.277-0.815-0.688-0.95C16.145,37.214,12,31.49,12,25c0-8.271,6.729-15,15-15s15,6.729,15,15
-		C42,31.49,37.855,37.214,31.688,39.242z"></path><path d="M27,6c0.553,0,1-0.447,1-1V1c0-0.553-0.447-1-1-1s-1,0.447-1,1v4C26,5.553,26.447,6,27,6z"></path><path d="M51,24h-4c-0.553,0-1,0.447-1,1s0.447,1,1,1h4c0.553,0,1-0.447,1-1S51.553,24,51,24z"></path><path d="M7,24H3c-0.553,0-1,0.447-1,1s0.447,1,1,1h4c0.553,0,1-0.447,1-1S7.553,24,7,24z"></path><path d="M43.264,7.322l-2.828,2.828c-0.391,0.391-0.391,1.023,0,1.414c0.195,0.195,0.451,0.293,0.707,0.293
-		s0.512-0.098,0.707-0.293l2.828-2.828c0.391-0.391,0.391-1.023,0-1.414S43.654,6.932,43.264,7.322z"></path><path d="M12.15,38.436l-2.828,2.828c-0.391,0.391-0.391,1.023,0,1.414c0.195,0.195,0.451,0.293,0.707,0.293
-		s0.512-0.098,0.707-0.293l2.828-2.828c0.391-0.391,0.391-1.023,0-1.414S12.541,38.045,12.15,38.436z"></path><path d="M41.85,38.436c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l2.828,2.828c0.195,0.195,0.451,0.293,0.707,0.293
-		s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414L41.85,38.436z"></path><path d="M12.15,11.564c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414l-2.828-2.828
-		c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414L12.15,11.564z"></path><path d="M27,13c-6.617,0-12,5.383-12,12c0,0.553,0.447,1,1,1s1-0.447,1-1c0-5.514,4.486-10,10-10c0.553,0,1-0.447,1-1
-		S27.553,13,27,13z"></path>
-</g></svg></span>
-                          <p class="u-text u-text-body-alt-color u-text-2">Click again or double click to start editing the <span style="font-weight: 700;"></span>text.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="u-size-44">
-                <div class="u-layout-col">
-                  <div class="u-size-30">
-                    <div class="u-layout-row">
-                      <div class="u-container-style u-layout-cell u-size-60 u-layout-cell-3">
-                        <div class="u-container-layout u-valign-top u-container-layout-3">
-                          <h3 class="u-text u-text-default u-text-3"> We create realiable software projects</h3>
-                          <p class="u-text u-text-4"> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="u-size-30">
-                    <div class="u-layout-row">
-                      <div class="u-size-30">
-                        <div class="u-layout-col">
-                          <div class="u-container-style u-layout-cell u-size-60 u-layout-cell-4">
-                            <div class="u-container-layout u-container-layout-4">
-                              <h6 class="u-text u-text-default u-text-5">Sample Headline</h6>
-                              <p class="u-text u-text-6"> Justo donec enim diam vulputate ut pharetra. Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Venenatis lectus magna fringilla urna porttitor rhoncus dolor.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="u-size-30">
-                        <div class="u-layout-col">
-                          <div class="u-container-style u-layout-cell u-size-60 u-layout-cell-5">
-                            <div class="u-container-layout u-container-layout-5">
-                              <h6 class="u-text u-text-default u-text-7">Sample Headline</h6>
-                              <p class="u-text u-text-8"> Justo donec enim diam vulputate ut pharetra. Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Venenatis lectus magna fringilla urna porttitor rhoncus dolor.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="u-clearfix u-palette-1-light-2 u-section-7" id="carousel_13d1">
-      <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-xl u-valign-middle-xs u-sheet-1">
-        <img alt="" class="u-image u-image-default u-image-1" data-image-width="1200" data-image-height="1043" src="assets/images/welcome/derr-min.jpg">
-        <div class="u-form u-white u-form-1">
-          <form action="#" method="POST" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" source="email" name="form" style="padding: 28px;">
-            <div class="u-form-group u-form-name">
-              <label for="name-4c18" class="u-label">Name</label>
-              <input type="text" placeholder="Enter your Name" id="name-4c18" name="name" class="u-input u-input-rectangle u-palette-1-light-3" required="">
-            </div>
-            <div class="u-form-email u-form-group">
-              <label for="email-4c18" class="u-label">Email</label>
-              <input type="email" placeholder="Enter a valid email address" id="email-4c18" name="email" class="u-input u-input-rectangle u-palette-1-light-3" required="">
-            </div>
-            <div class="u-form-group u-form-message">
-              <label for="message-4c18" class="u-label">Message</label>
-              <textarea placeholder="Enter your message" rows="4" cols="50" id="message-4c18" name="message" class="u-input u-input-rectangle u-palette-1-light-3" required=""></textarea>
-            </div>
-            <div class="u-form-agree u-form-group u-form-group-4">
-              <input type="checkbox" id="agree-a472" name="agree" class="u-agree-checkbox" required="">
-              <label for="agree-a472" class="u-label">I accept the <a href="#">Terms of Service</a>
-              </label>
-            </div>
-            <div class="u-align-left u-form-group u-form-submit">
-              <a href="#" class="u-border-none u-btn u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-2-base u-btn-1">Submit</a>
-              <input type="submit" value="submit" class="u-form-control-hidden">
-            </div>
-            <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
-            <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
-            <input type="hidden" value="" name="recaptchaResponse">
-          </form>
-        </div>
-        <p class="u-align-right u-text u-text-default u-text-1">Image by <a href="https://www.freepik.com/photos/business" class="u-border-1 u-border-black u-btn u-button-link u-button-style u-none u-text-body-color u-btn-2" target="_blank">Freepik</a>
-        </p>
-      </div>
-    </section>
+
+
+ 
     
     
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-72ea"><div class="u-clearfix u-sheet u-sheet-1">
@@ -383,5 +272,36 @@
         <span>Best Free Website Builder</span>
       </a>. 
     </section>
+
+    <script>
+    var msg = '{{Session::get('noSuchExamKey')}}';
+    var exist = '{{Session::has('noSuchExamKey')}}';
+    if(exist){
+      alert(msg);
+    }
+    </script>
+    <script>
+      var msg = '{{Session::get('notAcceptingResponses')}}';
+      var exist = '{{Session::has('notAcceptingResponses')}}';
+      if(exist){
+        alert(msg);
+      }
+    </script>
+  
+
+
+    @endsection('content')
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+            document.querySelector('.submit-email').addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            document.querySelector('.subscription').classList.add('done');
+            });
+    </script>
+</body>
+  
   </body>
 </html>
