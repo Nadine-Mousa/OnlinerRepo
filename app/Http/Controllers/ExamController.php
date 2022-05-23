@@ -20,7 +20,8 @@ use DateTime;
 use Str;
 use App\Models\StudentAnswer;
 use App\Models\TakenExam;
-
+// use Collection;
+use Illuminate\Support\Collection;
 
 // use Session;
 //use Symfony\Component\HttpFoundation\Session\Session;
@@ -62,6 +63,7 @@ class ExamController extends Controller
     {
         // dd('here are the exams the student have taken before');
           $subject = session()->get('subject');
+          
           $user = session()->get('user');
           $subjectFromDb = Subject::where('id', $subject)->first();
           
@@ -72,9 +74,12 @@ class ExamController extends Controller
             }
 
           $student_exams=TakenExam::where('student_id', $user->id)->get();
-         //dd($student_exams->exams->exam_name) ;
 
-        //  dd($student_exams);
+
+        if($subject == null ){
+            return redirect()->back()->with('quizTaken', 'You have taken taken successfully');
+        }
+
           return view('exams.show_student_exams')->with([
             'student_exams'=> $student_exams,
              'is_student'=> $is_student,
@@ -104,10 +109,38 @@ class ExamController extends Controller
         
         $student_score = round($student_score, 2);
 
+        $student_answers_single = [];
+        $student_answers_multiple = [];
+        $student_options_multiple = new Collection();
+        $student_options_multiple_ids = new Collection();
+        $questions_multiple = [];
+        foreach($student_answers as $student_answer){
+            $question = Question::find($student_answer->question_id);
+            if($question->question_type == 3){
+                // the question has more than one correct answer
+                array_push($student_answers_multiple , $student_answer);
+                $option = Option::find($student_answer->option_id);
+                // array_push($student_options_multiple , $option);
+                $student_options_multiple->push($option);
+                $student_options_multiple_ids->push($option->id);
+                array_push($questions_multiple , $question);
+            }
+            else {
+                array_push($student_answers_single , $student_answer);
+            }
+        }
+        
+        $questions_multiple = array_unique($questions_multiple);
+
+
         return view('exams.show_student_exam', [
-            'student_answers' => $student_answers,
+            'student_answers_single' => $student_answers_single,
+            'questions_multiple' => $questions_multiple,
+            'student_options_multiple' => $student_options_multiple,
+            'student_answers_multiple' => $student_answers_multiple,
             'taken_exam' => $taken_exam,
             'exam' => $examFromDb,
+            'student_options_multiple_ids' => $student_options_multiple_ids,
             'student_score' => $student_score
 
         ]);
@@ -178,7 +211,8 @@ class ExamController extends Controller
             'total_questions' => 0,       
             'level_id'=>$level,
             'is_accessed_anytime' => $is_accessed_anytime,
-            'is_accepting_responses' => false
+            'is_accepting_responses' => false,
+            'marks' => $request->marks
         ]);
 
       $exam->save();
@@ -193,7 +227,7 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
-        
+        // dd('here to store questions');
         $subject = session()->get('subject');
         $exam_key = session()->get('exam')->exam_key;
         $exam_id = session()->get('exam')->id;
@@ -225,7 +259,8 @@ class ExamController extends Controller
                     ['exam_key','=', $exam_key],
                     ['subject_id','=', $subject],
                     ['chapter_number','=', $chapter_number],
-                    ['difficulty','=', $difficulty]
+                    ['difficulty','=', $difficulty],
+                    ['question_type', '=', $request->question_type] 
                 ])->update(['number_of_questions' =>
                     ($structure->number_of_questions + $total_questions)]);
                 
@@ -426,7 +461,8 @@ class ExamController extends Controller
                 $questions_of_structure = Question::with('options')->where([
                     ['subject_id', '=', $structure->subject_id],
                     ['chapter_id', '=', $structure->chapter_number],
-                    ['difficulty', '=', $structure->difficulty]
+                    ['difficulty', '=', $structure->difficulty],
+                    ['question_type', '=', $structure->question_type]
                 ])->inRandomOrder()->limit($structure->number_of_questions)->get();
 
                 foreach($questions_of_structure as $question){

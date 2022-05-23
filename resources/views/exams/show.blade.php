@@ -59,10 +59,10 @@
     <div class="form-group mb-3">
             <label>Question type</label>
             <select style="color: #323a56" required class="form-control" name="question_type">
-            <option class="dropdown-item" disabled selected ></option>
-                    @foreach($question_types as $question_type)
-                    <option class="dropdown-item" value="{{$question_type->id}}" >{{$question_type->type_name}}</option>
-                    @endforeach
+            <option class="dropdown-item" disabled ></option>
+                @foreach($question_types as $question_type)
+                <option class="dropdown-item" value="{{$question_type->id}}" >{{$question_type->type_name}}</option>
+                @endforeach
             </select>
     </div>
 
