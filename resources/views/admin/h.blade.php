@@ -19,7 +19,7 @@
                                     <h6 class="mb-4">Total Users</h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i> {{$usersCount}}</h3>
+                                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i> </h3>
                                         </div>
 
                                         <div class="col-3 text-right">
@@ -40,7 +40,7 @@
                                     <h6 class="mb-4">Total Subject </h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i>{{$subjectsCount}}</h3>
+                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i></h3>
                                         </div>
                                         <div class="col-3 text-right">
                                             <p class="m-b-0">36%</p>
@@ -60,7 +60,7 @@
                                     <h6 class="mb-4">Total professors</h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{{$professorssCount}}</h3>
+                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i></h3>
                                         </div>
                                         <div class="col-3 text-right">
                                             <p class="m-b-0">80%</p>
@@ -84,7 +84,7 @@
                                     <h6 class="mb-4">Total Exams</h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i> {{$examssCount}}</h3>
+                                            <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i> </h3>
                                         </div>
 
                                         <div class="col-3 text-right">
@@ -105,7 +105,7 @@
                                     <h6 class="mb-4">Total departments </h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i>{{$DepartmentsCount}}</h3>
+                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i></h3>
                                         </div>
                                         <div class="col-3 text-right">
                                             <p class="m-b-0">36%</p>
@@ -125,7 +125,7 @@
                                     <h6 class="mb-4">Total Chapters</h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
-                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{{$ChaptersCount}}</h3>
+                                            <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i></h3>
                                         </div>
                                         <div class="col-3 text-right">
                                             <p class="m-b-0">80%</p>
@@ -150,20 +150,7 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover">
                                             <tbody>
-                                               @foreach ($professors as $professor)
-                                               <tr class="unread">
-                                                <td><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></td>
-                                                <td>
-                                                    <h6 class="mb-1">{{$professor->first_name}}</h6>
-                                                    <p class="m-0">{{$professor->last_name}}</p>
-                                                </td>
-                                                <td>
-                                                    <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>11 MAY 12:56</h6>
-                                                </td>
-                                                <td><a href="{{route('dashboard.reject_prof',['professor' => $professor->id ])}}" class="label theme-bg2 text-white f-12">Reject</a><a href="{{route('dashboard.approve_prof',['professor' => $professor->id ])}}" class="label theme-bg text-white f-12">Approve</a></td>
-                                            </tr>
-
-                                               @endforeach
+                                          
 
 
 
@@ -372,27 +359,29 @@
                         <div class="col-xl-8 col-md-12 m-b-30">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Professors</a>
+                                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Today</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active show" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Students</a>
+                                    <a class="nav-link active show" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">This Week</a>
                                 </li>
-                                
+                                <li class="nav-item">
+                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">All</a>
+                                </li>
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th> Professor Name</th>
-                                                <th>Subject Name</th>
+                                                <th>User</th>
+                                                <th>Activity</th>
                                                 <th>Time</th>
                                                 <th>Status</th>
                                                 <th class="text-right"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           
+                                            
 
                                         </tbody>
                                     </table>
@@ -402,39 +391,153 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Student Name</th>
-                                                <th>Department</th>
-                                                <th>Level</th>
+                                                <th>User</th>
+                                                <th>Activity</th>
+                                                <th>Time</th>
                                                 <th>Status</th>
                                                 <th class="text-right"></th>
                                             </tr>
                                         </thead>
-                                        @foreach ($students as $student)
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user">{{$student->first_name}}</h6>
+                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user">Albert Andersen</h6>
                                                 </td>
                                                 <td>
-                                                    <h6 class="m-0">{{$student->department->dep_name}}</h6>
+                                                    <h6 class="m-0">Jumps over the lazy</h6>
                                                 </td>
                                                 <td>
-                                                    <h6 class="m-0"> Level {{$student->pro_level->level_number}}</h6>
+                                                    <h6 class="m-0">2:37 PM</h6>
                                                 </td>
                                                 <td>
-                                                    <h6 class="m-0 text-c-red"></h6>
+                                                    <h6 class="m-0 text-c-red">Missed</h6>
                                                 </td>
-                                                <td><a href="{{route('dashboard.reject_student',['student' => $student->id ])}}" class="label theme-bg2 text-white f-12">Reject</a><a href="{{route('dashboard.approve_student',['student' => $student->id ])}}" class="label theme-bg text-white f-12">Approve</a></td>
+                                                <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
                                             </tr>
-
+                                            <tr>
+                                                <td>
+                                                    <h6 class="m-0"><img class="rounded-circle m-r-10" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">The quick brown fox</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">3:28 PM</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0 text-c-green">Done</h6>
+                                                </td>
+                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">The quick brown fox</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">4:28 PM</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0 text-c-green">Done</h6>
+                                                </td>
+                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-3.jpg" alt="activity-user">Silje Larsen</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">Dog the quick brown</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">10:23 AM</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0 text-c-purple">Delayed</h6>
+                                                </td>
+                                                <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                        @endforeach
-                        
 
                                 </div>
-                                
-                              
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Activity</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                                <th class="text-right"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-3.jpg" alt="activity-user">Silje Larsen</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">Dog the quick brown</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">10:23 AM</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0 text-c-purple">Delayed</h6>
+                                                </td>
+                                                <td class="text-right"><i class="fas fa-circle text-c-purple f-10"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6 class="m-0"><img class="rounded-circle m-r-10" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">The quick brown fox</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">3:28 PM</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0 text-c-green">Done</h6>
+                                                </td>
+                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user">Albert Andersen</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">Jumps over the lazy</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">2:37 PM</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0 text-c-red">Missed</h6>
+                                                </td>
+                                                <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user">Ida Jorgensen</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">The quick brown fox</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">4:28 PM</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0 text-c-green">Done</h6>
+                                                </td>
+                                                <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 

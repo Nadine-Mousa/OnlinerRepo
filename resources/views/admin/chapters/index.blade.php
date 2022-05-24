@@ -15,13 +15,14 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card daily-sales">
                             <div class="card-block">
-                                <h3 class="mb-4"> chapter number: {{$chapter->chapter_num}}</h3>
-                                <h3 class="mb-4"> chapter name : {{$chapter->chapter_name}}</h3>
-                                <h3 class="mb-4"> chapter desc: {{$chapter->chapter_desc}}</h3>
-                                <h3 class="mb-4"> Chapter Count: {{$chapter->chapter_count}}</h3>
-                                <h3 class="mb-4"> subject id: {{$chapter->subject_id}}</h3>
-                                <h3 class="mb-4"> created at : {{$chapter->created_at}}</h3>
-                                <h3 class="mb-4"> updated at : {{$chapter->updated_at}}</h3>
+                                <h4 class="mb-4" style="color:deepskyblue; text-align: center">  {{$chapter->chapter_name}}</h4>
+                               
+                                <h4 class="mb-4"> Chapter Namber: {{$chapter->chapter_num}}</h4>
+                               
+                             
+                                
+                                <h4 class="mb-4"> Subject Name: {{$chapter->subject->subject_name}}  </h4>
+                                
 
 
 

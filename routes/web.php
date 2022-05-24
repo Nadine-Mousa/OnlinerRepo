@@ -67,7 +67,8 @@ Route::post('/options/update/{option}', 'App\Http\Controllers\OptionController@u
 Route::get('/exams', 'App\Http\Controllers\ExamController@index')->name('exams.index');
 Route::post('/exams/storeAnswers', 'App\Http\Controllers\ExamController@storeAnswers')->name('exams.storeAnswers');
 Route::post('/exams', 'App\Http\Controllers\ExamController@store')->name('exams.store');
-
+Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create');
+Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->name('exams.store');
 
 
 Route::get('/exams/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('exams.student_exams');
@@ -91,6 +92,7 @@ Route::post('/exams/update/{structure}', 'App\Http\Controllers\ExamController@up
 
 
 
+
 //Admin
 
 Route::get('/dashboard', 'App\Http\Controllers\AdminController@show_professor_requests')->name('dashboard');
@@ -100,12 +102,17 @@ Route::get('/dashboard/approve_prof/{professor}', 'App\Http\Controllers\AdminCon
 Route::get('/dashboard/reject_prof_subject/{professor_subject}', 'App\Http\Controllers\AdminController@reject_professor_subject')->name('dashboard.reject_prof_subject');
 Route::get('/dashboard/approve_prof_subject/{professor_subject}', 'App\Http\Controllers\AdminController@approve_professor_subject')->name('dashboard.approve_prof_subject' );
 
+Route::get('/dashboard/reject_student/{student}', 'App\Http\Controllers\AdminController@reject_student')->name('dashboard.reject_student');
+Route::get('/dashboard/approve_student/{student}', 'App\Http\Controllers\AdminController@approve_student')->name('dashboard.approve_student' );
+
 Route::get('/dashboard/departments', 'App\Http\Controllers\AdminController@show_departments')->name('dashboard.departments' );
 Route::get('/dashboard/levels', 'App\Http\Controllers\AdminController@show_levels')->name('dashboard.levels' );
 Route::get('/dashboard/subjects', 'App\Http\Controllers\AdminController@show_subjects')->name('dashboard.subjects' );
 Route::get('/dashboard/exams', 'App\Http\Controllers\AdminController@show_exams')->name('dashboard.exams' );
 Route::get('/dashboard/professors', 'App\Http\Controllers\AdminController@show_professors')->name('dashboard.professors' );
+Route::get('/dashboard/students', 'App\Http\Controllers\AdminController@show_students')->name('dashboard.students' );
 Route::get('/dashboard/chapters', 'App\Http\Controllers\AdminController@show_chapters')->name('dashboard.chapters' );
+Route::get('/dashboard/services', 'App\Http\Controllers\AdminController@services')->name('dashboard.services' );
 
 //Route::get('/dashboard', 'App\Http\Controllers\AdminController@GetCount')->name('dashboard' );
 
@@ -157,8 +164,16 @@ Route::get('/dashboard/professors/create', 'App\Http\Controllers\AdminController
 //edit prof
 Route::get('/dashboard/professors/edit/{professor}', 'App\Http\Controllers\AdminController@professors_edit')->name('dashboard.professors.edit');
 Route::post('/dashboard/professors/update/{professor}', 'App\Http\Controllers\AdminController@professors_update')->name('dashboard.professors.update');
+
+//edit student
+Route::get('/dashboard/students/edit/{student}', 'App\Http\Controllers\AdminController@student_edit')->name('dashboard.students.edit');
+Route::post('/dashboard/students/update/{student}', 'App\Http\Controllers\AdminController@student_update')->name('dashboard.students.update');
+
 //delete prof
 Route::get('/dashboard/professors/delete/{professor}', 'App\Http\Controllers\AdminController@professors_delete')->name('dashboard.professors.delete');
+
+//delete student
+Route::get('/dashboard/students/delete/{student}', 'App\Http\Controllers\AdminController@student_delete')->name('dashboard.students.delete');
 
 // chapters
 //create prof
@@ -199,7 +214,7 @@ Route::get('/error', function(){
 //});
 
 Route::get('/test', function(){
-    return view('exams.edit_structur');
+    return view('admin.h');
 });
 
 

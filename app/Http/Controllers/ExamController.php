@@ -77,7 +77,7 @@ class ExamController extends Controller
             }
 
           $student_exams=TakenExam::where('student_id', $user->id)->get();
-
+                
 
         if($subject == null ){
             return redirect()->back()->with('quizTaken', 'You have taken taken successfully');
@@ -101,17 +101,20 @@ class ExamController extends Controller
         $user = session()->get('user');
         // dd($user);
         $examFromDb = Exam::where('id', $exam)->first();
+
         $taken_exam = TakenExam::where([
             ['exam_id', $exam],
             ['student_id', $user->id]
         ])->first();
         // dd($taken_exam);
 
+
         $student_answers = StudentAnswer::with('option')->where([
             ['exam_key', '=', $taken_exam->exam_key],
             ['student_id', '=', $user->id],
             ['option_id', '!=' , -1]
         ])->get();
+
 
         $not_answerd = StudentAnswer::with('option')->where([
             ['exam_key', '=', $taken_exam->exam_key],
@@ -482,9 +485,23 @@ class ExamController extends Controller
         // Check if this exam exists
         $exam_key = $request->exam_key;
         $user = session()->get('user');
-        $exam = Exam::where('exam_key', $exam_key)->first();
+
         $subject = session()->get('subject');
+        dd($subject);
         
+        $subject = Subject::where('id', $subject);
+        
+        if($subject == null ){
+            return redirect()->back()->with('quizTaken', 'You have taken taken successfully');
+        }
+
+        
+           
+
+        $exam = Exam::where('exam_key', $exam_key)->first();
+
+        
+
         if($exam == null){
             return redirect()->back()
             ->with('noSuchExamKey','There is no such exam key. Please, make sure all letters are captical.');
@@ -514,10 +531,11 @@ class ExamController extends Controller
             $timer = $exam->duration;
         }
         else {
+ 
             // exam is accessed only in specified date and time
             $start_from = $exam->start_from;
             $start = Carbon::createFromFormat('Y-m-d H:i:s', $start_from);
-            list($whole, $decimal) = explode('.', $exam->duration);
+            list($whole, $decimal) = explode('.', $exam->duration );
             $end = Carbon::createFromFormat('Y-m-d H:i:s', $start_from);
             $end->addMinute($whole);
             $end->addSecond($decimal / 100 * 60);
@@ -586,11 +604,13 @@ class ExamController extends Controller
 
         $user = session()->get('user');
 
+
         foreach($questions as $question){
             $question->options = $question->options->shuffle();
             $total_exam_marks += $question->options->sum('points');
         }
         session()->put('total_exam_marks', $total_exam_marks );
+
 
         $quiz_questions_ids = new Collection();
         foreach($questions as $question){
@@ -599,6 +619,7 @@ class ExamController extends Controller
         session()->put('quiz_questions_ids', $quiz_questions_ids);
 
         $timer = $timer * 60;
+
 
         return view('exams.quiz',
          ['questions' => $questions,
@@ -619,8 +640,10 @@ class ExamController extends Controller
         $rules = $this->validate($request, array('questions'=>'required'));
         $options = Option::find(array_values($request->input('questions')));
 
+
         // total score of the student
         $scored_points = $options->sum('points');
+
 
         $examFromDb = session()->get('exam');
 
@@ -641,6 +664,7 @@ class ExamController extends Controller
         $student_score = round($student_score, 2);
         $taken_exam->student_score = $student_score;
         $taken_exam->save();
+
 
         
         // store student chosen options of the exam in student aswers table

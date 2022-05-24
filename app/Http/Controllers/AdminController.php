@@ -13,7 +13,7 @@ use App\Models\Subject;
 use App\Models\Question;
 use App\Models\Exam ;
 use App\Models\Chapter ;
-
+use App\Models\Role;
 
 class AdminController extends Controller
 {
@@ -35,13 +35,20 @@ class AdminController extends Controller
           $ChaptersCount=Chapter::count();
 
 
-
+        
 
            $professors=TempProfessor::all();
            $someObj = ['prop1' => $usersCount,'prop2' => 'value2'];
            $professor_subjects = TempProfessorSubject::all();
+
+           $students = User::where([
+               'verified' => 0,
+               'role' => 3
+           ])->get();
+        //    dd($professor_subjects);
            return view('admin.index')->with([
             'professors'=> $professors,
+            'students' => $students,
             'professor_subjects'=> $professor_subjects,
            ])->with('usersCount',$usersCount)->with('subjectsCount',$subjectsCount)->with('professorssCount',$professorssCount)
            ->with('examssCount',$examssCount)->with('DepartmentsCount',$DepartmentsCount)->with('ChaptersCount',$ChaptersCount)
@@ -56,7 +63,21 @@ class AdminController extends Controller
           $professorFromDb->delete();
           return redirect()->back();
       }
-
+      //reject student
+      public function reject_student($student)
+      {
+          $student= User::find($student);
+          $student->delete();
+          return redirect()->back();
+      }
+      //approve student
+      public function approve_student($student)
+      {
+        $student= User::find($student);
+        $student->verified = 1;
+        $student->save();
+        return redirect()->back();
+      }
       //approve professor
 
       public function approve_professor($professor)
@@ -176,6 +197,11 @@ class AdminController extends Controller
     {
 
         $departmentFromDb = Department::find($department);
+        //dd($departmentFromDb->id);
+        $subjects = Subject::where('department_id', $departmentFromDb->id)->get();
+        foreach($subjects as $subject){
+            $subject->delete();
+        }
         $departmentFromDb->delete();
         return redirect()->back();
     }
@@ -191,7 +217,7 @@ class AdminController extends Controller
 
     }
 
-       //show levels
+       //show levels 
    public function show_levels()
    {
     $user = session()->get('user');
@@ -211,12 +237,12 @@ class AdminController extends Controller
         $this->validate($request, [
 
             'level_number' => 'required',
-            'created_at' => 'required',
+           
         ]);
 
         $level = Level::create([
             'level_number' => $request->level_number,
-            'created_at' => $request->created_at,
+           
         ]);
 
         $level->save();
@@ -241,10 +267,10 @@ class AdminController extends Controller
         $this->validate($request, [
 
             'level_number' => 'required',
-            'created_at' => 'required',
+           
         ]);
         $levelFromDb-> level_number = $request->level_number;
-        $levelFromDb-> created_at = $request->created_at;
+      
 
         $levelFromDb->save();
         return redirect()->route('dashboard.levels');
@@ -255,6 +281,11 @@ class AdminController extends Controller
     {
 
         $levelFromDb = Level::find($level);
+        
+        $subjects =  Subject::where('level_id', $levelFromDb->id)->get();
+        foreach($subjects as $subject){
+            $subject->delete();
+        }
         $levelFromDb->delete();
         return redirect()->back();
     }
@@ -275,7 +306,12 @@ class AdminController extends Controller
     //subjects create
     public function subjects_create()
     {
-        return view('admin.subjects.create');
+        $departments = Department::all();
+        $levels = Level::all();
+        return view('admin.subjects.create')->with([
+            'departments' => $departments,
+            'levels' => $levels
+        ]);
     }
 
 
@@ -286,7 +322,6 @@ class AdminController extends Controller
         $this->validate($request, [
 
             'subject_name' => 'required',
-            'created_at' => 'required',
             'subject_description'=>'required',
             'chapter_count'=>'required',
             'department_id'=>'required',
@@ -296,7 +331,6 @@ class AdminController extends Controller
         $subject = Subject::create([
             'subject_name' => $request->subject_name,
             'subject_description' => $request->subject_description,
-            'created_at' => $request->created_at,
             'chapter_count'=>$request->chapter_count,
             'department_id'=>$request->department_id,
             'level_id'=>$request->level_id
@@ -311,7 +345,13 @@ class AdminController extends Controller
     public function subjects_edit($subject)
     {
         $subjectFromDb = Subject::find($subject);
-        return view('admin.subjects.edit')->with('subject', $subjectFromDb);
+        $departments = Department::all();
+        $levels = Level::all();
+        return view('admin.subjects.edit')->with([
+            'subject'=> $subjectFromDb,
+            'departments'=> $departments,
+            'levels' => $levels
+        ]);
     }
 
     //subject update
@@ -322,14 +362,14 @@ class AdminController extends Controller
         $this->validate($request, [
 
             'subject_name' => 'required',
-            'created_at' => 'required',
+            
             'subject_description'=>'required',
             'chapter_count'=>'required',
             'department_id'=>'required',
             'level_id'=>'required'
         ]);
         $subjectFromDb-> subject_name = $request->subject_name;
-        $subjectFromDb-> created_at = $request->created_at;
+       
         $subjectFromDb->subject_description =$request->subject_description;
         $subjectFromDb->chapter_count =$request->chapter_count;
         $subjectFromDb->department_id =$request->department_id;
@@ -354,8 +394,13 @@ if($questionsSubject!=null){
     }
 }
     $subjectFromDb = Subject::find($subject);
+    //dd($subjectFromDb);
     if($subjectFromDb!=null){
         $subjectFromDb->delete();
+    }
+    $chapters = Chapter::where('subject_id', $subjectFromDb->id)->get();
+    foreach($chapters as $chapter){
+        $chapter->delete();
     }
 
     return redirect()->back();
@@ -500,16 +545,40 @@ public function exams_delete($exam)
 public function show_professors()
  {
   $user = session()->get('user');
-  $professors = TempProfessor::all();
+  $professors = User::where('role', 2)->get();
   return view('admin.professors.index',
    ['professors' => $professors,
     'user' => $user]);
  }
+
+  //show students
+
+  public function show_students()
+  {
+    $user = session()->get('user');
+    $students = User::where('role', 3)->get();
+    return view('admin.students.index',
+    ['students' => $students,
+     'user' => $user]);
+  }
+
     //professor create
     public function professors_create()
     {
-        return view('admin.professors.create');
+        $departments = Department::all();
+        $levels = Level::all();
+       
+        $roles= Role::where('id', '!=' , 1)->orWhereNull('id')->get();
+
+        return view('admin.professors.create',
+         ['departments' => $departments,
+          'levels' => $levels,
+          'roles' => $roles
+        ]);
+       
     }
+
+   
 
 
     //professor store
@@ -525,11 +594,10 @@ public function show_professors()
             'role'=>'required',
             'department_id' => 'required',
             'level_id'=>'required',
-            'created_at'=>'required',
-            'updated_at'=>'required'
+           
         ]);
 
-        $professor = TempProfessor::create([
+        $professor = User::create([
             'first_name'=>$request->first_name,
             'last_name'=>$request->last_name,
             'password'=>$request->password,
@@ -538,8 +606,7 @@ public function show_professors()
             'role'=>$request->role,
             'department_id' => $request->department_id,
             'level_id' => $request->level_id,
-            'created_at' => $request->created_at,
-            'updated_at' => $request->updated_at,
+           
 
 
         ]);
@@ -552,13 +619,17 @@ public function show_professors()
     //professor edit
     public function professors_edit($professor)
     {
-        $professorFromDb = TempProfessor::find($professor);
+        $professorFromDb = User::find($professor);
+        $departments = Department::all();
+        $levels = Level::all();
 
-
-
-
+       
         if ($professorFromDb!=null){
-            return view('admin.professors.edit')->with('professor', $professorFromDb);
+            return view('admin.professors.edit')->with([
+                'professor'=> $professorFromDb,
+                'departments' => $departments,
+              'levels' => $levels
+            ]);
         }
     }
 
@@ -566,7 +637,7 @@ public function show_professors()
 
     public function professors_update(Request $request, $professor)
     {
-        $professorFromDb = TempProfessor::find($professor);
+        $professorFromDb = User::find($professor);
         $this->validate($request, [
 
             'first_name'=>'required',
@@ -577,8 +648,7 @@ public function show_professors()
             'role'=>'required',
             'department_id' => 'required',
             'level_id'=>'required',
-            'created_at'=>'required',
-            'updated_at'=>'required'
+           
 
         ]);
         $professorFromDb->first_name =$request->first_name;
@@ -589,8 +659,7 @@ public function show_professors()
         $professorFromDb->role =$request->role;
         $professorFromDb-> department_id= $request->department_id;
         $professorFromDb->level_id =$request->level_id;
-        $professorFromDb-> created_at = $request->created_at;
-        $professorFromDb-> updated_at = $request->updated_at;
+      
         $professorFromDb->save();
         return redirect()->route('dashboard.professors');
     }
@@ -600,13 +669,74 @@ public function show_professors()
 //Exam delete
 public function professors_delete($professor)
 {
-   $professorFromDb = TempProfessor::find($professor);
+   $professorFromDb = User::find($professor);
    if($professorFromDb!=null){
        $professorFromDb->delete();
    }
 
    return redirect()->back();
 }
+
+//edit student
+
+public function student_edit($student)
+{
+    $studentFromDb = User::find($student);
+    $departments = Department::all();
+    $levels = Level::all();
+
+   
+    if ($studentFromDb!=null){
+        return view('admin.students.edit')->with([
+            'student'=> $studentFromDb,
+            'departments' => $departments,
+          'levels' => $levels
+        ]);
+    }
+}
+
+//update student
+public function student_update(Request $request, $student)
+{
+    $studentFromDb = User::find($student);
+    $this->validate($request, [
+
+        'first_name'=>'required',
+        'last_name'=>'required',
+        'password'=>'required',
+        'email'=>'required',
+        'verified'=>'required',
+        'role'=>'required',
+        'department_id' => 'required',
+        'level_id'=>'required',
+       
+
+    ]);
+    $studentFromDb->first_name =$request->first_name;
+    $studentFromDb->last_name =$request->last_name;
+    $studentFromDb->password =$request->password;
+    $studentFromDb->email =$request->email;
+    $studentFromDb->verified =$request->verified;
+    $studentFromDb->role =$request->role;
+    $studentFromDb-> department_id= $request->department_id;
+    $studentFromDb->level_id =$request->level_id;
+  
+    $studentFromDb->save();
+    return redirect()->route('dashboard.students');
+}
+//delete student
+
+public function student_delete($student)
+{
+    $studentFromDb = User::find($student);
+    if($studentFromDb!=null){
+        $studentFromDb->delete();
+    }
+ 
+    return redirect()->back();
+}
+
+//chapters
 public function show_chapters()
    {
     $user = session()->get('user');
@@ -619,7 +749,8 @@ public function show_chapters()
    //chapters create
     public function chapters_create()
     {
-        return view('admin.chapters.create');
+        $subjects = Subject::all();
+        return view('admin.chapters.create')->with('subjects', $subjects);
     }
 
     //chapters store
@@ -651,7 +782,11 @@ public function show_chapters()
     public function chapters_edit($chapter)
     {
         $chapterFromDb = Chapter::find($chapter);
-        return view('admin.chapters.edit')->with('chapter', $chapterFromDb);
+        $subjects = Subject::all();
+        return view('admin.chapters.edit')->with([
+            'chapter'=> $chapterFromDb,
+            'subjects' => $subjects
+        ]);
     }
 
     //chapters update
@@ -691,6 +826,11 @@ public function show_chapters()
 
         $Statistics=['users'=>$someObj];
         return view('admin.index')->with(['users'=>$someObj]);
+    }
+
+    public function services()
+    {
+
     }
 }
 

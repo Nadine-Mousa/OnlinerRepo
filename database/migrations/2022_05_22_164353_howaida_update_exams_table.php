@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('questions', function (Blueprint $table) {
-           // $table->dropColumn('chapeter_number');
-            $table->integer('chapter_id');
+         Schema::table('exams', function (Blueprint $table) {
+            $table->dateTime('start_from');
+            
         });
     }
 
@@ -26,8 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('questions', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };

@@ -26,6 +26,7 @@ class User extends Authenticatable
         'last_name',
         'level_id',
         'department_id',
+        'role'
     ];
 
     /**
@@ -36,6 +37,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        
     ];
 
     /**
@@ -50,8 +52,8 @@ class User extends Authenticatable
     public function department(){
         return $this->belongsTo(Department::class);
     }
-    public function level(){
-        return $this->belongsTo(Level::class);
+    public function pro_level(){
+        return $this->belongsTo(Level::class , 'level_id');
     }
     public function role(){
         return $this->belongsTo(Role::class);

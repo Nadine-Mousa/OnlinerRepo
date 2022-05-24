@@ -4,26 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Subject extends Model
 {
     use HasFactory;
-    public function department(){
-        return $this->belongsTo(Department::class);
-    }
-    public function level(){
-        return $this->belongsTo(Level::class);
-    }
+
     protected $fillable = [
         'subject_name',
         'subject_description',
-        "chapter_count",
-        "created_at",
-        "department_id",
-        "level_id"
+        'chapter_count',
+        'department_id',
+        'level_id'
 
 
     ];
+    public function sub_department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class, 'department_id' );
+    }
+    public function subject_level(): BelongsTo
+    {
+        return $this->belongsTo(Level::class, 'level_id');
+    }
+   
 
 }
 

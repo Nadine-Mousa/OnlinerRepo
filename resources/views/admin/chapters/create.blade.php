@@ -49,21 +49,17 @@
                                                         
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="subject_id">subject Id</label>
-                                                        <input type="text" name="subject_id" class="form-control" id="subject_id" required >
-                                                        
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="created_at">created at </label>
-                                                        <input type="date" name="created_at " class="form-control" id="created_at" required >
-                                                        
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="updated_at">updated at</label>
-                                                        <input type="date"  name="updated_at" class="form-control" id="updated_at" required>
+                                                        <select class="form-control"  name="subject_id">
+                                                            <option class="hidden"  selected disabled>Subject</option>
+                                                            @foreach($subjects as $subject)
+                                                            <option value="{{$subject->id}}"  > {{$subject->subject_name}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                    
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                   
+                                                   
+                                                    <button type="submit" class="btn btn-primary">Create</button>
                                                 </form>
 
                                             </div>

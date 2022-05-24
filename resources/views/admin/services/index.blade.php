@@ -30,19 +30,29 @@
                                         <div class="row">
                                             <div class="col-md-6">
 
-                                                <form  method="POST" action= "{{route('dashboard.departments.update',['department' => $department->id])}}" >
+                                                <form  method="POST" action= "{{route('dashboard.subjects.store')}}" >
                                                     @csrf
+                                                    
                                                     <div class="form-group">
-                                                        <label for="exampleInputEmail1">Department Name</label>
-                                                        <input type="text" name="dep_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{$department->dep_name}}">
-                                                        
+                                                        <select class="form-control" name="department_id">
+                                                            <option class="hidden"  selected disabled>{{ __('Department')}}</option>
+                                                            @foreach($departments as $department)
+                                                            <option value="{{$department->id}}" > {{$department->dep_name}}</option>
+                                                            @endforeach 
+                                                            
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="exampleInputPassword1">Department Description</label>
-                                                        <input type="text"  name="dep_description" class="form-control" id="exampleInputPassword1" value="{{$department->dep_description}}">
+                                                        <select class="form-control"  name="level_id">
+                                                            <option class="hidden"  selected disabled>{{ __('Level')}}</option>
+                                                            @foreach($levels as $level)
+                                                            <option value="{{$level->id}}"  >{{ __('Level')}} {{$level->level_number}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
+                                                    
                                                    
-                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                    <button type="submit" class="btn btn-primary">Show Subjects</button>
                                                 </form>
 
                                             </div>

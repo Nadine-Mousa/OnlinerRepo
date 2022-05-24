@@ -72,8 +72,8 @@
                     <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu">
                         <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Levels</span></a>
                         <ul class="pcoded-submenu">
-                            <li class=""><a href="" class="">View</a></li>
-                            <li class=""><a href="bc_badges.html" class="">Add</a></li>
+                            <li class=""><a href="{{route('dashboard.levels')}}" class="">View</a></li>
+                            <li class=""><a href="{{route('dashboard.levels.create')}}" class="">Add</a></li>
 
 
                             </ul>
@@ -82,13 +82,43 @@
                     <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu">
                         <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Subjects</span></a>
                         <ul class="pcoded-submenu">
-                            <li class=""><a href="bc_button.html" class="">View</a></li>
-                            <li class=""><a href="bc_badges.html" class="">Add</a></li>
+                            <li class=""><a href="{{route('dashboard.subjects')}}" class="">View</a></li>
+                            <li class=""><a href="{{route('dashboard.subjects.create')}}" class="">Add</a></li>
+
+
+                            </ul>
+                    </li>
+
+                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu">
+                        <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Users</span></a>
+                        <ul class="pcoded-submenu">
+                            <li class=""><a href="{{route('dashboard.professors')}}" class="">View Professors</a></li>
+                            <li class=""><a href="{{route('dashboard.students')}}" class="">View Students</a></li>
+                            <li class=""><a href="{{route('dashboard.professors.create')}}" class="">Add</a></li>
+
+
+                            </ul>
+                    </li>
+
+                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu">
+                        <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Chapters</span></a>
+                        <ul class="pcoded-submenu">
+                            <li class=""><a href="{{route('dashboard.chapters')}}" class="">View</a></li>
+                            <li class=""><a href="{{route('dashboard.chapters.create')}}" class="">Add</a></li>
 
 
                             </ul>
                     </li>
                     
+                    <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds" class="nav-item pcoded-hasmenu">
+                        <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Services</span></a>
+                        <ul class="pcoded-submenu">
+                            <li class=""><a href="{{route('dashboard.chapters')}}" class="">View</a></li>
+                           
+
+
+                            </ul>
+                    </li>
                     
          
                 </ul>
