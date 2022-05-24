@@ -14,7 +14,7 @@
 <body class="mybg">
 @section('content')
 		<div class="six">
-			<h1><span>Add Option</span></h1>
+			<h1><span>Edit Option</span></h1>
 		</div>
 
 	<div class="container">
@@ -32,26 +32,32 @@
 	
 		<div class="container">
 
-		<form style="margin-left: 300px;"  method="POST" action= "{{ route('options.store', ['user' => $user->id, 'subject' => $subject, 'question' => $question->id]) }}" >
+		<form style="margin-left: 300px;"  method="POST" action= "{{ route('options.update', ['option' => $option->id]) }}" >
 			@csrf
+			<input type="hidden" value="{{$option->id}}" name="id">
+			<input type="hidden" value="{{$option->question_id}}" name="question_id">
 			<div class="form-group">
 			<label >Option body</label>
-			<input style ="height:30px;" placeholder="Enter the option body ..." class="form-control" type="text" required="required" name="body">
+			<input style ="height:30px;" value="{{$option->body}}" class="form-control" type="text" required="required" name="body">
 			</div>
 
 			<div class="form-group">
 			<label >Is this option correct ?</label>
 				<select style="height: 30px; width: 50%;" name="is_correct" id="is_correct" onChange="changePointsVisability();" class="form-control" >
-					<option class="hidden"  selected disabled>Select your choice... </option>
+					@if($option->is_correct)
 					<option value="yes"  >YES</option>
 					<option value="no"  >NO</option>
+					@else
+					<option value="no">NO</option>
+					<option value="yes" >YES</option>
+					@endif 
 				</select>
 			</div>
 
 
-			<div style="display:none;" class="form-group" id="points">
+			<div style="@if($option->is_correct) display:block; @else display:none; @endif" class="form-group" id="points">
 				<label > Points</label>
-				<input placeholder="Enter the option points ..." style ="height:30px;" step="0.01" type="number" class="form-control" type="text" name="points">
+				<input placeholder="Enter the option points ..." value="{{$option->points}}" style ="height:30px;" step="0.01" type="number" class="form-control" type="text" name="points">
 			</div>
 
 
@@ -59,7 +65,7 @@
 			
 
 			<div class= "form-group" >
-				<button style="color: white; background: #323a56;" class="btn" type="submit">Add</button>
+				<button style="color: white; background: #323a56;" class="btn" type="submit">Update</button>
 			</div>
 		</form>
 

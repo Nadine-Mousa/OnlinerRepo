@@ -56,6 +56,9 @@ Route::post('{user}/{subject}/questions/update/{question}', 'App\Http\Controller
 //create
 Route::post('{user}/{subject}/{question}/options/store', 'App\Http\Controllers\OptionController@store')->name('options.store');
 Route::get('{user}/{subject}/{question}/options/create', 'App\Http\Controllers\OptionController@create')->name('options.create');
+Route::get('/options/delete/{option}', 'App\Http\Controllers\OptionController@delete')->name('options.delete');
+Route::get('/options/edit/{option}', 'App\Http\Controllers\OptionController@edit')->name('options.edit');
+Route::post('/options/update/{option}', 'App\Http\Controllers\OptionController@update')->name('options.update');
 
 
 

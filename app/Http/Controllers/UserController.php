@@ -36,11 +36,6 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-
-        // Session::put('emaili', $email);
-        // Session::put('shose', 'myshoes');
-        // dd(Session::get('emaili'));
-
         $password = $request->password;
         $email = $request->email;
 
@@ -48,7 +43,7 @@ class UserController extends Controller
             ['email', '=', $email],
         ])->first();
 
-        if($userfromDb != null){
+        if($userfromDb != null && $userfromDb->verified == 1){
             // check password
             if (Hash::check($password, $userfromDb->password))
             {
@@ -143,14 +138,15 @@ class UserController extends Controller
             $user->save();
         }
 
-        if($request->has('professor')){
+        // if($request->has('professor')){
             return redirect()->back()
             ->with('requestSent','your request has been submitted to the admin. Please, wait for approval');
-        }
-        else {
-            session()->put('user', $user);
-            return redirect()->route('home'); 
-        }
+        // }
+        // else {
+        //     session()->put('user', $user);
+        //     return redirect()->route('showLoginForm'); 
+        // }
+    
 
 
     }

@@ -48,7 +48,7 @@
                 <a href="{{ route('exams.student_exams') }}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Exams</a>
                 @endif
 
-                @if($hasApprovalToSubject && $is_prof ) 
+                @if($hasApprovalToSubject  && $is_prof ) 
                 <a href="{{route('questions.index', ['user' => $user->id, 'subject' => $subject->id])}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Question Bank</a>
                 <a href="{{route('exams.index')}}" class="btn btn--with-icon"><i class="btn-icon fa fa-long-arrow-right"></i>Exams</a>
                 @endif

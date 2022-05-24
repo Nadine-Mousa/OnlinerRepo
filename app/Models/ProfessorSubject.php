@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProfessorSubject extends Model
 {
     use HasFactory;
+    protected $fillable = ['professor_id', 'subject_id'];
 
     public function professor(): BelongsTo
     {

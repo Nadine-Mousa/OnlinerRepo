@@ -17,6 +17,12 @@
 
 
     <style>
+        input[type=checkbox][checked] {
+        outline: 2px solid green;
+        filter: invert(100%) hue-rotate(18deg) brightness(5);
+        background: green;
+        content: '✓';
+        }
         .myBg{
             background:#ccd1e5;
         }
@@ -38,7 +44,7 @@
     <div class="six" >
     <h1> {{$exam->exam_name}} Exam 
         <span>Exam Key: {{$exam->exam_key}} </span>
-        <span  > Your Score: {{$student_score}} </span>
+        <span  > Your Score: {{$taken_exam->student_score}}</span>
         <span  > Exam Marks: {{$exam->marks}}</span>
     </h1>
 
@@ -102,6 +108,26 @@
         
         
         @endforeach
+
+        @foreach($questions as $question)
+    <div class="container mt-sm-5 my-1">
+        <div class="question ml-s m-5 pl-sm-5 pt-2">
+            <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
+            <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+                @foreach ($question->options as $option)
+                    @if($question->question_type != 3)<label style="{{ ($option->is_correct == true) ?  'color: #7FFF00' : '' }}" class="options">{{$option->body}} @if($option->is_correct) <span style="color: #323a56;">  </span>  @endif <input type="radio"  name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
+                    @else <label style="{{ ($option->is_correct == true) ?  'color: #7FFF00' : '' }}"> <input @if($option->is_correct)  @endif type="checkbox" disabled style="width: 20px; height: 20px; margin-right: 8px; margin-top:0px;" name="questions[]"  value="{{ $option->id }}">{{$option->body}}   </label>
+                     
+                    @endif
+                @endforeach
+            </div>
+            <br>
+            
+        </div>
+    </div>
+    <br>
+    @endforeach
+
         
        
 

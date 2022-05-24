@@ -148,7 +148,7 @@
                 <td>{{$structure->structure_difficulty->name}}</td>
                 <td>{{$structure->number_of_questions}}</td>
                <td> <a  class="button-33" href="{{ route('exams.edit_structure', ['structure' => $structure->id])}}"><i class="fas fa-trash-alt"></i> Edit </a></td>
-               <td> <a  class="button-33" href="{{ route('exams.delete_structure', ['structure' => $structure->id])}}"><i class="fas fa-trash-alt"></i> Delete </a></td>
+               <td> <a  class="button-33" href="{{ route('exams.delete_structure', ['structure' => $structure->id])}}" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash-alt"></i> Delete </a></td>
 
                
                

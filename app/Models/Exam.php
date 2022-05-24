@@ -22,7 +22,7 @@ class Exam extends Model
         'is_dynamic',
         'created_at',
         'updated_at',
-        'marks'
+        'marks',
 
     ];
     

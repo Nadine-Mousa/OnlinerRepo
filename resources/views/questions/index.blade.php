@@ -12,7 +12,14 @@
     <link rel="stylesheet" href="{{asset('assets/css/partitions/buttons.css')}}" media="screen">
     <link rel="stylesheet" href="{{asset('assets/css/questions/card.css')}}" media="screen">
     <link rel="stylesheet" href="{{asset('assets/css/partitions/title.css')}}" media="screen">
-
+    <style>
+        input[type=checkbox][checked] {
+        outline: 2px solid green;
+        filter: invert(100%) hue-rotate(18deg) brightness(5);
+        background-color: green;
+        content: '✓';
+        }
+    </style>
     
 
 </head>
@@ -24,19 +31,21 @@
         <h1>{{$subject->subject_name}}
             <span>Question Bank</span>
         </h1>
+        <br><br>
         @if($hasApprovalToSubject == true)
-        <form method="GET" action="{{route('questions.create', ['user' => $user->id, 'subject' => $subject])}}"> 
-        <button  type="submit" class="button-33" role="button" >Add Question</button>
+        <form  style="margin-left:580px; display:inline;"method="GET" action="{{route('questions.create', ['user' => $user->id, 'subject' => $subject])}}"> 
+        <button  style="display:inline;" type="submit" class="button-33" role="button" >Add Question</button>
         </form>
         @endif
 
         @if($hasApprovalToSubject == true)
-        <form method="GET" action="{{route('questions.trashed', ['user' => $user->id, 'subject' => $subject])}}"> 
-        <button  type="submit" class="button-33" role="button" >Trashed Question</button>
+        <form style="margin-left:100px; display:inline;" method="GET" action="{{route('questions.trashed', ['user' => $user->id, 'subject' => $subject])}}"> 
+        <button  type="submit" class="button-33" role="button" >Trashed Questions</button>
         </form>
         @endif
 
     </div>
+    <br><br>
 
     <!-- HTML !-->
     <div >
@@ -49,7 +58,10 @@
             <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
             <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
                 @foreach ($question->options as $option)
-                    <label class="options">{{$option->body}} @if($option->is_correct) <span style="color: #323a56;">   [  {{  $option->points  }} point  ] </span>  @endif <input type="radio" {{ ($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
+                    @if($question->question_type != 3)<label class="options">{{$option->body}} @if($option->is_correct) <span style="color: #323a56;">   [  {{  $option->points  }} point  ] </span>  @endif <input type="radio" {{ ($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
+                    @else <label> <input @if($option->is_correct) checked @endif type="checkbox" disabled style="width: 20px; height: 20px; margin-right: 8px; margin-top:0px;" name="questions[]"  value="{{ $option->id }}">{{$option->body}}   </label>
+                     
+                    @endif
                 @endforeach
             </div>
             <br>
