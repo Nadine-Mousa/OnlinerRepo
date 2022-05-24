@@ -77,7 +77,7 @@ class ExamController extends Controller
             }
 
           $student_exams=TakenExam::where('student_id', $user->id)->get();
-
+                
 
         if($subject == null ){
             return redirect()->back()->with('quizTaken', 'You have taken taken successfully');
@@ -268,7 +268,7 @@ class ExamController extends Controller
                     ['exam_key','=', $exam_key],
                     ['subject_id','=', $subject],
                     ['chapter_number','=', $chapter_number],
-                    ['difficulty','=', $difficulty],
+                    ['difficulty','=', $request->difficulty],
                     ['question_type', '=', $request->question_type] 
                 ])->update(['number_of_questions' =>
                     ($structure->number_of_questions + $total_questions)]);
@@ -470,8 +470,17 @@ class ExamController extends Controller
         // Check if this exam exists
         $exam_key = $request->exam_key;
         $user = session()->get('user');
-        $exam = Exam::where('exam_key', $exam_key)->first();
+        $subject = session()->get('subject');
+        dd($subject);
+        
+        $subject = Subject::where('id', $subject);
+        
+        if($subject == null ){
+            return redirect()->back()->with('quizTaken', 'You have taken taken successfully');
+        }
 
+        $exam = Exam::where('exam_key', $exam_key)->first();
+           
         if($exam == null){
             return redirect()->back()
             ->with('noSuchExamKey','There is no such exam key. Please, make sure all letters are captical.');
@@ -501,10 +510,11 @@ class ExamController extends Controller
             $timer = $exam->duration;
         }
         else {
+ 
             // exam is accessed only in specified date and time
             $start_from = $exam->start_from;
             $start = Carbon::createFromFormat('Y-m-d H:i:s', $start_from);
-            list($whole, $decimal) = explode('.', $exam->duration);
+            list($whole, $decimal) = explode('.', $exam->duration );
             $end = Carbon::createFromFormat('Y-m-d H:i:s', $start_from);
             $end->addMinute($whole);
             $end->addSecond($decimal / 100 * 60);

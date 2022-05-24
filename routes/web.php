@@ -64,7 +64,8 @@ Route::get('{user}/{subject}/{question}/options/create', 'App\Http\Controllers\O
 Route::get('/exams', 'App\Http\Controllers\ExamController@index')->name('exams.index');
 Route::post('/exams/storeAnswers', 'App\Http\Controllers\ExamController@storeAnswers')->name('exams.storeAnswers');
 Route::post('/exams', 'App\Http\Controllers\ExamController@store')->name('exams.store');
-
+Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create');
+Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->name('exams.store');
 
 
 Route::get('/exams/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('exams.student_exams');
@@ -82,8 +83,7 @@ Route::get('/exams/delete/{structure}', 'App\Http\Controllers\ExamController@del
 Route::get('/exams/edit/{structure}', 'App\Http\Controllers\ExamController@edit_structure')->name('exams.edit_structure');
 Route::post('/exams/update/{structure}', 'App\Http\Controllers\ExamController@update_structure')->name('exams.update_structure');
 
-Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create');
-Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->name('exams.store');
+
 
 
 
