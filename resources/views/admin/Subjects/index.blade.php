@@ -15,20 +15,16 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card daily-sales">
                             <div class="card-block">
-                                <h3 class="mb-4"> Subject Name: {{$subject->subject_name}}</h3>
-                                <h3 class="mb-4"> Created At : {{$subject->created_at}}</h3>
-                                <h3 class="mb-4"> Subject Description: {{$subject->subject_name}}</h3>
-                                <h3 class="mb-4"> Chapter Count: {{$subject->chapter_count}}</h3>
-                                <h3 class="mb-4"> Department Id: {{$subject->department_id}}</h3>
-                                <h3 class="mb-4"> level_id : {{$subject->level_id}}
+                                <h3 class="mb-4" style="color:deepskyblue; text-align: center"> {{$subject->subject_name}}</h3>  
+                                <h4 class="mb-4"> {{$subject->chapter_count}} Chapters</h4>
+                                <h4 class="mb-4">{{$subject->sub_department->dep_name}} Department</h4>
+                                <h4 class="mb-4"> level {{$subject->subject_level->level_number}} </h4>
 
 
                                 <div class="row d-flex align-items-center">
-                                    <div class="col-9">
-                                        <h6 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{{$subject->created_at}}</h6>
-                                    </div>
+                                    
 
-                                    <div class="col-9">
+                                    <div   class="col-9">
                                         <a href="{{route('dashboard.subjects.edit',['subject' => $subject->id])}}">Edit</a> &nbsp; &nbsp; &nbsp;
                                          <a href="{{route('dashboard.subjects.delete',['subject' => $subject->id])}}">Remove</a>
                                     </div>

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->dropColumn('chapeter_number');
+           // $table->dropColumn('chapeter_number');
             $table->integer('chapter_id');
         });
     }

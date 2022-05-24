@@ -49,19 +49,23 @@
                                                         
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="department_id">Department Id</label>
-                                                        <input type="text" name="department_id" class="form-control" id="department_id" required >
-                                                        
+                                                        <select class="form-control" name="department_id">
+                                                            <option class="hidden"  selected disabled>{{ __('Department')}}</option>
+                                                            @foreach($departments as $department)
+                                                            <option value="{{$department->id}}" > {{$department->dep_name}}</option>
+                                                            @endforeach 
+                                                            
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="subject_name">Level Id </label>
-                                                        <input type="text" name="level_id" class="form-control" id="level_id" required >
-                                                        
+                                                        <select class="form-control"  name="level_id">
+                                                            <option class="hidden"  selected disabled>{{ __('Level')}}</option>
+                                                            @foreach($levels as $level)
+                                                            <option value="{{$level->id}}"  >{{ __('Level')}} {{$level->level_number}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="created_at">Subject Created At</label>
-                                                        <input type="date"  name="created_at" class="form-control" id="created_at" required>
-                                                    </div>
+                                                    
                                                    
                                                     <button type="submit" class="btn btn-primary">Submit</button>
                                                 </form>

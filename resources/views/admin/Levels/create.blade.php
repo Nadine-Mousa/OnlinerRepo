@@ -37,12 +37,9 @@
                                                         <input type="text" name="level_number" class="form-control" id="level_number">
 
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="created_at">Created At</label>
-                                                        <input type="date"  name="created_at" class="form-control" id="created_at">
-                                                    </div>
+                                                   
 
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="submit" class="btn btn-primary">Create</button>
                                                 </form>
 
                                             </div>
