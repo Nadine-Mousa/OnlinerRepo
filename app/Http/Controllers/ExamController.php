@@ -95,22 +95,39 @@ class ExamController extends Controller
     //show student exam
     public function show_student_exam($exam)
     {
+        // dd($exam);
 
         // dd('here are the results');
         $user = session()->get('user');
+        // dd($user);
         $examFromDb = Exam::where('id', $exam)->first();
-        $taken_exam = TakenExam::where('exam_id', $exam)->first();
+
+        $taken_exam = TakenExam::where([
+            ['exam_id', $exam],
+            ['student_id', $user->id]
+        ])->first();
+        // dd($taken_exam);
+
 
         $student_answers = StudentAnswer::with('option')->where([
             ['exam_key', '=', $taken_exam->exam_key],
             ['student_id', '=', $user->id],
+            ['option_id', '!=' , -1]
         ])->get();
 
-        // calculate the score of the student according to the actual exam marks
-        $student_score =
-        ($taken_exam->total_score * $examFromDb->marks ) / $taken_exam->marks;
 
-        $student_score = round($student_score, 2);
+        $not_answerd = StudentAnswer::with('option')->where([
+            ['exam_key', '=', $taken_exam->exam_key],
+            ['student_id', '=', $user->id],
+            ['option_id', '=' , -1]
+        ])->get();
+        $questions_not_answered = [];
+
+        foreach($not_answerd as $answer){
+            $question = Question::find($answer->question_id);
+            array_push($questions_not_answered, $question);
+        }
+
 
         $student_answers_single = [];
         $student_answers_multiple = [];
@@ -136,7 +153,6 @@ class ExamController extends Controller
         $questions_multiple = array_unique($questions_multiple);
 
 
-
         return view('exams.show_student_exam', [
             'student_answers_single' => $student_answers_single,
             'questions_multiple' => $questions_multiple,
@@ -144,9 +160,8 @@ class ExamController extends Controller
             'student_answers_multiple' => $student_answers_multiple,
             'taken_exam' => $taken_exam,
             'exam' => $examFromDb,
-
+            'questions' => $questions_not_answered,
             'student_options_multiple_ids' => $student_options_multiple_ids,
-            'student_score' => $student_score
 
         ]);
     }
@@ -470,6 +485,7 @@ class ExamController extends Controller
         // Check if this exam exists
         $exam_key = $request->exam_key;
         $user = session()->get('user');
+
         $subject = session()->get('subject');
         dd($subject);
         
@@ -479,8 +495,13 @@ class ExamController extends Controller
             return redirect()->back()->with('quizTaken', 'You have taken taken successfully');
         }
 
-        $exam = Exam::where('exam_key', $exam_key)->first();
+        
            
+
+        $exam = Exam::where('exam_key', $exam_key)->first();
+
+        
+
         if($exam == null){
             return redirect()->back()
             ->with('noSuchExamKey','There is no such exam key. Please, make sure all letters are captical.');
@@ -582,7 +603,7 @@ class ExamController extends Controller
         $total_exam_marks = 0.0;
 
         $user = session()->get('user');
-        // dd($questions);
+
 
         foreach($questions as $question){
             $question->options = $question->options->shuffle();
@@ -591,23 +612,38 @@ class ExamController extends Controller
         session()->put('total_exam_marks', $total_exam_marks );
 
 
+        $quiz_questions_ids = new Collection();
+        foreach($questions as $question){
+            $quiz_questions_ids->push($question->id);
+        }
+        session()->put('quiz_questions_ids', $quiz_questions_ids);
+
+        $timer = $timer * 60;
+
 
         return view('exams.quiz',
          ['questions' => $questions,
          'exam' => $exam,
-         'user' => $user]
+         'user' => $user,
+         'timer' => $timer]
         );
     }
 
     public function storeAnswers(Request $request){
+        $quiz_questions_ids = session()->get('quiz_questions_ids');
+        $questions_not_answered_ids = new Collection();
+        $questions_answered_ids = new Collection();
+
+
         // options chosen
+
         $rules = $this->validate($request, array('questions'=>'required'));
         $options = Option::find(array_values($request->input('questions')));
-        // dd($options);
+
 
         // total score of the student
         $scored_points = $options->sum('points');
-        // dd($scored_points);
+
 
         $examFromDb = session()->get('exam');
 
@@ -619,17 +655,21 @@ class ExamController extends Controller
         $taken_exam->total_score = $scored_points;
 
         $total_exam_marks = session()->get('total_exam_marks' );
-        $taken_exam->marks = $total_exam_marks;
+        $taken_exam->marks = $examFromDb->marks;
+        
         // calculate marks of the student
         $student_score =
-        ($taken_exam->total_score * $examFromDb->marks ) / $taken_exam->marks;
+        ($taken_exam->total_score * $examFromDb->marks );
+        $student_score = $student_score / $total_exam_marks;
         $student_score = round($student_score, 2);
         $taken_exam->student_score = $student_score;
         $taken_exam->save();
 
 
+        
         // store student chosen options of the exam in student aswers table
         foreach($options as $option){
+            $questions_answered_ids->push($option->question_id);
             $answer = new StudentAnswer();
             $answer->option_id = $option->id;
             $answer->question_id = $option->question_id;
@@ -638,6 +678,23 @@ class ExamController extends Controller
             $answer->save();
         }
 
+
+        foreach($quiz_questions_ids as $question){
+            if(!$questions_answered_ids->contains($question)){
+                $questions_not_answered_ids->push($question);
+            }
+        }
+        // dd($questions_not_answered_ids, $questions_answered_ids);
+
+        // Add the questions not answered to student answers
+        foreach($questions_not_answered_ids as $question){
+            $answer = new StudentAnswer();
+            $answer->option_id = -1;
+            $answer->question_id = $question;
+            $answer->student_id = session()->get('user')->id;
+            $answer->exam_key = session()->get('exam')->exam_key;
+            $answer->save();
+        }
 
 
         return redirect()->route('exams.student_exams');

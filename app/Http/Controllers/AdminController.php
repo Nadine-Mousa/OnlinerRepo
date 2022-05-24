@@ -122,7 +122,7 @@ class AdminController extends Controller
 
     $prof_subject->professor_id = $professor_subjectFromDB->professor_id;
     $prof_subject->subject_id = $professor_subjectFromDB->subject_id;
-
+    
     $prof_subject->save();
 
     $professor_subjectFromDB->delete();

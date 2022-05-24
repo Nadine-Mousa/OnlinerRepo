@@ -56,6 +56,9 @@ Route::post('{user}/{subject}/questions/update/{question}', 'App\Http\Controller
 //create
 Route::post('{user}/{subject}/{question}/options/store', 'App\Http\Controllers\OptionController@store')->name('options.store');
 Route::get('{user}/{subject}/{question}/options/create', 'App\Http\Controllers\OptionController@create')->name('options.create');
+Route::get('/options/delete/{option}', 'App\Http\Controllers\OptionController@delete')->name('options.delete');
+Route::get('/options/edit/{option}', 'App\Http\Controllers\OptionController@edit')->name('options.edit');
+Route::post('/options/update/{option}', 'App\Http\Controllers\OptionController@update')->name('options.update');
 
 
 
@@ -70,6 +73,9 @@ Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->n
 
 Route::get('/exams/student_exams', 'App\Http\Controllers\ExamController@show_student_exams')->name('exams.student_exams');
 Route::get('/exams/quiz', 'App\Http\Controllers\ExamController@takeExam')->name('exams.quiz');
+Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create');
+Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->name('exams.store');
+
 
 Route::get('/exams/create', 'App\Http\Controllers\ExamController@create_exam')->name('exams.create_exam');
 Route::post('/exams/store', 'App\Http\Controllers\ExamController@store_exam')->name('exams.store_exam'); 

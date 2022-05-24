@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="{{asset('assets/css/partitions/buttons.css')}}" media="screen">
     <link rel="stylesheet" href="{{asset('assets/css/partitions/title.css')}}" media="screen">
     
+    <style>
+        input[type=checkbox][checked] {
+        outline: 2px solid green;
+        filter: invert(100%) hue-rotate(18deg) brightness(5);
+        background-color: green;
+        content: '✓';
+        }
+    </style>
 
 </head>
 <body style="background: #ccd1e5;">
@@ -38,11 +46,29 @@
         <div class="question ml-s m-5 pl-sm-5 pt-2">
             <div class="py-2 h5"><b>Q. {{$question->title}}</b></div>
             <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+                
                 @foreach ($options as $option)
+                <div style="margin-bottom: 30px;">
                 @if ($option->question_id == $question->id)
-                    <label class="options">{{$option->body}} <input type="radio" {{($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> @if($option->is_correct) <span style="color: #323a56;"> [ {{$option->points}} point ] </span>  @endif<span class="checkmark"></span> </label>
+                    @if($question->question_type != 3)<label class="options">{{$option->body}} @if($option->is_correct) <span style="color: #323a56;">   [  {{  $option->points  }} point  ] </span>  @endif <input type="radio" {{ ($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
+                    @else <label> <input @if($option->is_correct) checked @endif type="checkbox" disabled style="width: 20px; height: 20px; margin-right: 8px; margin-top:0px;" name="questions[]"  value="{{ $option->id }}">{{$option->body}}   </label>
+                    @endif
+                    <!-- Edit -->
+                    <div style="background:green; display:inline; margin-right: 0%;">
+                    <a href="{{ route('options.edit', ['option' => $option->id]) }}"  
+                    style=" align:right; text-decoration: none; display:inline; margin-right:3px; " 
+                    class="button-33" ><i class="fas fa-trash-alt"></i> Edit </a>
+                    <!-- Delete -->
+                    <a href="{{ route('options.delete', ['option' => $option->id]) }}" 
+                    onclick="return confirm('Are you sure you want to delete this item?');" 
+                    style=" text-decoration: none; display:inline; align:right;"
+                    class="button-33" ><i class="fas fa-trash-alt"></i> Delete </a>
+                    </div>
                 @endif
+                </div>
                 @endforeach
+
+
             </div>
             <br>
             

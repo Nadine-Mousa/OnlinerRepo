@@ -12,6 +12,11 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <style>
+        .mybg {
+            background: #cdd1e5;
+        }
+    </style>
+    <style>
 
             .register{
                 background: -webkit-linear-gradient(left, #3931af, #00c6ff);
@@ -110,7 +115,7 @@
             }
     </style>
 </head>
-<body>
+<body class="mybg">
 @section('content')
 
 <!-- @if (!$errors->any())
@@ -316,6 +321,14 @@
                 </div>
 
             </div>
+
+    <script>
+    var msg = '{{Session::get('requestSent')}}';
+    var exist = '{{Session::has('requestSent')}}';
+    if(exist){
+      alert(msg);
+    }
+  </script>
 @endsection('content')
 </body>
 </html>

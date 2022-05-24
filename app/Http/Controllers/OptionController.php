@@ -83,4 +83,55 @@ class OptionController extends Controller
             'subject' => $subject
         ]);
     }
+
+    public function delete($option){
+        Option::destroy($option);
+        return redirect()->back();
+
+    }
+    public function edit($option){
+        $option = Option::find($option);
+        return view('options.edit', [
+            'option' => $option
+        ]);
+
+    }
+    public function update(Request $request){
+
+        
+        $optionfromDb = Option::find($request->id);
+        $user=session()->get('user');
+        $subject=session()->get('subject');
+        $questionFromDb = Question::find($request->question_id);
+
+        if($request->is_correct == "no"){
+            $points = 0;
+            $is_correct = false;
+        }
+        else {
+            // dd($questionFromDb);
+            if(($questionFromDb->options->sum('points') - $optionfromDb->points) > 0 
+            && $questionFromDb->question_type != 3){
+                return redirect()->back()->with('alert', 
+                'This question can only have one correct answer');
+            }
+            $points = $request->points;
+            $is_correct = true;
+            
+        }
+        $optionFromDb = Option::where('id', $request->id)->first()->update([
+            'body' => $request->body,
+            'is_correct' => $is_correct,
+            'points' => $points,
+        ]);
+        
+        return redirect()->route('questions.show',
+        [
+            'user' => $user,
+            'question' => $questionFromDb,
+            'subject' => $subject
+        ]);
+
+        
+    }
 }

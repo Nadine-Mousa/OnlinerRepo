@@ -65,17 +65,18 @@ class SubjectController extends Controller
      */
     public function show( $subject)
     {
-        $user = session()->get('user');
+       $user = session()->get('user');
         
        $department = session()->get('department');
        $level = session()->get('level');
        session()->put('subject', $subject);
        $subjectFromDb = Subject::where('id', $subject)->first();
 
-        $professor_subject = ProfessorSubject::where([
-            ['professor_id', '=', $user->id],
-            ['subject_id', '=', $subject]])->first();
-        
+        $professor_subject = ProfessorSubject::where(
+            [['professor_id', '=', $user->id],
+            ['subject_id', '=', $subject]]
+            )->first();
+        // dd($professor_subject);
 
         $hasApprovalToSubject = false;
         if($professor_subject != null){
@@ -109,7 +110,7 @@ class SubjectController extends Controller
          }
          $temp_professor_subject = TempProfessorSubject::where([
              ['professor_id', '=', $user->id],
-             ['subject_id', '=', $subjectFromDb->id]
+             ['subject_id', '=', $subject]
          ])->first();
 
          $has_requested_subject_approval = false;
@@ -135,10 +136,10 @@ class SubjectController extends Controller
     public function ask_for_approve($subject)
     {
         $user = session()->get('user');
+
         $professor_subject=new TempProfessorSubject();
         $professor_subject->professor_id = $user->id;
         $professor_subject->subject_id = $subject;
-
         $professor_subject->save();
         return redirect()->back();
     }

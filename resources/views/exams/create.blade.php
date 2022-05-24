@@ -90,7 +90,7 @@
 
 			<div class="formgroup">
 				<label > Total exam marks</label>
-				<input step="0.01" name="marks" style="height:35px; font-size: 15px;"  type="number"  >
+				<input step="0.01" placeholder="Enter the exam duration  ..." name="marks" style="height:35px; font-size: 15px;"  type="number"  >
 				@error('marks')
                 <div class="alert alert-danger">{{ $message }}</div>
             	@enderror

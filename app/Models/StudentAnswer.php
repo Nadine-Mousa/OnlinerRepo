@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class StudentAnswer extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'exam_key',
+        'student_id',
+        'option_id',
+        'question_id'
+    ];
 
     public $timestamps = false;
     public function option(){
