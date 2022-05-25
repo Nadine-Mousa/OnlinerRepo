@@ -409,8 +409,8 @@
                                                     <h6 class="m-0">{{$professor_subject->professor->email}}</h6>
                                                 </td>
                                                 
-                                                <td><a href="route('dashboard.reject_student',['student' => $student->id ])" class="label theme-bg2 text-white f-12">Reject</a></td>
-                                                <td><a href="route('dashboard.approve_student',['student' => $student->id ])" class="label theme-bg text-white f-12">Approve</a></td>
+                                                <td><a href="{{route('dashboard.reject_prof_subject',['professor_subject' => $professor_subject->id ])}}" class="label theme-bg2 text-white f-12">Reject</a></td>
+                                                <td><a href="{{route('dashboard.approve_prof_subject',['professor_subject' => $professor_subject->id ])}}" class="label theme-bg text-white f-12">Approve</a></td>
                                             </tr>
 
                                        
