@@ -387,16 +387,34 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th> Professor Name</th>
+                                                <th>Professor Name</th>
                                                 <th>Subject Name</th>
-                                                <th>Time</th>
-                                                <th></th>
-                                                <th class="text-right"></th>
+                                                <th>Email</th>
+                                                <th ></th>
+                                                <th ></th>
                                             </tr>
+
                                         </thead>
                                         <tbody>
-                                           
+                                        @foreach ($professor_subjects as $professor_subject)
+                                        
+                                            <tr>
+                                                <td>
+                                                    <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user">{{$professor_subject->professor->first_name}}</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">{{$professor_subject->subject->subject_name}}</h6>
+                                                </td>
+                                                <td>
+                                                    <h6 class="m-0">{{$professor_subject->professor->email}}</h6>
+                                                </td>
+                                                
+                                                <td><a href="route('dashboard.reject_student',['student' => $student->id ])" class="label theme-bg2 text-white f-12">Reject</a></td>
+                                                <td><a href="route('dashboard.approve_student',['student' => $student->id ])" class="label theme-bg text-white f-12">Approve</a></td>
+                                            </tr>
 
+                                       
+                                        @endforeach
                                         </tbody>
                                     </table>
 
