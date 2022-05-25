@@ -26,7 +26,7 @@
 
                                     <div   class="col-9">
                                         <a href="{{route('dashboard.subjects.edit',['subject' => $subject->id])}}">Edit</a> &nbsp; &nbsp; &nbsp;
-                                         <a href="{{route('dashboard.subjects.delete',['subject' => $subject->id])}}">Remove</a>
+                                         <a href="{{route('dashboard.subjects.delete',['subject' => $subject->id])}}" onclick="return confirm('Are you sure you want to delete this item?');">Remove</a>
                                     </div>
 
 

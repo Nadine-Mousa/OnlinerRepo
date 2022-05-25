@@ -42,6 +42,7 @@ class UserController extends Controller
         $userfromDb = User::where([
             ['email', '=', $email],
         ])->first();
+        
 
         if($userfromDb != null && $userfromDb->verified == 1){
             // check password
@@ -71,6 +72,7 @@ class UserController extends Controller
 
 
     public function register(Request $request){
+        // dd($request->department);
         
         // validate model
         $validated = $request->validate([
@@ -110,10 +112,10 @@ class UserController extends Controller
         $user->last_name = $request->last_name;
         $user->password = $password_hashed;
         $user->email = $request->email;
-        $user->department_id = $request->department_id;
-        $user->level_id = $request->level_id;
+        $user->department_id = $request->department;
+        $user->level_id = $request->level;
 
-
+        // dd($user);
 
         
 
@@ -125,7 +127,8 @@ class UserController extends Controller
             $temp_prof->last_name = $request->last_name;
             $temp_prof->password = $password_hashed;
             $temp_prof->email = $request->email;
-            $temp_prof->department_id = $request->department_id;
+            $temp_prof->verified = 1;
+            $temp_prof->department_id = $request->department;
             $temp_prof->save();
             
             // save the user of this professor to professor sign up request

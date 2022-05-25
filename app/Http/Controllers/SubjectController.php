@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Chapter;
+use App\Models\Question;
+
 use App\Models\ProfessorSubject;
 use App\Models\TempProfessorSubject;
 use Session;
@@ -173,6 +176,31 @@ class SubjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function show_chapters(){
+        $subject = session()->get('subject');
+        $chapters = Chapter::where('subject_id', $subject)->get();
+
+        return view('subjects.chapters', [
+            'chapters' => $chapters
+        ]);
+    }
+
+    public function show_chapter_questions($chapter){
+        $subject = session()->get('subject');
+        $subjectFromDb = Subject::find($subject);
+        $chapterFromDb = Subject::find($chapter);
+        $questions = Question::where([
+            ['subject_id',$subject],
+            ['chapter_id', $chapter]
+        ])->get();
+        return view('subjects.chapter_questions', [
+            'questions' => $questions,
+            'subject' => $subjectFromDb,
+            'chapter' => $chapterFromDb
+        ]);
+
     }
 
 

@@ -23,7 +23,7 @@
                                     
                                     <div class="col-9">
                                         <a href="{{route('dashboard.departments.edit',['department' => $department->id])}}">Edit</a> &nbsp; &nbsp; &nbsp; 
-                                         <a href="{{route('dashboard.departments.delete',['department' => $department->id])}}">Remove</a>
+                                         <a href="{{route('dashboard.departments.delete',['department' => $department->id])}}" onclick="return confirm('Are you sure you want to delete this item?');">Remove</a>
                                     </div>
 
                                     

@@ -14,6 +14,7 @@ use App\Models\Question;
 use App\Models\Exam ;
 use App\Models\Chapter ;
 use App\Models\Role;
+use Hash;
 
 class AdminController extends Controller
 {
@@ -29,7 +30,7 @@ class AdminController extends Controller
       {
           $usersCount=User::count();
           $subjectsCount=Subject::count();
-          $professorssCount=TempProfessor::count();
+          $professorssCount=User::where('role', 2)->count();
           $examssCount=Exam::count();
           $DepartmentsCount=Department::count();
           $ChaptersCount=Chapter::count();
@@ -42,10 +43,11 @@ class AdminController extends Controller
            $professor_subjects = TempProfessorSubject::all();
 
            $students = User::where([
-               'verified' => 0,
-               'role' => 3
+               ['verified', '=', 0],
+               ['role', '=', 3]
            ])->get();
-        //    dd($professor_subjects);
+        //    dd($students);
+        
            return view('admin.index')->with([
             'professors'=> $professors,
             'students' => $students,
@@ -90,6 +92,7 @@ class AdminController extends Controller
         $user->last_name = $professorFromDb->last_name;
         $user->password = $professorFromDb->password;
         $user->email = $professorFromDb->email;
+        $user->verified = $professorFromDb->verified;
         $user->department_id = $professorFromDb->department_id;
         $user->level_id = $professorFromDb->level_id;
         $user->role = $professorFromDb->role;
@@ -290,9 +293,9 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-    ///////////
-    ////////////////////////////////////////////////////////////
-    ////////اللى ايه بتعمله/////////////////
+
+
+
     //show Subjects
 
  public function show_subjects()
@@ -590,25 +593,23 @@ public function show_professors()
             'last_name'=>'required',
             'password'=>'required',
             'email'=>'required',
-            'verified'=>'required',
+            // 'verified'=>'required',
             'role'=>'required',
             'department_id' => 'required',
-            'level_id'=>'required',
+            // 'level_id'=>'required',
            
         ]);
+        $password_hashed = Hash::make($request->password);
 
         $professor = User::create([
             'first_name'=>$request->first_name,
             'last_name'=>$request->last_name,
-            'password'=>$request->password,
+            'password'=>$password_hashed,
             'email'=>$request->email,
-            'verified'=>$request->verified,
+            'verified'=> 1,
             'role'=>$request->role,
             'department_id' => $request->department_id,
             'level_id' => $request->level_id,
-           
-
-
         ]);
 
         $professor->save();
@@ -644,10 +645,10 @@ public function show_professors()
             'last_name'=>'required',
             'password'=>'required',
             'email'=>'required',
-            'verified'=>'required',
+            // 'verified'=>'required',
             'role'=>'required',
             'department_id' => 'required',
-            'level_id'=>'required',
+            // 'level_id'=>'required',
            
 
         ]);
@@ -655,10 +656,10 @@ public function show_professors()
         $professorFromDb->last_name =$request->last_name;
         $professorFromDb->password =$request->password;
         $professorFromDb->email =$request->email;
-        $professorFromDb->verified =$request->verified;
+        // $professorFromDb->verified =$request->verified;
         $professorFromDb->role =$request->role;
         $professorFromDb-> department_id= $request->department_id;
-        $professorFromDb->level_id =$request->level_id;
+        // $professorFromDb->level_id =$request->level_id;
       
         $professorFromDb->save();
         return redirect()->route('dashboard.professors');
@@ -705,7 +706,7 @@ public function student_update(Request $request, $student)
         'last_name'=>'required',
         'password'=>'required',
         'email'=>'required',
-        'verified'=>'required',
+        // 'verified'=>'required',
         'role'=>'required',
         'department_id' => 'required',
         'level_id'=>'required',
@@ -716,7 +717,7 @@ public function student_update(Request $request, $student)
     $studentFromDb->last_name =$request->last_name;
     $studentFromDb->password =$request->password;
     $studentFromDb->email =$request->email;
-    $studentFromDb->verified =$request->verified;
+    // $studentFromDb->verified =$request->verified;
     $studentFromDb->role =$request->role;
     $studentFromDb-> department_id= $request->department_id;
     $studentFromDb->level_id =$request->level_id;

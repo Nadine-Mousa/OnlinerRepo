@@ -16,7 +16,7 @@
                         <div class="card daily-sales">
                             <div class="card-block">
                                 <h3 class="mb-4"> Level : {{$level->level_number}}</h3>
-                                <h3 class="mb-4"> Created At : {{$level->created_at}}</h3>
+                                <!-- <h5 class="mb-4"> Created At: {{$level->created_at}}</h5> -->
 
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">

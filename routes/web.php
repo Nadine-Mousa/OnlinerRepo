@@ -90,6 +90,9 @@ Route::get('/exams/edit/{structure}', 'App\Http\Controllers\ExamController@edit_
 Route::post('/exams/update/{structure}', 'App\Http\Controllers\ExamController@update_structure')->name('exams.update_structure');
 
 
+// Chapters Routes
+Route::get('/chapters', 'App\Http\Controllers\SubjectController@show_chapters')->name('chapters.index');
+Route::get('/chapters/questions/{chapter}', 'App\Http\Controllers\SubjectController@show_chapter_questions')->name('chapters.questions');
 
 
 

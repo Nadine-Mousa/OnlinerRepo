@@ -16,7 +16,7 @@
     <div class="col-md-6 col-xl-4">
                             <div class="card daily-sales">
                                 <div class="card-block">
-                                    <h6 class="mb-4">Total Users</h6>
+                                    <h6 class="mb-4">Total Students</h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
                                             <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i> {{$usersCount}}</h3>
@@ -37,7 +37,7 @@
                         <div class="col-md-6 col-xl-4">
                             <div class="card Monthly-sales">
                                 <div class="card-block">
-                                    <h6 class="mb-4">Total Subject </h6>
+                                    <h6 class="mb-4">Total Subjects </h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
                                             <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i>{{$subjectsCount}}</h3>
@@ -57,7 +57,7 @@
                         <div class="col-md-12 col-xl-4">
                             <div class="card yearly-sales">
                                 <div class="card-block">
-                                    <h6 class="mb-4">Total professors</h6>
+                                    <h6 class="mb-4">Total Professors</h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
                                             <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{{$professorssCount}}</h3>
@@ -102,7 +102,7 @@
                         <div class="col-md-6 col-xl-4">
                             <div class="card Monthly-sales">
                                 <div class="card-block">
-                                    <h6 class="mb-4">Total departments </h6>
+                                    <h6 class="mb-4">Total Departments </h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
                                             <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i>{{$DepartmentsCount}}</h3>
@@ -122,7 +122,7 @@
                         <div class="col-md-12 col-xl-4">
                             <div class="card yearly-sales">
                                 <div class="card-block">
-                                    <h6 class="mb-4">Total Chapters</h6>
+                                    <h6 class="mb-4">Total Subjects Chapters</h6>
                                     <div class="row d-flex align-items-center">
                                         <div class="col-9">
                                             <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{{$ChaptersCount}}</h3>
@@ -144,7 +144,7 @@
                         <div class="col-xl-8 col-md-6">
                             <div class="card Recent-Users">
                                 <div class="card-header">
-                                    <h5>Recent Users</h5>
+                                    <h5>Professors Signup Requests</h5>
                                 </div>
                                 <div class="card-block px-0 py-3">
                                     <div class="table-responsive">
@@ -155,10 +155,10 @@
                                                 <td><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></td>
                                                 <td>
                                                     <h6 class="mb-1">{{$professor->first_name}}</h6>
-                                                    <p class="m-0">{{$professor->last_name}}</p>
+                                                    <p class="m-0">{{$professor->email}}</p>
                                                 </td>
                                                 <td>
-                                                    <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>11 MAY 12:56</h6>
+                                                    <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>{{$user->created_at}}</h6>
                                                 </td>
                                                 <td><a href="{{route('dashboard.reject_prof',['professor' => $professor->id ])}}" class="label theme-bg2 text-white f-12">Reject</a><a href="{{route('dashboard.approve_prof',['professor' => $professor->id ])}}" class="label theme-bg text-white f-12">Approve</a></td>
                                             </tr>
@@ -372,13 +372,16 @@
                         <div class="col-xl-8 col-md-12 m-b-30">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Professors</a>
+                                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Subjects requests</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link active show" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Students</a>
                                 </li>
                                 
                             </ul>
+                            <!-- Subjects Approval Requests -->
+
+                            <!-- Students Requests -->
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <table class="table table-hover">
@@ -387,7 +390,7 @@
                                                 <th> Professor Name</th>
                                                 <th>Subject Name</th>
                                                 <th>Time</th>
-                                                <th>Status</th>
+                                                <th></th>
                                                 <th class="text-right"></th>
                                             </tr>
                                         </thead>
@@ -405,12 +408,13 @@
                                                 <th>Student Name</th>
                                                 <th>Department</th>
                                                 <th>Level</th>
-                                                <th>Status</th>
+                                                <th>Eamil</th>
                                                 <th class="text-right"></th>
                                             </tr>
                                         </thead>
-                                        @foreach ($students as $student)
                                         <tbody>
+                                        @foreach ($students as $student)
+                                        
                                             <tr>
                                                 <td>
                                                     <h6 class="m-0"><img class="rounded-circle  m-r-10" style="width:40px;" src="assets/images/user/avatar-2.jpg" alt="activity-user">{{$student->first_name}}</h6>
@@ -422,20 +426,24 @@
                                                     <h6 class="m-0"> Level {{$student->pro_level->level_number}}</h6>
                                                 </td>
                                                 <td>
-                                                    <h6 class="m-0 text-c-red"></h6>
+                                                    <h6 class="m-0 text-c-green">{{$student->email}}</h6>
                                                 </td>
-                                                <td><a href="{{route('dashboard.reject_student',['student' => $student->id ])}}" class="label theme-bg2 text-white f-12">Reject</a><a href="{{route('dashboard.approve_student',['student' => $student->id ])}}" class="label theme-bg text-white f-12">Approve</a></td>
+                                                <td><a href="{{route('dashboard.reject_student',['student' => $student->id ])}}" class="label theme-bg2 text-white f-12">Reject</a></td>
+                                                <td><a href="{{route('dashboard.approve_student',['student' => $student->id ])}}" class="label theme-bg text-white f-12">Approve</a></td>
                                             </tr>
 
+                                       
+                                        @endforeach
                                         </tbody>
                                     </table>
-                                        @endforeach
                         
 
                                 </div>
                                 
                               
                             </div>
+
+
                         </div>
 
                     </div>

@@ -33,7 +33,7 @@
 
                                     <div class="col-9">
                                         <a href="{{route('dashboard.chapters.edit',['chapter' => $chapter->id])}}">Edit</a> &nbsp; &nbsp; &nbsp;
-                                         <a href="{{route('dashboard.chapters.delete',['chapter' => $chapter->id])}}">Remove</a>
+                                         <a href="{{route('dashboard.chapters.delete',['chapter' => $chapter->id])}}" onclick="return confirm('Are you sure you want to delete this item?');">Remove</a>
                                     </div>
 
 

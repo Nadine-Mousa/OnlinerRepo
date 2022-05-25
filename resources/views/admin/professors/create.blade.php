@@ -25,7 +25,7 @@
                                         <h5>Create User</h5>
                                     </div>
                                     <div class="card-body">
-                                        <h5>Form User</h5>
+                                        <h5>Add User</h5>
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -33,20 +33,20 @@
                                                 <form  method="POST" action= "{{route('dashboard.professors.store')}}" >
                                                     @csrf
                                                     <div class="form-group">
-                                                        <label for="first_name">first name</label>
+                                                        <label for="first_name">First name</label>
                                                         <input type="text" name="first_name" class="form-control" id="first_name"  required>
 
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="last_name">last name</label>
+                                                        <label for="last_name">Last name</label>
                                                         <input type="text" name="last_name" class="form-control" id="last_name"  required >
 
                                                     </div>
 
 
                                                     <div class="form-group">
-                                                        <label for="email">email</label>
+                                                        <label for="email">Email</label>
                                                         <input type="text" name="email" class="form-control" id="email"  value="" required >
 
                                                     </div>
@@ -54,7 +54,7 @@
 
 
                                                     <div class="form-group">
-                                                        <label for="password">password</label>
+                                                        <label for="password">Password</label>
                                                         <input type="password" name="password" class="form-control"  id="password" value="" required >
 
                                                     </div>
@@ -62,6 +62,7 @@
 
 
                                                     <div class="form-group">
+                                                        <label >Department</label>
                                                         <select class="form-control" name="department_id">
                                                             <option class="hidden"  selected disabled>{{ __('Department')}}</option>
                                                             @foreach($departments as $department)
@@ -71,6 +72,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
+                                                    <label >Level</label>
                                                         <select class="form-control"  name="level_id">
                                                             <option class="hidden"  selected disabled>{{ __('Level')}}</option>
                                                             @foreach($levels as $level)
@@ -80,6 +82,7 @@
                                                     </div>
 
                                                     <div class="form-group">
+                                                    <label >Role</label>
                                                         <select class="form-control"  name="role">
                                                             <option class="hidden"  selected disabled>{{ __('Role')}}</option>
                                                             @foreach($roles as $role)
@@ -89,11 +92,11 @@
                                                     </div>
 
 
-                                                    <div class="form-group">
+                                                    <!-- <div class="form-group">
                                                         <label for="verified">verified</label>
                                                         <input type="text" name="verified" class="form-control" id="verified"  required >
 
-                                                    </div>
+                                                    </div> -->
 
 
                                                    

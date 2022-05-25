@@ -22,7 +22,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3>Edit professor</h3>
+                                        <h3>Edit Student</h3>
                                     </div>
                                     <div class="card-body">
                                         <h5>Edit Form </h5>
@@ -33,34 +33,35 @@
                                                 <form  method="POST" action= "{{route('dashboard.students.update',['student' => $student->id])}}" >
                                                     @csrf
                                                     <div class="form-group">
-                                                        <label for="first_name">first name</label>
+                                                        <label for="first_name">First name</label>
                                                         <input type="text" name="first_name" class="form-control" id="first_name"  value="{{$student->first_name}}">
                                                         
                                                     </div>
                                                     
                                                     <div class="form-group">
-                                                        <label for="last_name">last name</label>
+                                                        <label for="last_name">Last name</label>
                                                         <input type="text" name="last_name" class="form-control" id="last_name"  value="{{$student->last_name}}">
                                                         
                                                     </div>
 
 
                                                     <div class="form-group">
-                                                        <label for="last_name">email</label>
+                                                        <label for="last_name">Email</label>
                                                         <input type="text" name="email" class="form-control" id="email"  value="{{$student->email}}">
                                                         
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="password">password</label>
+                                                        <label for="password">Password</label>
                                                         <input type="text" name="password" class="form-control" id="password"  value="{{$student->password}}">
                                                         
                                                     </div>
 
 
                                                     <div class="form-group">
+                                                    <label >Department</label>
                                                         <select class="form-control" name="department_id">
-                                                            <option class="hidden"  selected disabled>{{$student->department->dep_name}}</option>
+                                                            <option value="{{$student->department->id}}" class="hidden"  selected >{{$student->department->dep_name}}</option>
                                                             @foreach($departments as $department)
                                                             <option value="{{$department->id}}" > {{$department->dep_name}}</option>
                                                             @endforeach 
@@ -68,19 +69,20 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
+                                                    <label >Level</label>
                                                         <select class="form-control"  name="level_id">
-                                                            <option class="hidden"  selected disabled>{{$student->pro_level->level_number}}</option>
+                                                            <option value="{{$student->pro_level->id}}" class="hidden"  selected > Level {{$student->pro_level->level_number}}</option>
                                                             @foreach($levels as $level)
                                                             <option value="{{$level->id}}"  >{{ __('Level')}} {{$level->level_number}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
 
-                                                    <div class="form-group">
+                                                    <!-- <div class="form-group">
                                                         <label for="verified">verified</label>
                                                         <input type="text" name="verified" class="form-control" id="verified"  value="{{$student->verified}}">
                                                         
-                                                    </div>
+                                                    </div> -->
                                                     <div class="form-group">
                                                         <label for="department_id">role</label>
                                                         <input type="text" name="role" class="form-control" id="role"  value="{{$student->role}}">

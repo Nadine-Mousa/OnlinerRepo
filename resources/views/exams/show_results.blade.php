@@ -36,7 +36,7 @@
 <table  style="background: white;" class="table container">
         <thead>
             <tr>
-            <th scope="col">-</th>
+            <th scope="col"></th>
             <th scope="col">Student Name</th>
             <th scope="col">Score</th>
             <th scope="col">Status</th>
@@ -47,11 +47,11 @@
 
         @foreach($taken_exams  as $key => $taken_exam)
             <tr>
-            <th> {{$key+1}}</th>
+            <th><img class="rounded-circle  m-r-10" style="width:40px;" src="/assets/images/user/avatar-2.jpg"></th>
                 <td>{{$taken_exam->student->first_name}} {{$taken_exam->student->last_name}}</td>
                 <td>{{$taken_exam->student_score}}</td>
                 <td>@if($taken_exam->student_score >= (0.5 * $exam->marks)) <span style="color:#7FFF00"> Passed </span> @else <span style="color:red"> Failed </span> @endif</td>
-                <td>rank</td>
+                <td>{{$key+1}}</td>
             </tr>
         @endforeach
 

@@ -487,7 +487,6 @@ class ExamController extends Controller
         $user = session()->get('user');
 
         $subject = session()->get('subject');
-        dd($subject);
         
         $subject = Subject::where('id', $subject);
         

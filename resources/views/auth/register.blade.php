@@ -227,7 +227,7 @@
                                                 <select class="form-control @error('department') is-invalid @enderror" name = "department">
                                                     <option class="hidden" name="department_id" selected disabled>{{ __('Department')}}</option>
                                                     @foreach($departments as $department)
-                                                    <option value="{{$department->id}}"  {{ (Request::old('department') == $department->id ? "selected":"" ) }} > {{$department->dep_name}}</option>
+                                                    <option value="{{$department->id}}" > {{$department->dep_name}}</option>
                                                     @endforeach 
                                                     
                                                 </select>
@@ -239,7 +239,7 @@
                                                 <select class="form-control @error('level') is-invalid @enderror" name = "level">
                                                     <option class="hidden" name="level_id" selected disabled>{{ __('Level')}}</option>
                                                     @foreach($levels as $level)
-                                                    <option value="{{$level->id}}"  {{ (Request::old("level") == $level->id ? "selected":"" ) }}>{{ __('Level')}} {{$level->level_number}}</option>
+                                                    <option value="{{$level->id}}"  >{{ __('Level')}} {{$level->level_number}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('level')

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onliner | Question Bank</title>
+    <title>Onliner | Question</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -50,20 +50,22 @@
                 @foreach ($options as $option)
                 <div style="margin-bottom: 30px;">
                 @if ($option->question_id == $question->id)
-                    @if($question->question_type != 3)<label class="options">{{$option->body}} @if($option->is_correct) <span style="color: #323a56;">   [  {{  $option->points  }} point  ] </span>  @endif <input type="radio" {{ ($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
-                    @else <label> <input @if($option->is_correct) checked @endif type="checkbox" disabled style="width: 20px; height: 20px; margin-right: 8px; margin-top:0px;" name="questions[]"  value="{{ $option->id }}">{{$option->body}}   </label>
+                    @if($question->question_type != 3)<label style="display:inline" class="options">{{$option->body}} @if($option->is_correct) <span style="color: #323a56;">   [  {{  $option->points  }} point  ] </span>  @endif <input type="radio" {{ ($option->is_correct == true) ? "checked" : "disabled"}} name="radio-{{$option->id}}"> <span class="checkmark"></span> </label>
+                    @else <label style="display:inline" > <input @if($option->is_correct) checked @endif type="checkbox" disabled style="width: 20px; height: 20px; margin-right: 8px; margin-top:0px;" name="questions[]"  value="{{ $option->id }}">{{$option->body}}   </label>
                     @endif
+                    @if($hasApprovalToSubject)
                     <!-- Edit -->
-                    <div style="background:green; display:inline; margin-right: 0%;">
+                    <div style="display:inline;">
                     <a href="{{ route('options.edit', ['option' => $option->id]) }}"  
-                    style=" align:right; text-decoration: none; display:inline; margin-right:3px; " 
-                    class="button-33" ><i class="fas fa-trash-alt"></i> Edit </a>
+                    class="btn" style="display:inline; position: absolute; right: 31%; background: #323a56; color: white;"
+                     ><i class="fas fa-trash-alt"></i> Edit </a>
                     <!-- Delete -->
                     <a href="{{ route('options.delete', ['option' => $option->id]) }}" 
                     onclick="return confirm('Are you sure you want to delete this item?');" 
-                    style=" text-decoration: none; display:inline; align:right;"
-                    class="button-33" ><i class="fas fa-trash-alt"></i> Delete </a>
+                    class="btn"style="position: absolute; right: 25%; background: #323a56; color: white;"
+                     ><i class="fas fa-trash-alt"></i> Delete </a>
                     </div>
+                    @endif
                 @endif
                 </div>
                 @endforeach
@@ -77,7 +79,9 @@
             <div class="py-2 h5"><b>Chapter: </b> {{$question->chapter->chapter_name}}</div>
             <div class="py-2 h5"><b>Difficulty: </b> {{$question->question_difficulty->name}}</div>
             <div class="py-2 h5">
+                @if($hasApprovalToSubject)
                 <a style="background: #323a56; color: white;" class="btn " href="{{route('options.create',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Add Option </a> &nbsp; &nbsp; &nbsp; &nbsp;
+                @endif
                 <a style="background: #323a56; color: white;" class="btn " href="{{route('questions.index', ['user' => $user->id, 'subject' => $subject] )}}"><i class="fas fa-trash-alt"></i> Back </a>
             </div> 
         </div>

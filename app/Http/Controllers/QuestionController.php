@@ -152,12 +152,27 @@ public function trashed($user, $subject)
         $options=Option::where('question_id', $questionFromDb->id)->get();
         session()->put('question', $question);
 
+        $professor_subject = ProfessorSubject::where(
+            [['professor_id', '=', $user->id],
+            ['subject_id', '=', $subject]]
+        )->first();
+
+        $hasApprovalToSubject = false;
+        if($professor_subject != null){
+            $hasApprovalToSubject = true;
+        }
+
+        if($user->role == 1){
+            $hasApprovalToSubject = true;
+        }
+
 
        return view('questions.show')->with([
            'question'=> $questionFromDb,
             'options' =>$options,
             'user' => $user,
-            'subject' => $subjectFromDb
+            'subject' => $subjectFromDb,
+            'hasApprovalToSubject' => $hasApprovalToSubject
         ]);
     }
 

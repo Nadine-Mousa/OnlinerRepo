@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onliner | Question Bank</title>
+    <title>Onliner | Chapter Questions</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -28,21 +28,17 @@
     @section('content')
     <br>
     <div class="six">
-        <h1>{{$subject->subject_name}}
-            <span>Question Bank</span>
+        <h1> {{$subject->subject_name}}
+            <span>Chapter Question Bank</span>
         </h1>
         <br><br>
-        @if($hasApprovalToSubject == true)
         <form  style="margin-left:580px; display:inline;"method="GET" action="{{route('questions.create', ['user' => $user->id, 'subject' => $subject])}}"> 
         <button  style="display:inline;" type="submit" class="button-33" role="button" >Add Question</button>
         </form>
-        @endif
 
-        @if($hasApprovalToSubject == true)
         <form style="margin-left:100px; display:inline;" method="GET" action="{{route('questions.trashed', ['user' => $user->id, 'subject' => $subject])}}"> 
         <button  type="submit" class="button-33" role="button" >Trashed Questions</button>
         </form>
-        @endif
 
     </div>
     <br><br>
@@ -68,11 +64,9 @@
             
             <div class="py-2 h5">
                 <a style="background: #323a56; color: white;" class="btn " href="{{route('questions.show',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> show </a> &nbsp; &nbsp; &nbsp; &nbsp;
-                @if($hasApprovalToSubject == true)
                 
                 <a style="background: #323a56; color: white;" class="btn " href="{{route('questions.destroy',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Delete </a> &nbsp; &nbsp; &nbsp; &nbsp;
                 <a style="background: #323a56; color: white;" class="btn " href="{{route('questions.edit',['user' => $user->id, 'subject' => $subject, 'question' => $question->id ])}}"><i class="fas fa-trash-alt"></i> Edit </a>
-                @endif
             </div> 
         </div>
     </div>

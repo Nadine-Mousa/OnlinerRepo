@@ -244,7 +244,7 @@
 				<!-- Nav Header -->
 				<div class="navbar-header">
 					<!-- Profile Image -->
-				<img src="assets/images/girl.png"
+				<img src="/assets/images/girl.png"
 				width="40" height="40" style="border-radius: 50%;" class="rounded-circle float-left">
 				
 				 <!-- https://i.imgur.com/sjLMNDM.png a girl with two p -->
